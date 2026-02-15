@@ -8,7 +8,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
     /* ─────────────────────────────────────────────────────────
@@ -16,27 +16,27 @@
     ───────────────────────────────────────────────────────── */
     :root {
       /* Surfaces */
-      --bg:            #0C0C0E;
-      --bg-card:       #141416;
-      --bg-raised:     #1C1C20;
-      --bg-subtle:     #212126;
+      --bg:            #FFFFFF;
+      --bg-card:       #F9F9F9;
+      --bg-raised:     #F2F2F2;
+      --bg-subtle:     #EDEDED;
 
       /* Text */
-      --text-primary:  #F0EEF5;
-      --text-secondary:#A09CB8;
-      --text-muted:    #5A566F;
+      --text-primary:  #111111;
+      --text-secondary:#555555;
+      --text-muted:    #999999;
 
-      /* Accent */
-      --accent:        #B5FF5A;       /* lime-green — change to your brand color */
-      --accent-dim:    rgba(181,255,90,.12);
-      --accent-border: rgba(181,255,90,.3);
+      /* Accent — monochromatic; black is the action color */
+      --accent:        #111111;
+      --accent-dim:    rgba(0,0,0,.04);
+      --accent-border: rgba(0,0,0,.15);
 
       /* Borders */
-      --border:        rgba(255,255,255,.08);
-      --border-strong: rgba(255,255,255,.16);
+      --border:        rgba(0,0,0,.08);
+      --border-strong: rgba(0,0,0,.14);
 
-      /* Type scale */
-      --font-display: 'Syne', sans-serif;
+      /* Type scale — Inter throughout */
+      --font-display: 'Inter', sans-serif;
       --font-body:    'Inter', sans-serif;
 
       /* Spacing */
@@ -45,10 +45,10 @@
       --rail:        48px;
 
       /* Radius */
-      --r-sm: 8px;
-      --r-md: 16px;
-      --r-lg: 24px;
-      --r-xl: 32px;
+      --r-sm: 6px;
+      --r-md: 12px;
+      --r-lg: 16px;
+      --r-xl: 20px;
 
       /* Transitions */
       --ease: cubic-bezier(.4,0,.2,1);
@@ -102,7 +102,7 @@
       font-weight: 600;
       letter-spacing: .12em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--text-muted);
     }
     .body-lg  { font-size: 18px; line-height: 1.72; color: var(--text-secondary); }
     .body-md  { font-size: 15px; line-height: 1.7;  color: var(--text-secondary); }
@@ -127,42 +127,34 @@
        IMAGE PLACEHOLDER SYSTEM
     ───────────────────────────────────────────────────────── */
     .ph {                             /* placeholder base */
-      background: var(--bg-raised);
-      border: 1px solid var(--border-strong);
+      background: #F5F5F5;
+      border: 1.5px dashed #C8C8C8;
       border-radius: var(--r-md);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      color: var(--text-muted);
+      color: #AAAAAA;
       overflow: hidden;
       position: relative;
     }
-    .ph::before {                     /* subtle grid texture */
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 32px 32px;
-      opacity: .5;
-    }
+    .ph::before { display: none; }   /* remove grid texture on light bg */
     .ph-label {
       position: relative;
       font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .1em;
+      font-weight: 500;
+      letter-spacing: .08em;
       text-transform: uppercase;
       text-align: center;
-      padding: 0 16px;
+      padding: 0 20px;
+      color: #AAAAAA;
     }
     .ph-icon {
       position: relative;
-      width: 36px;
-      height: 36px;
-      opacity: .35;
+      width: 32px;
+      height: 32px;
+      opacity: .4;
     }
     /* Predefined aspect ratios */
     .ph--hero       { height: 540px; border-radius: var(--r-xl); }
@@ -173,10 +165,10 @@
     .ph--banner     { height: 260px; }
     .ph--card       { height: 220px; }
 
-    /* Accent tint variants */
-    .ph--old  { border-color: rgba(255,100,80,.25);  background: rgba(255,100,80,.04); }
-    .ph--new  { border-color: rgba(181,255,90,.25);  background: rgba(181,255,90,.04); }
-    .ph--final{ border-color: rgba(100,140,255,.25); background: rgba(100,140,255,.05); }
+    /* Subtle tint variants — keep them readable on white */
+    .ph--old  { background: #FBF7F6; border-color: #DDD0CC; }
+    .ph--new  { background: #F6FAF6; border-color: #C4D8C4; }
+    .ph--final{ background: #F6F7FB; border-color: #C4CADC; }
 
     /* ─────────────────────────────────────────────────────────
        NAV
@@ -185,15 +177,15 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(16px) saturate(1.4);
-      background: rgba(12,12,14,.72);
+      background: #111111;
+      border-bottom: none;
+      backdrop-filter: none;
     }
     .nav__inner {
       max-width: var(--content-max);
       margin: 0 auto;
       padding: 0 var(--rail);
-      height: 64px;
+      height: 60px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -201,29 +193,32 @@
     .nav__logo {
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: 15px;
-      letter-spacing: -.02em;
+      font-size: 13px;
+      letter-spacing: .02em;
+      color: #FFFFFF;
+      border: 1px solid rgba(255,255,255,.3);
+      padding: 5px 10px;
     }
     .nav__links {
       display: flex;
       align-items: center;
-      gap: 32px;
+      gap: 28px;
       list-style: none;
     }
     .nav__links a {
       font-size: 13px;
-      font-weight: 500;
-      color: var(--text-secondary);
+      font-weight: 400;
+      color: rgba(255,255,255,.55);
       transition: color .2s var(--ease);
     }
-    .nav__links a:hover { color: var(--text-primary); }
-    .nav__links a.active { color: var(--accent); }
+    .nav__links a:hover { color: #FFFFFF; }
+    .nav__links a.active { color: #FFFFFF; }
 
     /* ─────────────────────────────────────────────────────────
        HERO
     ───────────────────────────────────────────────────────── */
     .hero {
-      padding-top: 140px;
+      padding-top: 120px;
       padding-bottom: 80px;
     }
     .hero__tags {
@@ -234,19 +229,20 @@
     }
     .tag {
       font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .08em;
+      font-weight: 500;
+      letter-spacing: .06em;
       text-transform: uppercase;
-      padding: 6px 14px;
-      border-radius: 100px;
-      border: 1px solid var(--border-strong);
-      color: var(--text-secondary);
-      background: var(--bg-card);
+      padding: 5px 12px;
+      border-radius: 4px;
+      border: 1px solid #DDDDDD;
+      color: #666666;
+      background: #FFFFFF;
     }
     .tag--accent {
-      border-color: var(--accent-border);
-      color: var(--accent);
-      background: var(--accent-dim);
+      border-color: #111111;
+      color: #111111;
+      background: #FFFFFF;
+      font-weight: 600;
     }
     .hero__title {
       max-width: 860px;
@@ -310,8 +306,8 @@
     }
     .callout {
       padding: 28px 32px;
-      border-left: 3px solid var(--accent);
-      background: var(--accent-dim);
+      border-left: 3px solid #111111;
+      background: #F5F5F5;
       border-radius: 0 var(--r-md) var(--r-md) 0;
     }
     .callout__text {
@@ -332,10 +328,10 @@
     .pain-list li::before {
       content: '';
       flex-shrink: 0;
-      width: 6px; height: 6px;
+      width: 5px; height: 5px;
       border-radius: 50%;
-      background: var(--accent);
-      margin-top: 8px;
+      background: #111111;
+      margin-top: 9px;
     }
 
     /* ─────────────────────────────────────────────────────────
@@ -367,8 +363,8 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 14px;
     }
-    .icon--goal        { background: var(--accent-dim); }
-    .icon--constraint  { background: rgba(255,150,80,.1); }
+    .icon--goal        { background: #F2F2F2; }
+    .icon--constraint  { background: #F2F2F2; }
     .goals-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
     .goals-list li {
       font-size: 14px;
@@ -380,10 +376,9 @@
       content: '→';
       position: absolute;
       left: 0;
-      color: var(--accent);
-      font-weight: 700;
+      color: #111111;
+      font-weight: 600;
     }
-    .icon--constraint + span ~ .goals-list li::before { color: #FF9650; }
 
     /* ─────────────────────────────────────────────────────────
        PROCESS TIMELINE
@@ -399,8 +394,8 @@
       content: '';
       position: absolute;
       top: 22px; left: 5%; right: 5%;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent) 0%, var(--border-strong) 100%);
+      height: 1px;
+      background: #DDDDDD;
     }
     .process-step {
       display: flex;
@@ -423,9 +418,9 @@
       transition: all .3s var(--ease);
     }
     .process-step--done .process-step__dot {
-      background: var(--accent-dim);
-      border-color: var(--accent-border);
-      color: var(--accent);
+      background: #111111;
+      border-color: #111111;
+      color: #FFFFFF;
     }
     .process-step__name {
       font-size: 12px;
@@ -452,7 +447,7 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: .1em;
-      color: var(--accent);
+      color: #999999;
       margin-bottom: 8px;
     }
     .process-card__desc {
@@ -479,8 +474,8 @@
     .insight-card__num {
       font-family: var(--font-display);
       font-size: 48px;
-      font-weight: 800;
-      color: var(--accent);
+      font-weight: 700;
+      color: #111111;
       line-height: 1;
       margin-bottom: 12px;
       letter-spacing: -.04em;
@@ -544,8 +539,8 @@
       border-radius: 100px;
       margin-bottom: 12px;
     }
-    .ba-col__badge--old { background: rgba(255,100,80,.12); color: #FF6450; border: 1px solid rgba(255,100,80,.3); }
-    .ba-col__badge--new { background: var(--accent-dim);    color: var(--accent); border: 1px solid var(--accent-border); }
+    .ba-col__badge--old { background: #F5F5F5; color: #888888; border: 1px solid #DDDDDD; }
+    .ba-col__badge--new { background: #111111; color: #FFFFFF; border: 1px solid #111111; }
     .ba-col__caption {
       font-size: 13px;
       color: var(--text-muted);
@@ -569,8 +564,8 @@
       content: '↑';
       position: absolute;
       left: 0;
-      color: var(--accent);
-      font-weight: 700;
+      color: #111111;
+      font-weight: 600;
     }
 
     /* ─────────────────────────────────────────────────────────
@@ -619,10 +614,10 @@
     .decision-item__num {
       font-family: var(--font-display);
       font-size: 28px;
-      font-weight: 800;
-      color: var(--accent);
+      font-weight: 700;
+      color: #CCCCCC;
       line-height: 1;
-      opacity: .6;
+      opacity: 1;
     }
     .decision-item__title {
       font-size: 15px;
@@ -665,8 +660,8 @@
     .outcome-card__val {
       font-family: var(--font-display);
       font-size: 44px;
-      font-weight: 800;
-      color: var(--accent);
+      font-weight: 700;
+      color: #111111;
       line-height: 1;
       letter-spacing: -.04em;
     }
@@ -689,10 +684,11 @@
     }
     .learning-card__index {
       font-family: var(--font-display);
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: .06em;
+      font-size: 11px;
+      font-weight: 600;
+      color: #999999;
+      letter-spacing: .1em;
+      text-transform: uppercase;
       margin-bottom: 14px;
     }
     .learning-card__title { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
@@ -720,9 +716,9 @@
       gap: 7px;
     }
     .tool-chip .dot {
-      width: 7px; height: 7px;
+      width: 5px; height: 5px;
       border-radius: 50%;
-      background: var(--accent);
+      background: #111111;
       flex-shrink: 0;
     }
 
@@ -750,37 +746,36 @@
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 16px 28px;
-      border-radius: 100px;
-      font-size: 14px;
+      gap: 8px;
+      padding: 14px 24px;
+      border-radius: 0;
+      font-size: 13px;
       font-weight: 600;
       letter-spacing: .02em;
       cursor: pointer;
-      transition: all .2s var(--ease);
+      transition: opacity .18s var(--ease);
     }
     .btn--primary {
-      background: var(--accent);
-      color: #0C0C0E;
+      background: #111111;
+      color: #FFFFFF;
+      border: 1px solid #111111;
     }
-    .btn--primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(181,255,90,.25);
-    }
+    .btn--primary:hover { opacity: .8; transform: none; box-shadow: none; }
     .btn--ghost {
       background: transparent;
-      border: 1px solid var(--border-strong);
-      color: var(--text-secondary);
+      border: 1px solid #111111;
+      color: #111111;
     }
-    .btn--ghost:hover { border-color: var(--text-secondary); color: var(--text-primary); }
+    .btn--ghost:hover { background: #111111; color: #FFFFFF; }
     .btn__arrow { font-size: 18px; }
 
     /* ─────────────────────────────────────────────────────────
        FOOTER
     ───────────────────────────────────────────────────────── */
     footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 0;
+      background: #111111;
+      border-top: none;
+      padding: 36px 0;
     }
     .footer__inner {
       max-width: var(--content-max);
@@ -790,7 +785,7 @@
       align-items: center;
       justify-content: space-between;
     }
-    .footer__copy { font-size: 13px; color: var(--text-muted); }
+    .footer__copy { font-size: 13px; color: rgba(255,255,255,.45); }
 
     /* ─────────────────────────────────────────────────────────
        ANIMATIONS (Framer Motion equivalents as CSS)
@@ -859,7 +854,7 @@
         <li><a href="#">Work</a></li>
         <li><a href="#" class="active">Spark</a></li>
         <li><a href="#">About</a></li>
-        <li><a href="#" class="btn btn--ghost" style="padding:8px 20px;font-size:13px;">Resume ↗</a></li>
+        <li><a href="#" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.25);padding:6px 14px;transition:color .2s;">Resume ↗</a></li>
       </ul>
     </div>
   </nav>
@@ -1675,9 +1670,9 @@
     <div class="footer__inner">
       <span class="footer__copy">© 2024 Shreyas Gharat. All rights reserved.</span>
       <div style="display:flex;gap:20px;">
-        <a href="#" style="font-size:13px;color:var(--text-muted);">LinkedIn ↗</a>
-        <a href="#" style="font-size:13px;color:var(--text-muted);">Dribbble ↗</a>
-        <a href="#" style="font-size:13px;color:var(--text-muted);">Email ↗</a>
+        <a href="#" style="font-size:13px;color:rgba(255,255,255,.45);">LinkedIn ↗</a>
+        <a href="#" style="font-size:13px;color:rgba(255,255,255,.45);">Dribbble ↗</a>
+        <a href="#" style="font-size:13px;color:rgba(255,255,255,.45);">Email ↗</a>
       </div>
     </div>
   </footer>
