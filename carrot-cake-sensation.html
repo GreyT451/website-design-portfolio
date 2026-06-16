@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrot Cake Sensation | Premium Luxury Bakery Savannah</title>
+    <meta name="description" content="Indulge in artisanal luxury carrot cakes & specialty desserts. Handcrafted by Pernell Johnson in Savannah, Georgia. Timeless flavor. Unforgettable moments.">
+
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS Frameworks & Animation Engines -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#3A1F14',
+                            light: '#5B3422',
+                        },
+                        secondary: {
+                            light: '#FFFDF9',
+                            DEFAULT: '#F7F2EA',
+                            dark: '#EFE4D6',
+                            accent: '#DCC9B2',
+                        },
+                        gold: {
+                            DEFAULT: '#C89147',
+                            light: '#D4A15D',
+                            dark: '#8B5A36',
+                        },
+                        charcoal: '#2A140E',
+                        muted: '#5D4A3F',
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        script: ['"Great Vibes"', 'cursive'],
+                        sans: ['"Inter"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lenis Smooth Scrolling CSS -->
+    <style>
+        html.lenis {
+            height: auto;
+        }
+        .lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        .lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        /* Luxury Grain Overlay for Tactile Texture */
+        .grain-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F7F2EA;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C89147;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5B3422;
+        }
+
+        /* Smooth reveal clip paths & helper animations */
+        .curved-clip-bottom {
+            clip-path: ellipse(110% 100% at 50% 0%);
+        }
+        .curved-clip-top {
+            clip-path: ellipse(110% 100% at 50% 100%);
+        }
+
+        /* Custom Custom Cursor Lighting Ring */
+        .cursor-ring {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #C89147;
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 10000;
+            transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+        }
+        .cursor-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #C89147;
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 10001;
+        }
+
+        /* Glassmorphism Classes */
+        .glass-header {
+            background: rgba(58, 31, 20, 0.02);
+            backdrop-filter: blur(0px);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-header.scrolled {
+            background: rgba(58, 31, 20, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(200, 145, 71, 0.2);
+            box-shadow: 0 10px 30px rgba(42, 20, 14, 0.15);
+        }
+
+        /* Magnetic button visual feedback */
+        .btn-magnetic {
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Floating particles container */
+        #particles-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 2;
+        }
+    </style>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-secondary-light text-charcoal font-sans antialiased selection:bg-gold selection:text-white overflow-x-hidden">
+
+    <!-- Textured Grain Layer -->
+    <div class="grain-overlay"></div>
+
+    <!-- Custom Luxury Cursor -->
+    <div class="cursor-ring hidden md:block" id="custom-cursor-ring"></div>
+    <div class="cursor-dot hidden md:block" id="custom-cursor-dot"></div>
+
+    <!-- 1. STICKY HEADER / NAVIGATION -->
+    <header class="fixed top-0 left-0 w-full z-50 glass-header px-6 py-4 md:px-12 md:py-6 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            
+            <!-- Logo Section -->
+            <a href="#" class="flex flex-col items-start group">
+                <span class="font-serif text-xl md:text-2xl font-bold tracking-[0.15em] text-secondary-light group-hover:text-gold transition-colors duration-300">
+                    CARROT CAKE
+                </span>
+                <span class="font-script text-lg md:text-xl text-gold tracking-wider -mt-1 group-hover:text-secondary-light transition-colors duration-300">
+                    Sensation
+                </span>
+            </a>
+
+            <!-- Navigation Links (Center) -->
+            <nav class="hidden lg:flex items-center space-x-10">
+                <a href="#signature" class="nav-link font-serif text-sm tracking-[0.2em] uppercase text-secondary-light hover:text-gold transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-gold after:transition-all after:duration-300 hover:after:w-full">Signature Cakes</a>
+                <a href="#legacy" class="nav-link font-serif text-sm tracking-[0.2em] uppercase text-secondary-light hover:text-gold transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-gold after:transition-all after:duration-300 hover:after:w-full">Our Story</a>
+                <a href="#process" class="nav-link font-serif text-sm tracking-[0.2em] uppercase text-secondary-light hover:text-gold transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-gold after:transition-all after:duration-300 hover:after:w-full">Ordering</a>
+                <a href="#gallery" class="nav-link font-serif text-sm tracking-[0.2em] uppercase text-secondary-light hover:text-gold transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-gold after:transition-all after:duration-300 hover:after:w-full">Gallery</a>
+                <a href="#menu" class="nav-link font-serif text-sm tracking-[0.2em] uppercase text-secondary-light hover:text-gold transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-gold after:transition-all after:duration-300 hover:after:w-full">Menu</a>
+            </nav>
+
+            <!-- CTA / Contact Info (Right) -->
+            <div class="flex items-center space-x-4">
+                <a href="tel:912-398-1636" class="hidden md:flex items-center space-x-2 text-secondary-light hover:text-gold transition-all text-xs tracking-wider uppercase font-semibold font-serif">
+                    <i data-lucide="phone" class="w-4 h-4 text-gold"></i>
+                    <span>912.398.1636</span>
+                </a>
+                <a href="#cta" class="btn-magnetic bg-gold hover:bg-gold-light text-charcoal hover:text-primary font-serif font-semibold text-xs md:text-sm tracking-[0.15em] uppercase px-5 py-3 md:px-7 md:py-3.5 rounded-[16px] shadow-lg transition-all duration-300 border border-gold-light/20">
+                    Order Now
+                </a>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="lg:hidden text-secondary-light hover:text-gold focus:outline-none p-2" aria-label="Toggle Navigation Menu">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation -->
+        <div id="mobile-nav" class="hidden lg:hidden fixed top-0 left-0 w-full h-screen bg-primary/98 z-50 flex flex-col justify-center items-center space-y-8 animate-fade-in">
+            <button id="mobile-close-btn" class="absolute top-6 right-6 text-secondary-light hover:text-gold" aria-label="Close Navigation Menu">
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+            <a href="#signature" class="mobile-nav-link font-serif text-2xl tracking-widest text-secondary-light hover:text-gold">Signature Cakes</a>
+            <a href="#legacy" class="mobile-nav-link font-serif text-2xl tracking-widest text-secondary-light hover:text-gold">Our Story</a>
+            <a href="#process" class="mobile-nav-link font-serif text-2xl tracking-widest text-secondary-light hover:text-gold">Ordering</a>
+            <a href="#gallery" class="mobile-nav-link font-serif text-2xl tracking-widest text-secondary-light hover:text-gold">Gallery</a>
+            <a href="#menu" class="mobile-nav-link font-serif text-2xl tracking-widest text-secondary-light hover:text-gold">Menu</a>
+            <a href="tel:912-398-1636" class="flex items-center space-x-2 text-gold text-lg font-serif">
+                <i data-lucide="phone" class="w-5 h-5"></i>
+                <span>912.398.1636</span>
+            </a>
+        </div>
+    </header>
+
+
+    <!-- 2. HERO BANNER / CENTERPIECE (Full Viewport, Cinematic Lighting) -->
+    <section class="relative min-h-screen bg-gradient-to-br from-[#2E180E] via-[#3A1F14] to-[#1C0E08] text-white flex items-center justify-center overflow-hidden pt-24 pb-16 md:py-0" id="hero-glow-container">
+        
+        <!-- Floating decorative particle overlays -->
+        <div id="particles-container"></div>
+        
+        <!-- Subtle warm radial background lights (Cursor-tracking light backdrop) -->
+        <div class="absolute inset-0 pointer-events-none transition-opacity duration-300" id="hero-radial-glow" style="background: radial-gradient(circle 450px at 50% 50%, rgba(200, 145, 71, 0.08) 0%, rgba(0,0,0,0) 100%);"></div>
+
+        <!-- Luxury curved background shapes & subtle grid texture -->
+        <div class="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#C89147_1px,transparent_1px),linear-gradient(to_bottom,#C89147_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+
+        <div class="relative max-w-7xl mx-auto w-full px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center z-10">
+            
+            <!-- Left Side Content -->
+            <div class="lg:col-span-6 flex flex-col items-start space-y-6 md:space-y-8" id="hero-text-block">
+                <div class="flex items-center space-x-3 bg-white/5 backdrop-blur-md py-2 px-4 rounded-full border border-white/10 animate-pulse">
+                    <span class="w-2 h-2 rounded-full bg-gold"></span>
+                    <span class="font-sans text-xs tracking-[0.25em] uppercase font-semibold text-secondary-accent">BAKED WITH LOVE. SHARED WITH JOY.</span>
+                </div>
+
+                <div class="space-y-2">
+                    <h1 class="font-serif text-5xl sm:text-7xl xl:text-8xl font-light tracking-wide text-secondary-light leading-tight">
+                        Carrot Cake
+                    </h1>
+                    <div class="flex items-center space-x-4">
+                        <span class="h-[1px] w-16 bg-gold block"></span>
+                        <span class="font-script text-5xl sm:text-7xl text-gold tracking-widest transform -rotate-2 block">
+                            Sensation
+                        </span>
+                    </div>
+                </div>
+
+                <p class="font-sans text-base sm:text-lg text-secondary-accent max-w-lg leading-relaxed font-light">
+                    Timeless flavor. Unforgettable moments. Experience Savannah's celebrated three-layer carrot masterpiece and modern luxury bakes handcrafted from legacy family recipes.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-5 w-full sm:w-auto pt-4">
+                    <a href="#cta" class="btn-magnetic bg-gold hover:bg-gold-light text-charcoal font-semibold text-center font-serif text-sm tracking-[0.2em] uppercase px-8 py-5 rounded-[16px] shadow-2xl transition-all duration-300">
+                        Order Your Cake
+                    </a>
+                    <a href="#menu" class="btn-magnetic border border-secondary-accent/30 hover:border-gold hover:bg-white/5 text-secondary-light text-center font-serif text-sm tracking-[0.2em] uppercase px-8 py-5 rounded-[16px] transition-all duration-300">
+                        View Menu
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Side Image with Layered Composition -->
+            <div class="lg:col-span-6 flex justify-center items-center relative mt-8 lg:mt-0" id="hero-image-block">
+                <!-- Floating Soft Card Overlay -->
+                <div class="absolute -top-6 -left-6 bg-[#3A1F14]/90 border border-gold/20 p-5 rounded-[24px] hidden md:block backdrop-blur-md shadow-xl z-20" data-tilt data-tilt-speed="400" data-tilt-max="15">
+                    <span class="text-gold font-script text-3xl">Pernell Johnson</span>
+                    <p class="text-[10px] tracking-[0.2em] uppercase text-secondary-accent font-sans mt-1">Master Baker & Founder</p>
+                </div>
+
+                <!-- Main Cake Portrait -->
+                <div class="relative w-full max-w-[480px] h-[550px] rounded-[28px] overflow-hidden shadow-2xl border border-gold/10 group bg-cover bg-center" style="background-image: url('./assets/SC_CarrotCake.jpg');" data-tilt data-tilt-max="8" data-tilt-speed="600">
+                    <!-- Elegant Cinematic Shadow Gradients -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-transparent to-transparent opacity-80"></div>
+                    
+                    <!-- Hover Zoom Visual Element -->
+                    <div class="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+                        <div class="text-left">
+                            <span class="font-serif text-2xl text-white block">Award-Winning</span>
+                            <span class="text-xs text-gold tracking-widest uppercase">9-inch 3-Layer Signature</span>
+                        </div>
+                        <span class="bg-gold hover:bg-white text-charcoal p-3 rounded-full shadow-lg transition-colors duration-300">
+                            <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Floating Decorative Gold Ring -->
+                <div class="absolute -bottom-10 -right-10 w-44 h-44 rounded-full border-2 border-gold/20 pointer-events-none hidden md:block"></div>
+            </div>
+        </div>
+
+        <!-- Curved Wave Section Divider -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-20">
+            <svg class="relative block w-full h-[60px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C26.9,8.75,55.05,17,83,23.63,161.4,42.27,242.45,69.64,321.39,56.44Z" fill="#F7F2EA"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- 3. SIGNATURE CAKES SECTION (Optimized Spacing & Fixed Transitions) -->
+    <section class="py-12 md:py-16 bg-secondary px-6 md:px-12 relative overflow-hidden" id="signature">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 space-y-4 md:space-y-0">
+                <div class="max-w-2xl">
+                    <span class="text-gold font-serif text-lg tracking-[0.2em] uppercase block mb-2 flex items-center gap-4">
+                        <span class="w-8 h-[1px] bg-gold"></span>
+                        Chef’s Selection
+                    </span>
+                    <h2 class="font-serif text-4xl md:text-5xl lg:text-7xl text-charcoal font-light leading-tight">
+                        Signature Cake <br><span class="italic text-primary">Sculptures</span>
+                    </h2>
+                </div>
+                <p class="font-sans text-sm md:text-base text-muted max-w-sm leading-relaxed border-l-2 border-gold/30 pl-6 md:mb-4">
+                    Every creation is a luxurious harmony of premium ingredients, handcrafted design, and time-honored traditional baking techniques perfected in Savannah.
+                </p>
+            </div>
+
+            <!-- Stacked Content Flow -->
+            <div class="flex flex-col gap-8">
+                <!-- Featured Masterpiece (Carrot Cake) - Full Width Horizontal -->
+                <div class="signature-card bg-white rounded-[32px] overflow-hidden shadow-xl hover:shadow-2xl border border-gold/10 flex flex-col lg:flex-row group">
+                    <div class="lg:w-1/2 h-[350px] lg:h-auto relative overflow-hidden">
+                        <img src="./assets/SC_CarrotCake.jpg" alt="Carrot Cake Sensation" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
+                        <div class="absolute top-6 left-6 bg-primary text-gold text-xs font-semibold tracking-widest uppercase py-2 px-4 rounded-full shadow-lg backdrop-blur-md bg-opacity-90">
+                            Top Best Seller
+                        </div>
+                    </div>
+                    <div class="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center space-y-6 relative bg-white">
+                        <div class="absolute top-0 right-0 p-8 opacity-5 text-8xl font-serif text-primary pointer-events-none">01</div>
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-serif text-3xl lg:text-5xl text-charcoal group-hover:text-gold transition-colors duration-300">Carrot Sensation</h3>
+                        </div>
+                        <span class="font-serif text-2xl text-gold font-semibold">$50.00</span>
+                        <p class="font-sans text-base text-muted leading-relaxed">
+                            Savannah’s premier 9-inch, 3-layer culinary icon. Beautifully spiced premium organic carrots, crushed pineapple, toasted pecans, layered inside lush velvety cream cheese frosting.
+                        </p>
+                        <div class="pt-6 border-t border-secondary-dark flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs tracking-widest uppercase font-semibold font-serif text-charcoal">
+                            <span>Serves 12 - 15</span>
+                            <a href="#cta" class="bg-primary hover:bg-gold text-white hover:text-primary px-8 py-4 rounded-xl transition-colors duration-300 flex items-center space-x-2">
+                                <span>Reserve Your Cake</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Full-width Bespoke Banner -->
+                <div class="signature-card bg-[#3A1F14] text-white rounded-[32px] overflow-hidden shadow-xl hover:shadow-2xl border border-gold/20 flex flex-col lg:flex-row relative">
+                    <!-- Decorative background elements -->
+                    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#C89147_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-gold/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
+                    
+                    <div class="lg:w-1/2 p-8 lg:p-12 relative z-10 flex flex-col justify-center">
+                        <span class="text-gold font-serif text-sm tracking-[0.2em] uppercase block mb-4 flex items-center gap-3">
+                            <i data-lucide="sparkles" class="w-4 h-4"></i>
+                            Bespoke Design
+                        </span>
+                        <h3 class="font-serif text-3xl md:text-5xl leading-tight mb-6">Create Your Own Cake Masterpiece</h3>
+                        <p class="font-sans text-base text-secondary-accent leading-relaxed mb-8 max-w-md">
+                            Need a grand visual display for weddings, corporate galas, or curated milestone events? Partner directly with Pernell Johnson to design a bespoke dessert statement tailored specifically to your aesthetic and palate.
+                        </p>
+                        <div class="flex items-center space-x-4 pt-2">
+                            <a href="tel:912-398-1636" class="btn-magnetic bg-gold hover:bg-white text-charcoal py-4 px-8 rounded-xl font-serif text-xs font-bold tracking-[0.2em] uppercase transition-all shadow-lg inline-flex items-center space-x-2">
+                                <span>Consult with Pernell</span>
+                                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="lg:w-1/2 min-h-[350px] lg:min-h-[400px] relative">
+                        <img src="https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=1200&q=80" alt="Bespoke Wedding Cake" class="absolute inset-0 w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-l from-[#3A1F14] via-[#3A1F14]/50 to-transparent"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 4. LEGACY STORY SECTION (Editorial Split Layout) -->
+    <section class="py-24 bg-secondary-dark px-6 md:px-12 relative" id="legacy">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+            
+            <!-- Left Editorial Imagery -->
+            <div class="lg:col-span-5 relative flex items-center justify-center">
+                <div class="absolute -top-10 -left-10 w-24 h-24 bg-gold/10 rounded-full blur-2xl"></div>
+                <div class="relative z-10 w-full max-w-[400px]">
+                    <!-- Overlapping image boxes for high-end boutique look -->
+                    <div class="rounded-[28px] overflow-hidden shadow-2xl border border-gold/10 aspect-[4/5] bg-cover bg-center" style="background-image: url('./assets/Firefly_Gemini%20Flash_Put%20this%20cake%20on%20a%20table%20with%20a%20nice%20table%20cloth.%20%20%20796886.jpg');">
+                        <div class="absolute inset-0 bg-primary/20 hover:bg-transparent transition-colors duration-500"></div>
+                    </div>
+                    <!-- Secondary offset smaller image -->
+                    <div class="absolute -bottom-8 -right-8 w-[200px] h-[200px] rounded-[24px] overflow-hidden border-4 border-secondary-dark shadow-2xl hidden sm:block bg-cover bg-center" style="background-image: url('./assets/Carrot_Cake_Slice.jpg');"></div>
+                </div>
+            </div>
+
+            <!-- Right Story Content -->
+            <div class="lg:col-span-7 space-y-8 flex flex-col justify-center">
+                <span class="text-gold font-serif text-lg tracking-[0.2em] uppercase block">The Inheritance of Taste</span>
+                
+                <h2 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-charcoal font-light leading-tight">
+                    The Recipe Passed Down. <br>
+                    <span class="italic font-normal">Perfected Over Time.</span>
+                </h2>
+
+                <div class="h-[1px] w-24 bg-gold"></div>
+
+                <div class="space-y-6 text-muted font-sans text-sm sm:text-base leading-relaxed max-w-xl">
+                    <p class="font-medium text-charcoal">
+                        “My cakes are birthed from the creativity of my mother. She passed the recipe on to me during my college years, and I have taken it to another level with different varieties.”
+                    </p>
+                    <p class="font-light">
+                        What began as a treasured family heritage in Savannah, Georgia, has matured into "Carrot Cake Sensation." Under the meticulous eye of master baker Pernell Johnson, the legendary carrot cake recipe has transformed from a home dessert into a highly decorated culinary sensation. 
+                    </p>
+                    <p class="font-light">
+                        Today, we craft not just cakes, but memory-makers. Utilizing premium local pecans, fresh organic carrots, and gourmet vanillas, every bite evokes warm nostalgia reimagined for the modern luxury palate.
+                    </p>
+                </div>
+
+                <!-- Hand-written signature display -->
+                <div class="pt-4 flex flex-col items-start space-y-1">
+                    <span class="font-script text-4xl text-gold-dark transform -rotate-2">Pernell Johnson</span>
+                    <span class="text-xs tracking-[0.25em] uppercase text-charcoal font-semibold font-sans">Owner & Culinary Creator</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 5. WHY CHOOSE US -->
+    <section class="py-24 bg-white px-6 md:px-12 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Section Title -->
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+                <span class="text-gold font-serif text-sm tracking-[0.25em] uppercase block">The Sensation Quality Standard</span>
+                <h2 class="font-serif text-4xl sm:text-5xl text-charcoal font-light leading-tight">What Makes Us Extraordinary</h2>
+                <p class="font-sans text-xs sm:text-sm text-muted">We curate premium sensory experiences that extend far beyond normal baking standards.</p>
+            </div>
+
+            <!-- Quality Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Card 1 -->
+                <div class="bg-secondary-light p-8 rounded-[24px] border border-gold/10 hover:border-gold transition-all duration-300 shadow-lg flex flex-col items-start space-y-6 group">
+                    <div class="bg-gold/10 text-gold p-4 rounded-2xl group-hover:bg-primary group-hover:text-gold transition-colors duration-300">
+                        <i data-lucide="chef-hat" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-xl sm:text-2xl text-charcoal">Made Completely From Scratch</h3>
+                    <p class="font-sans text-xs text-muted leading-relaxed">
+                        No pre-made mixes, artificial additives, or bulk substitutes. Every single egg is cracked by hand, every frosting whip meticulously prepared daily.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-secondary-light p-8 rounded-[24px] border border-gold/10 hover:border-gold transition-all duration-300 shadow-lg flex flex-col items-start space-y-6 group">
+                    <div class="bg-gold/10 text-gold p-4 rounded-2xl group-hover:bg-primary group-hover:text-gold transition-colors duration-300">
+                        <i data-lucide="sparkles" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-xl sm:text-2xl text-charcoal">Ultra-Premium Ingredients</h3>
+                    <p class="font-sans text-xs text-muted leading-relaxed">
+                        Fresh organic heritage carrots, hand-picked Savannah pecans, custom Madagascar vanilla beans, and award-winning rich cream cheese.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-secondary-light p-8 rounded-[24px] border border-gold/10 hover:border-gold transition-all duration-300 shadow-lg flex flex-col items-start space-y-6 group">
+                    <div class="bg-gold/10 text-gold p-4 rounded-2xl group-hover:bg-primary group-hover:text-gold transition-colors duration-300">
+                        <i data-lucide="book-open" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-xl sm:text-2xl text-charcoal">Cherished Family Legacy</h3>
+                    <p class="font-sans text-xs text-muted leading-relaxed">
+                        A dynamic recipe passed from mother to son. We preserve original warm flavor ratios while continually elevating texture and presentation.
+                    </p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-secondary-light p-8 rounded-[24px] border border-gold/10 hover:border-gold transition-all duration-300 shadow-lg flex flex-col items-start space-y-6 group">
+                    <div class="bg-gold/10 text-gold p-4 rounded-2xl group-hover:bg-primary group-hover:text-gold transition-colors duration-300">
+                        <i data-lucide="map-pin" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-xl sm:text-2xl text-charcoal">Savannah Proud</h3>
+                    <p class="font-sans text-xs text-muted leading-relaxed">
+                        Independently operated, passionately supporting local organic growers. Elevating Georgia's legendary culinary identity with every bake.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 6. CELEBRATION GALLERY (Luxury Masonry with Lightbox) -->
+    <section class="py-24 bg-secondary px-6 md:px-12 relative" id="gallery">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Section Title -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 space-y-4 md:space-y-0">
+                <div class="max-w-xl">
+                    <span class="text-gold font-serif text-lg tracking-[0.2em] uppercase block mb-3">Exquisite Moments</span>
+                    <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl text-charcoal font-light leading-tight">
+                        Celebration Gallery
+                    </h2>
+                </div>
+                <p class="font-sans text-sm md:text-base text-muted max-w-sm leading-relaxed">
+                    A visual narrative of our most elegant masterpieces and high-end celebrations. Click to immerse yourself in full detail.
+                </p>
+            </div>
+
+            <!-- Asymmetric Masonry Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="masonry-gallery">
+                
+                <!-- Gallery Item 1 -->
+                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer aspect-square bg-cover bg-center" style="background-image: url('./assets/Carrot_Cake_Slice.jpg');" onclick="openLightbox(this.style.backgroundImage)">
+                    <div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-gold text-xs tracking-widest uppercase mb-1">Signature Dessert</span>
+                        <h4 class="text-white font-serif text-xl">The Classic Slice</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 2 -->
+                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer lg:col-span-2 aspect-video bg-cover bg-center" style="background-image: url('./assets/Red_Velvet_Cake.jpg');" onclick="openLightbox(this.style.backgroundImage)">
+                    <div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-gold text-xs tracking-widest uppercase mb-1">Bespoke Galas</span>
+                        <h4 class="text-white font-serif text-2xl">Ivory Wedding Sensation</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 3 -->
+                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer aspect-square bg-cover bg-center" style="background-image: url('./assets/German_Chocolate_Cake.jpg');" onclick="openLightbox(this.style.backgroundImage)">
+                    <div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-gold text-xs tracking-widest uppercase mb-1">Artisan Toppings</span>
+                        <h4 class="text-white font-serif text-xl">The Coconut Flake Bloom</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 4 -->
+                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer aspect-[3/4] bg-cover bg-center" style="background-image: url('./assets/Red_Velvet_Cupcakes.jpg');" onclick="openLightbox(this.style.backgroundImage)">
+                    <div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-gold text-xs tracking-widest uppercase mb-1">Delicate Tea Slices</span>
+                        <h4 class="text-white font-serif text-xl">Blueberry Glaze Details</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 5 -->
+                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer aspect-square bg-cover bg-center" style="background-image: url('./assets/IMG_3433.jpg');" onclick="openLightbox(this.style.backgroundImage)">
+                    <div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-gold text-xs tracking-widest uppercase mb-1">Special Occasions</span>
+                        <h4 class="text-white font-serif text-xl">Strawberry Puree Topping</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 6 -->
+                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer lg:col-span-2 aspect-[2/1] bg-cover bg-center" style="background-image: url('./assets/SC_CarrotCake.jpg');" onclick="openLightbox(this.style.backgroundImage)">
+                    <div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-gold text-xs tracking-widest uppercase mb-1">Handcrafted</span>
+                        <h4 class="text-white font-serif text-2xl">Pernell Johnson Studio Sessions</h4>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 7. ORDERING PROCESS (Timeline) -->
+    <section class="py-24 bg-white px-6 md:px-12 relative overflow-hidden" id="process">
+        <!-- Floating details -->
+        <div class="absolute top-1/4 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto">
+            
+            <div class="text-center max-w-2xl mx-auto mb-20 space-y-4">
+                <span class="text-gold font-serif text-sm tracking-[0.25em] uppercase block">Ordering Seamlessly</span>
+                <h2 class="font-serif text-4xl sm:text-5xl text-charcoal font-light leading-tight">Your Path To Dessert Elegance</h2>
+                <p class="font-sans text-xs sm:text-sm text-muted">Because exceptional luxury cakes require structural craftsmanship and pre-order precision.</p>
+            </div>
+
+            <!-- Steps timeline -->
+            <div class="relative grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 items-start">
+                
+                <!-- Timeline Connective Bar (Desktop) -->
+                <div class="absolute top-1/3 left-[15%] right-[15%] h-[1px] bg-secondary-accent hidden lg:block z-0"></div>
+
+                <!-- Step 1 -->
+                <div class="relative flex flex-col items-center text-center space-y-6 z-10 group">
+                    <div class="w-20 h-20 bg-secondary rounded-full flex items-center justify-center border-2 border-secondary-dark group-hover:border-gold group-hover:bg-primary transition-all duration-500 shadow-xl">
+                        <span class="font-serif text-2xl font-bold text-gold">01</span>
+                    </div>
+                    <div class="space-y-3">
+                        <h3 class="font-serif text-2xl text-charcoal">Select Your Flavor Profile</h3>
+                        <p class="font-sans text-xs text-muted max-w-xs mx-auto leading-relaxed">
+                            Explore our meticulously curated signature cakes. Choose the design aesthetic, size, and bespoke specifications suited to your upcoming celebration.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative flex flex-col items-center text-center space-y-6 z-10 group">
+                    <div class="w-20 h-20 bg-secondary rounded-full flex items-center justify-center border-2 border-secondary-dark group-hover:border-gold group-hover:bg-primary transition-all duration-500 shadow-xl">
+                        <span class="font-serif text-2xl font-bold text-gold">02</span>
+                    </div>
+                    <div class="space-y-3">
+                        <h3 class="font-serif text-2xl text-charcoal">Place Your Order (2 Days Prior)</h3>
+                        <p class="font-sans text-xs text-muted max-w-xs mx-auto leading-relaxed">
+                            Submit your request securely. Every 9-inch 3-layer cake is hand-assembled to order and requires a mandatory 2-day pre-order notice for curation excellence.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative flex flex-col items-center text-center space-y-6 z-10 group">
+                    <div class="w-20 h-20 bg-secondary rounded-full flex items-center justify-center border-2 border-secondary-dark group-hover:border-gold group-hover:bg-primary transition-all duration-500 shadow-xl">
+                        <span class="font-serif text-2xl font-bold text-gold">03</span>
+                    </div>
+                    <div class="space-y-3">
+                        <h3 class="font-serif text-2xl text-charcoal">Pick Up & Celebrate</h3>
+                        <p class="font-sans text-xs text-muted max-w-xs mx-auto leading-relaxed">
+                            Collect your customized masterpiece from our Savannah location, or receive premier boutique local delivery setup directly at your celebratory venue.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 8. TESTIMONIALS SECTION -->
+    <section class="py-24 bg-gradient-to-br from-[#3A1F14] via-[#2A140E] to-[#1C0E08] text-white px-6 md:px-12 relative overflow-hidden">
+        
+        <!-- Background accents -->
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 space-y-4 md:space-y-0">
+                <div class="max-w-xl">
+                    <span class="text-gold font-serif text-lg tracking-[0.2em] uppercase block mb-3">Celebration Memories</span>
+                    <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl text-secondary-light font-light leading-tight">
+                        Lauded By Dessert Connoisseurs
+                    </h2>
+                </div>
+                <p class="font-sans text-sm text-secondary-accent max-w-sm leading-relaxed">
+                    Hear from the wedding parties, families, and organizations that have designated Carrot Cake Sensation as their celebratory centerpiece.
+                </p>
+            </div>
+
+            <!-- Testimonial Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Review 1 -->
+                <div class="bg-white/5 border border-white/10 p-8 rounded-[24px] backdrop-blur-md flex flex-col justify-between space-y-8 hover:border-gold transition-all duration-300">
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-1 text-gold">
+                            <i data-lucide="star" class="w-4 h-4 fill-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-gold"></i>
+                        </div>
+                        <p class="font-serif text-xl text-secondary-light leading-relaxed">
+                            "Without a doubt, the single greatest carrot cake we have ever had. The layers are perfectly balanced, and the pineapple creaminess adds a distinct light texture."
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-4 pt-4 border-t border-white/5">
+                        <div class="w-12 h-12 rounded-full overflow-hidden bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=200&q=80');"></div>
+                        <div>
+                            <h4 class="font-serif text-base text-white">Charlotte Vance</h4>
+                            <span class="text-xs text-gold uppercase tracking-wider">Savannah Bride</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-white/5 border border-white/10 p-8 rounded-[24px] backdrop-blur-md flex flex-col justify-between space-y-8 hover:border-gold transition-all duration-300">
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-1 text-gold">
+                            <i data-lucide="star" class="w-4 h-4 fill-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-gold"></i>
+                        </div>
+                        <p class="font-serif text-xl text-secondary-light leading-relaxed">
+                            "The legacy story is authentic but the flavor is where they steal your soul! Pernell made our golden wedding cake, and guests are still calling me asking for his phone number."
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-4 pt-4 border-t border-white/5">
+                        <div class="w-12 h-12 rounded-full overflow-hidden bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=200&q=80');"></div>
+                        <div>
+                            <h4 class="font-serif text-base text-white">Harrison Sterling</h4>
+                            <span class="text-xs text-gold uppercase tracking-wider">Anniversary Curator</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-white/5 border border-white/10 p-8 rounded-[24px] backdrop-blur-md flex flex-col justify-between space-y-8 hover:border-gold transition-all duration-300">
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-1 text-gold">
+                            <i data-lucide="star" class="w-4 h-4 fill-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-gold"></i>
+                        </div>
+                        <p class="font-serif text-xl text-secondary-light leading-relaxed">
+                            "I ordered the Lemon Blueberry for a luxury corporate brunch. The density, moistness, and beautifully delicate balance were incredibly sophisticated."
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-4 pt-4 border-t border-white/5">
+                        <div class="w-12 h-12 rounded-full overflow-hidden bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1464306076886-da185f6a9d05?w=200&q=80');"></div>
+                        <div>
+                            <h4 class="font-serif text-base text-white">Sasha Sterling</h4>
+                            <span class="text-xs text-gold uppercase tracking-wider">Managing Director</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 9. PRICING / MENU PREVIEW -->
+    <section class="py-24 bg-secondary-light px-6 md:px-12 relative" id="menu">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+            
+            <!-- Left Side Editorial Context -->
+            <div class="lg:col-span-5 space-y-8 lg:sticky lg:top-28">
+                <span class="text-gold font-serif text-lg tracking-[0.2em] uppercase block">Curation & Investment</span>
+                <h2 class="font-serif text-4xl sm:text-5xl text-charcoal font-light leading-tight">
+                    The Dessert <br>Menu & Pricing
+                </h2>
+                <p class="font-sans text-sm text-muted leading-relaxed max-w-md">
+                    Each pricing includes our bespoke packaging, customized cake tags, and complete handling guides. We specialize in 9-inch 3-layer premium structures serving 12 to 15 individuals beautifully.
+                </p>
+                <div class="p-6 bg-secondary rounded-[24px] border border-gold/10 space-y-4">
+                    <div class="flex items-center space-x-3 text-gold">
+                        <i data-lucide="info" class="w-5 h-5"></i>
+                        <span class="font-serif font-semibold text-charcoal text-sm tracking-wider uppercase">Important Curation Note</span>
+                    </div>
+                    <p class="font-sans text-xs text-muted leading-relaxed">
+                        For tiered cakes, custom decorations, wedding designs, or larger dimensions, please reach out to Pernell directly at 912-398-1636 for a personalized gourmet calculation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Side Pricing Cards -->
+            <div class="lg:col-span-7 space-y-6">
+                
+                <!-- Menu Item 1 -->
+                <div class="bg-white p-8 rounded-[24px] shadow-lg border border-gold/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-gold transition-colors duration-300">
+                    <div>
+                        <h3 class="font-serif text-2xl text-charcoal">Signature Carrot Cake</h3>
+                        <p class="font-sans text-xs text-muted mt-1">Our legendary traditional recipe curated by Pernell Johnson.</p>
+                    </div>
+                    <div class="flex items-center space-x-4 self-end sm:self-auto">
+                        <span class="font-serif text-2xl text-gold font-bold">$50.00</span>
+                    </div>
+                </div>
+
+                <!-- Menu Item 2 -->
+                <div class="bg-white p-8 rounded-[24px] shadow-lg border border-gold/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-gold transition-colors duration-300">
+                    <div>
+                        <h3 class="font-serif text-2xl text-charcoal">Traditional Classic Carrot</h3>
+                        <p class="font-sans text-xs text-muted mt-1">A grand, extra rich interpretation with dense pecan inclusions.</p>
+                    </div>
+                    <div class="flex items-center space-x-4 self-end sm:self-auto">
+                        <span class="font-serif text-2xl text-gold font-bold">$65.00</span>
+                    </div>
+                </div>
+
+                <!-- Menu Item 3 -->
+                <div class="bg-white p-8 rounded-[24px] shadow-lg border border-gold/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-gold transition-colors duration-300">
+                    <div>
+                        <h3 class="font-serif text-2xl text-charcoal">Regal Red Velvet Cake</h3>
+                        <p class="font-sans text-xs text-muted mt-1">The iconic royal red velvet crumb with artisanal cream cheese.</p>
+                    </div>
+                    <div class="flex items-center space-x-4 self-end sm:self-auto">
+                        <span class="font-serif text-2xl text-gold font-bold">$50.00</span>
+                    </div>
+                </div>
+
+                <!-- Menu Item 4 -->
+                <div class="bg-white p-8 rounded-[24px] shadow-lg border border-gold/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-gold transition-colors duration-300">
+                    <div>
+                        <h3 class="font-serif text-2xl text-charcoal">Chantilly Dream Cake</h3>
+                        <p class="font-sans text-xs text-muted mt-1">Lush whipped almond mascarpone layered with sweet organic berries.</p>
+                    </div>
+                    <div class="flex items-center space-x-4 self-end sm:self-auto">
+                        <span class="font-serif text-2xl text-gold font-bold">$70.00</span>
+                    </div>
+                </div>
+
+                <!-- Menu Item 5 -->
+                <div class="bg-white p-8 rounded-[24px] shadow-lg border border-gold/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-gold transition-colors duration-300">
+                    <div>
+                        <h3 class="font-serif text-2xl text-charcoal">Empress Strawberry Cake</h3>
+                        <p class="font-sans text-xs text-muted mt-1">Strawberry purees, gourmet cream and fresh organic berries.</p>
+                    </div>
+                    <div class="flex items-center space-x-4 self-end sm:self-auto">
+                        <span class="font-serif text-2xl text-gold font-bold">$65.00</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 10. FAQ ACCORDION -->
+    <section class="py-24 bg-secondary px-6 md:px-12 relative overflow-hidden">
+        <div class="max-w-4xl mx-auto">
+            
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+                <span class="text-gold font-serif text-sm tracking-[0.25em] uppercase block">Assisting Curations</span>
+                <h2 class="font-serif text-4xl sm:text-5xl text-charcoal font-light leading-tight">Frequently Asked Queries</h2>
+                <p class="font-sans text-xs sm:text-sm text-muted">A collection of general guidance to assist your celebration planning.</p>
+            </div>
+
+            <!-- Accordion List -->
+            <div class="space-y-4">
+                
+                <!-- FAQ 1 -->
+                <div class="bg-white rounded-[24px] border border-gold/5 overflow-hidden transition-all duration-300 shadow-md">
+                    <button class="w-full text-left p-6 md:p-8 flex items-center justify-between font-serif text-lg md:text-xl text-charcoal font-medium select-none focus:outline-none" onclick="toggleFaq(this)">
+                        <span>How far in advance should I order?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-gold transition-transform duration-300"></i>
+                    </button>
+                    <div class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                        <div class="p-6 md:p-8 pt-0 border-t border-secondary-dark font-sans text-xs md:text-sm text-muted leading-relaxed">
+                            Because every single one of our luxury cakes is made to order entirely from scratch without artificial preservers, we require a minimum of <strong>2 days advance notice</strong>. For wedding structures and grand bespoke assemblies, we recommend reserving 2-4 weeks in advance to guarantee date availability.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="bg-white rounded-[24px] border border-gold/5 overflow-hidden transition-all duration-300 shadow-md">
+                    <button class="w-full text-left p-6 md:p-8 flex items-center justify-between font-serif text-lg md:text-xl text-charcoal font-medium select-none focus:outline-none" onclick="toggleFaq(this)">
+                        <span>Do you make seasonal cakes?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-gold transition-transform duration-300"></i>
+                    </button>
+                    <div class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                        <div class="p-6 md:p-8 pt-0 border-t border-secondary-dark font-sans text-xs md:text-sm text-muted leading-relaxed">
+                            Yes! We craft exclusive seasonal menu additions during holidays, autumn, and summer blooms. Sign up for our elegant newsletter or consult with Pernell to find out our current limited-edition seasonal selections.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="bg-white rounded-[24px] border border-gold/5 overflow-hidden transition-all duration-300 shadow-md">
+                    <button class="w-full text-left p-6 md:p-8 flex items-center justify-between font-serif text-lg md:text-xl text-charcoal font-medium select-none focus:outline-none" onclick="toggleFaq(this)">
+                        <span>Do you offer wedding cakes?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-gold transition-transform duration-300"></i>
+                    </button>
+                    <div class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                        <div class="p-6 md:p-8 pt-0 border-t border-secondary-dark font-sans text-xs md:text-sm text-muted leading-relaxed">
+                            Bespoke tiered wedding cakes are a profound passion at Carrot Cake Sensation. Pernell Johnson works extensively with couples to tailor beautiful aesthetics, sizes, and layered combinations to create the ultimate wedding masterpiece. Contact us to schedule a personalized tasting consultation.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 11. FINAL EMOTIONAL CTA SECTION -->
+    <section class="relative py-28 bg-[#3A1F14] text-white overflow-hidden curved-clip-top px-6 md:px-12" id="cta">
+        <!-- Intense Glow Overlay -->
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(200,145,71,0.15)_0%,rgba(0,0,0,0)_100%)]"></div>
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#C89147_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+
+        <div class="relative max-w-5xl mx-auto text-center space-y-8 z-10">
+            <span class="text-gold font-serif text-lg md:text-xl tracking-[0.25em] uppercase block">A Luxury Memory Awaits</span>
+            
+            <h2 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-light leading-tight max-w-4xl mx-auto">
+                Make Your Next Celebration <br>
+                <span class="italic font-normal text-gold">Unforgettable</span>
+            </h2>
+
+            <p class="font-sans text-sm sm:text-base text-secondary-accent max-w-xl mx-auto leading-relaxed">
+                Give your family and prestigious guests the award-winning taste of Carrot Cake Sensation. Handcrafted to order in Savannah, Georgia.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
+                <!-- Magnetic Order Button -->
+                <a href="tel:912-398-1636" class="btn-magnetic w-full sm:w-auto bg-gold hover:bg-gold-light text-charcoal font-semibold font-serif text-sm tracking-[0.2em] uppercase px-8 py-5 rounded-[16px] shadow-2xl transition-all duration-300 flex items-center justify-center space-x-2">
+                    <i data-lucide="phone" class="w-5 h-5"></i>
+                    <span>Call To Order</span>
+                </a>
+                
+                <!-- Email or alternative custom action -->
+                <a href="mailto:info@carrotcakesensation.com?subject=Cake Order Inquiry" class="btn-magnetic w-full sm:w-auto border border-secondary-accent/20 hover:border-gold hover:bg-white/5 text-secondary-light font-serif text-sm tracking-[0.2em] uppercase px-8 py-5 rounded-[16px] transition-all duration-300 flex items-center justify-center space-x-2">
+                    <i data-lucide="mail" class="w-5 h-5"></i>
+                    <span>Email Order Inquiry</span>
+                </a>
+            </div>
+            
+            <!-- Real Contact Quick Stats -->
+            <div class="pt-10 flex flex-wrap justify-center items-center gap-8 text-secondary-accent font-sans text-xs tracking-wider uppercase font-semibold">
+                <span class="flex items-center space-x-2">
+                    <i data-lucide="check-circle" class="w-4 h-4 text-gold"></i>
+                    <span>Savannah pickup</span>
+                </span>
+                <span class="h-4 w-[1px] bg-gold/30 hidden sm:block"></span>
+                <span class="flex items-center space-x-2">
+                    <i data-lucide="check-circle" class="w-4 h-4 text-gold"></i>
+                    <span>9" 3-Layer cakes</span>
+                </span>
+                <span class="h-4 w-[1px] bg-gold/30 hidden sm:block"></span>
+                <span class="flex items-center space-x-2">
+                    <i data-lucide="check-circle" class="w-4 h-4 text-gold"></i>
+                    <span>Feeds 12-15 guests</span>
+                </span>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 12. LUXURY FOOTER -->
+    <footer class="bg-[#1C0E08] text-[#DCC9B2] pt-20 pb-10 px-6 md:px-12 border-t border-gold/10 relative z-30">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-gold/10">
+            
+            <!-- Brand Overview Column -->
+            <div class="lg:col-span-4 space-y-6">
+                <a href="#" class="flex flex-col items-start">
+                    <span class="font-serif text-2xl font-bold tracking-[0.15em] text-white">
+                        CARROT CAKE
+                    </span>
+                    <span class="font-script text-xl text-gold tracking-wider -mt-1">
+                        Sensation
+                    </span>
+                </a>
+                <p class="font-sans text-xs text-secondary-accent/80 leading-relaxed max-w-sm">
+                    Luxury bakes and award-winning family recipes. Elevating special moments through handcrafted elegance and premium ingredient ratios since inception in Savannah, GA.
+                </p>
+                <!-- Social Icons -->
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="p-2.5 rounded-full bg-white/5 hover:bg-gold text-white hover:text-charcoal transition-all" aria-label="Instagram Page">
+                        <i data-lucide="instagram" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#" class="p-2.5 rounded-full bg-white/5 hover:bg-gold text-white hover:text-charcoal transition-all" aria-label="Facebook Page">
+                        <i data-lucide="facebook" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#" class="p-2.5 rounded-full bg-white/5 hover:bg-gold text-white hover:text-charcoal transition-all" aria-label="Pinterest Page">
+                        <i data-lucide="pin" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Studio Locations/Address Info -->
+            <div class="lg:col-span-4 space-y-4">
+                <h4 class="font-serif text-lg text-white tracking-widest uppercase">The Studio Address</h4>
+                <div class="h-[1px] w-12 bg-gold"></div>
+                <ul class="space-y-3 font-sans text-xs text-secondary-accent/80">
+                    <li class="flex items-start space-x-2">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-gold flex-shrink-0 mt-0.5"></i>
+                        <span>310 Brown Thrush Road, Savannah, GA 31419</span>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <i data-lucide="phone" class="w-4 h-4 text-gold flex-shrink-0"></i>
+                        <a href="tel:912-398-1636" class="hover:text-gold transition-colors">912-398-1636</a>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <i data-lucide="mail" class="w-4 h-4 text-gold flex-shrink-0"></i>
+                        <a href="mailto:info@carrotcakesensation.com" class="hover:text-gold transition-colors">info@carrotcakesensation.com</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Curated Business Hours -->
+            <div class="lg:col-span-4 space-y-4">
+                <h4 class="font-serif text-lg text-white tracking-widest uppercase">Curation Hours</h4>
+                <div class="h-[1px] w-12 bg-gold"></div>
+                <ul class="space-y-2 font-sans text-xs text-secondary-accent/80">
+                    <li class="flex justify-between border-b border-white/5 pb-2">
+                        <span>Monday - Friday:</span>
+                        <span class="text-white font-medium">9:00 AM - 6:00 PM</span>
+                    </li>
+                    <li class="flex justify-between border-b border-white/5 pb-2">
+                        <span>Saturday:</span>
+                        <span class="text-white font-medium">10:00 AM - 4:00 PM</span>
+                    </li>
+                    <li class="flex justify-between">
+                        <span>Sunday:</span>
+                        <span class="text-gold font-medium">By Appointment Only</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="max-w-7xl mx-auto pt-10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-secondary-accent/60">
+            <p>&copy; 2026 Carrot Cake Sensation. All Rights Reserved.</p>
+            <div class="flex items-center space-x-6">
+                <a href="#" class="hover:text-gold transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-gold transition-colors">Terms of Service</a>
+                <a href="#" class="hover:text-gold transition-colors">Savannah Registry</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- LIGHTBOX MODAL COMPONENT (Vanilla JavaScript Powered) -->
+    <div id="lightbox-modal" class="fixed inset-0 bg-charcoal/95 z-50 hidden flex-col justify-center items-center p-4 transition-all duration-300">
+        <button class="absolute top-6 right-6 text-white hover:text-gold transition-colors" onclick="closeLightbox()">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+        <div class="max-w-5xl max-h-[80vh] w-full flex items-center justify-center">
+            <img id="lightbox-img" src="" alt="Detailed View" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl border border-white/10">
+        </div>
+        <p class="text-secondary-accent text-xs mt-4 tracking-widest uppercase">Carrot Cake Sensation Signature Collection</p>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- INTERACTIVE SCRIPTS / ANIMATION STACK -->
+    <!-- ========================================== -->
+    
+    <!-- Smooth Scrolling Engine (Lenis) -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    
+    <!-- GSAP for scroll triggered & reveal interactions -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Vanilla Tilt for exquisite physics on hovering images/cards -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+    <script>
+        // 1. Initialise Lucide icons
+        lucide.createIcons();
+
+        // 2. Initialize Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Connect ScrollTrigger to Lenis scroll updates
+        lenis.on('scroll', ScrollTrigger.update);
+
+        // 3. Floating gold particles on Hero Background
+        const createParticles = () => {
+            const container = document.getElementById('particles-container');
+            if(!container) return;
+            const colors = ['#C89147', '#D4A15D', '#8B5A36', '#FFFFFF'];
+            for (let i = 0; i < 40; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'absolute rounded-full opacity-30 pointer-events-none';
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.left = `${Math.random() * 100}%`;
+                container.appendChild(particle);
+
+                // Elegant ambient float using GSAP
+                gsap.to(particle, {
+                    y: `random(-120, 120)`,
+                    x: `random(-60, 60)`,
+                    opacity: 'random(0.1, 0.6)',
+                    duration: `random(6, 12)`,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            }
+        }
+        createParticles();
+
+        // 4. Cursor Follow Light on Hero Glow Container
+        const cursorGlow = () => {
+            const container = document.getElementById('hero-glow-container');
+            const glowEl = document.getElementById('hero-radial-glow');
+            if (!container || !glowEl) return;
+
+            container.addEventListener('mousemove', (e) => {
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                glowEl.style.background = `radial-gradient(circle 450px at ${x}px ${y}px, rgba(200, 145, 71, 0.16) 0%, rgba(0,0,0,0) 100%)`;
+            });
+            container.addEventListener('mouseleave', () => {
+                glowEl.style.background = `radial-gradient(circle 450px at 50% 50%, rgba(200, 145, 71, 0.08) 0%, rgba(0,0,0,0) 100%)`;
+            });
+        };
+        cursorGlow();
+
+        // 5. Custom Cursor Tracker Rings
+        const customCursor = () => {
+            const ring = document.getElementById('custom-cursor-ring');
+            const dot = document.getElementById('custom-cursor-dot');
+            if (!ring || !dot) return;
+
+            window.addEventListener('mousemove', (e) => {
+                gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1 });
+                gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.35 });
+            });
+
+            // Expand cursor on clicking or hovering links
+            const links = document.querySelectorAll('a, button, [onclick]');
+            links.forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    ring.style.width = '60px';
+                    ring.style.height = '60px';
+                    ring.style.backgroundColor = 'rgba(200, 145, 71, 0.1)';
+                });
+                link.addEventListener('mouseleave', () => {
+                    ring.style.width = '40px';
+                    ring.style.height = '40px';
+                    ring.style.backgroundColor = 'transparent';
+                });
+            });
+        };
+        customCursor();
+
+        // 6. Magnetic Hover Effect on Buttons
+        const magneticButtons = () => {
+            const buttons = document.querySelectorAll('.btn-magnetic');
+            buttons.forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width/2;
+                    const y = e.clientY - rect.top - rect.height/2;
+                    
+                    // Pull effect
+                    btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'translate(0px, 0px)';
+                });
+            });
+        };
+        magneticButtons();
+
+        // 7. Glassmorphism Scroll listener
+        const headerScroll = () => {
+            const header = document.querySelector('header');
+            if(!header) return;
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        };
+        headerScroll();
+
+        // 8. Mobile Navigation Toggle Drawer
+        const setupMobileMenu = () => {
+            const btn = document.getElementById('mobile-menu-btn');
+            const closeBtn = document.getElementById('mobile-close-btn');
+            const menu = document.getElementById('mobile-nav');
+            const links = document.querySelectorAll('.mobile-nav-link');
+
+            if(!btn || !menu) return;
+
+            const toggle = () => menu.classList.toggle('hidden');
+
+            btn.addEventListener('click', toggle);
+            if (closeBtn) closeBtn.addEventListener('click', toggle);
+            links.forEach(link => link.addEventListener('click', toggle));
+        };
+        setupMobileMenu();
+
+        // 9. FAQ Accordion Toggle Interaction
+        window.toggleFaq = (button) => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            // Close all other accordions
+            const accordions = document.querySelectorAll('#process + section, section');
+            const allContents = document.querySelectorAll('.max-h-0, .max-h-96');
+            
+            // Adjust active element height
+            if (content.classList.contains('active-content')) {
+                content.style.maxHeight = null;
+                content.classList.remove('active-content');
+                if (icon) icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                content.classList.add('active-content');
+                if (icon) icon.style.transform = 'rotate(45deg)';
+            }
+        };
+
+        // 10. Lightbox Modal Interaction
+        window.openLightbox = (bgImage) => {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            if(!modal || !img) return;
+
+            // Extract url("...") content
+            const url = bgImage.replace(/^url\(['"](.+)['"]\)/, '$1');
+            img.src = url;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Pause page scroll inside Lenis
+            lenis.stop();
+        };
+
+        window.closeLightbox = () => {
+            const modal = document.getElementById('lightbox-modal');
+            if(!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            
+            // Resume page scroll inside Lenis
+            lenis.start();
+        };
+
+        // Close lightbox on escape key
+        window.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape') closeLightbox();
+        });
+
+        // 11. GSAP Scroll Trigger Entrance Animations
+        const registerGSAPAnimations = () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Intro Hero animations
+            const tl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1 } });
+            tl.from('#hero-text-block', { y: 60, opacity: 0, delay: 0.2 })
+              .from('#hero-image-block', { scale: 0.9, opacity: 0 }, '-=0.6');
+
+            // Card reveals
+            gsap.from('#signature .signature-card', {
+                scrollTrigger: {
+                    trigger: '#signature',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: 'power3.out'
+            });
+
+            // Legacy Reveal
+            gsap.from('#legacy img', {
+                scrollTrigger: {
+                    trigger: '#legacy',
+                    start: 'top 75%',
+                },
+                scale: 0.9,
+                opacity: 0,
+                duration: 1.4,
+                ease: 'power3.out'
+            });
+
+            // Gallery reveal
+            gsap.from('#masonry-gallery > div', {
+                scrollTrigger: {
+                    trigger: '#gallery',
+                    start: 'top 80%',
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.1,
+                ease: 'power2.out'
+            });
+        };
+        
+        // Wait for page load
+        window.onload = () => {
+            registerGSAPAnimations();
+            
+            // Apply Vanilla Tilt manually to verify custom variables on dynamically compiled blocks
+            VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+                max: 10,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.15,
+            });
+        };
+    </script>
+</body>
+</html>
