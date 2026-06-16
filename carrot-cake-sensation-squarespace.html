@@ -1,112 +1,154 @@
-<!-- ============================================================================
+<!-- ============================================================
      CARROT CAKE SENSATION  —  Squarespace embed
-     ----------------------------------------------------------------------------
-     HOW TO ADD THIS TO SQUARESPACE
-     1. Requires a Business or Commerce plan (custom code is not on Personal).
-     2. Add a "Code" block to a blank page  (recommended: a page with a blank
-        layout / no header so it reads full-width), then paste THIS ENTIRE snippet.
-        Uncheck "Display Source".
-     3. Upload your photos:  Settings -> click "..." -> or drag each image into any
-        Image block, OR use a Link -> Files picker, then copy the file URL.
-        Replace every REPLACE_WITH_*_URL placeholder below with that URL.
+     Paste this whole snippet into a Squarespace "Code" block
+     (Business/Commerce plan). Uncheck "Display Source".
+============================================================ -->
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-     IMAGE MAP (what goes where):
-       REPLACE_WITH_SC_CARROTCAKE_URL        -> SC_CarrotCake (hero + signature card + gallery)
-       REPLACE_WITH_TABLECLOTH_CAKE_URL      -> "Firefly ... table cloth ... 796886" (story section)
-       REPLACE_WITH_CARROT_SLICE_URL         -> carrot cake slice close-up
-       REPLACE_WITH_RED_VELVET_URL           -> red velvet cake
-       REPLACE_WITH_GERMAN_CHOCOLATE_URL     -> german chocolate cake
-       REPLACE_WITH_RED_VELVET_CUPCAKES_URL  -> red velvet cupcakes
-       REPLACE_WITH_IMG_3433_URL             -> IMG_3433 (convert the .HEIC to .jpg first)
-============================================================================ -->
-
-<!-- Premium Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<!-- Tailwind (Play CDN). preflight is disabled so Tailwind's global reset does NOT
-     override the rest of your Squarespace site. -->
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-    tailwind.config = {
-        corePlugins: { preflight: false },
-        theme: {
-            extend: {
-                colors: {
-                    primary: { DEFAULT: '#3A1F14', light: '#5B3422' },
-                    secondary: { light: '#FFFDF9', DEFAULT: '#F7F2EA', dark: '#EFE4D6', accent: '#DCC9B2' },
-                    gold: { DEFAULT: '#C89147', light: '#D4A15D', dark: '#8B5A36' },
-                    charcoal: '#2A140E',
-                    muted: '#5D4A3F',
-                },
-                fontFamily: {
-                    serif: ['"Cormorant Garamond"', 'serif'],
-                    script: ['"Great Vibes"', 'cursive'],
-                    sans: ['"Inter"', 'sans-serif'],
+    <!-- CSS Frameworks & Animation Engines -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            corePlugins: { preflight: false },
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#3A1F14',
+                            light: '#5B3422',
+                        },
+                        secondary: {
+                            light: '#FFFDF9',
+                            DEFAULT: '#F7F2EA',
+                            dark: '#EFE4D6',
+                            accent: '#DCC9B2',
+                        },
+                        gold: {
+                            DEFAULT: '#C89147',
+                            light: '#D4A15D',
+                            dark: '#8B5A36',
+                        },
+                        charcoal: '#2A140E',
+                        muted: '#5D4A3F',
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        script: ['"Great Vibes"', 'cursive'],
+                        sans: ['"Inter"', 'sans-serif'],
+                    }
                 }
             }
         }
-    }
-</script>
+    </script>
 
-<!-- Scoped styles (all prefixed under #ccs-root so they stay inside this widget) -->
-<style>
-    #ccs-root { position: relative; }
-    #ccs-root * { box-sizing: border-box; }
+    <!-- Lenis Smooth Scrolling CSS -->
+    <style>
+        html.lenis {
+            height: auto;
+        }
+        .lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        .lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis-scrolling iframe {
+            pointer-events: none;
+        }
 
-    /* Luxury Grain Overlay for Tactile Texture */
-    #ccs-root .grain-overlay {
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
-        pointer-events: none;
-        z-index: 9999;
-    }
+        /* Luxury Grain Overlay for Tactile Texture */
+        .grain-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
 
-    /* Smooth reveal clip paths */
-    #ccs-root .curved-clip-top { clip-path: ellipse(110% 100% at 50% 100%); }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F7F2EA;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C89147;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5B3422;
+        }
 
-    /* Custom Cursor Lighting Ring */
-    #ccs-root .cursor-ring {
-        width: 40px; height: 40px;
-        border: 1px solid #C89147; border-radius: 50%;
-        position: fixed; transform: translate(-50%, -50%);
-        pointer-events: none; z-index: 10000;
-        transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
-    }
-    #ccs-root .cursor-dot {
-        width: 6px; height: 6px;
-        background-color: #C89147; border-radius: 50%;
-        position: fixed; transform: translate(-50%, -50%);
-        pointer-events: none; z-index: 10001;
-    }
+        /* Smooth reveal clip paths & helper animations */
+        .curved-clip-bottom {
+            clip-path: ellipse(110% 100% at 50% 0%);
+        }
+        .curved-clip-top {
+            clip-path: ellipse(110% 100% at 50% 100%);
+        }
 
-    /* Glassmorphism header */
-    #ccs-root .glass-header {
-        background: rgba(58, 31, 20, 0.02);
-        backdrop-filter: blur(0px);
-        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    #ccs-root .glass-header.scrolled {
-        background: rgba(58, 31, 20, 0.85);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid rgba(200, 145, 71, 0.2);
-        box-shadow: 0 10px 30px rgba(42, 20, 14, 0.15);
-    }
+        /* Custom Custom Cursor Lighting Ring */
+        .cursor-ring {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #C89147;
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 10000;
+            transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+        }
+        .cursor-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #C89147;
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 10001;
+        }
 
-    #ccs-root .btn-magnetic { transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); }
+        /* Glassmorphism Classes */
+        .glass-header {
+            background: rgba(58, 31, 20, 0.02);
+            backdrop-filter: blur(0px);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-header.scrolled {
+            background: rgba(58, 31, 20, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(200, 145, 71, 0.2);
+            box-shadow: 0 10px 30px rgba(42, 20, 14, 0.15);
+        }
 
-    #ccs-root #particles-container {
-        position: absolute;
-        top: 0; left: 0; width: 100%; height: 100%;
-        pointer-events: none; overflow: hidden; z-index: 2;
-    }
-</style>
+        /* Magnetic button visual feedback */
+        .btn-magnetic {
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
 
+        /* Floating particles container */
+        #particles-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 2;
+        }
+    </style>
 
-<!-- ============================== WIDGET ROOT ============================== -->
-<div id="ccs-root" class="bg-secondary-light text-charcoal font-sans antialiased overflow-x-hidden">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+<div id="ccs-root" class="bg-secondary-light text-charcoal font-sans antialiased selection:bg-gold selection:text-white overflow-x-hidden">
 
     <!-- Textured Grain Layer -->
     <div class="grain-overlay"></div>
@@ -118,7 +160,7 @@
     <!-- 1. STICKY HEADER / NAVIGATION -->
     <header class="fixed top-0 left-0 w-full z-50 glass-header px-6 py-4 md:px-12 md:py-6 transition-all duration-300">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
-
+            
             <!-- Logo Section -->
             <a href="#" class="flex flex-col items-start group">
                 <span class="font-serif text-xl md:text-2xl font-bold tracking-[0.15em] text-secondary-light group-hover:text-gold transition-colors duration-300">
@@ -155,7 +197,7 @@
         </div>
 
         <!-- Mobile Drawer Navigation -->
-        <div id="mobile-nav" class="hidden lg:hidden fixed top-0 left-0 w-full h-screen bg-primary/98 z-50 flex flex-col justify-center items-center space-y-8">
+        <div id="mobile-nav" class="hidden lg:hidden fixed top-0 left-0 w-full h-screen bg-primary/98 z-50 flex flex-col justify-center items-center space-y-8 animate-fade-in">
             <button id="mobile-close-btn" class="absolute top-6 right-6 text-secondary-light hover:text-gold" aria-label="Close Navigation Menu">
                 <i data-lucide="x" class="w-8 h-8"></i>
             </button>
@@ -172,17 +214,20 @@
     </header>
 
 
-    <!-- 2. HERO BANNER / CENTERPIECE -->
+    <!-- 2. HERO BANNER / CENTERPIECE (Full Viewport, Cinematic Lighting) -->
     <section class="relative min-h-screen bg-gradient-to-br from-[#2E180E] via-[#3A1F14] to-[#1C0E08] text-white flex items-center justify-center overflow-hidden pt-24 pb-16 md:py-0" id="hero-glow-container">
-
+        
+        <!-- Floating decorative particle overlays -->
         <div id="particles-container"></div>
-
+        
+        <!-- Subtle warm radial background lights (Cursor-tracking light backdrop) -->
         <div class="absolute inset-0 pointer-events-none transition-opacity duration-300" id="hero-radial-glow" style="background: radial-gradient(circle 450px at 50% 50%, rgba(200, 145, 71, 0.08) 0%, rgba(0,0,0,0) 100%);"></div>
 
+        <!-- Luxury curved background shapes & subtle grid texture -->
         <div class="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#C89147_1px,transparent_1px),linear-gradient(to_bottom,#C89147_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
 
         <div class="relative max-w-7xl mx-auto w-full px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center z-10">
-
+            
             <!-- Left Side Content -->
             <div class="lg:col-span-6 flex flex-col items-start space-y-6 md:space-y-8" id="hero-text-block">
                 <div class="flex items-center space-x-3 bg-white/5 backdrop-blur-md py-2 px-4 rounded-full border border-white/10 animate-pulse">
@@ -218,14 +263,18 @@
 
             <!-- Right Side Image with Layered Composition -->
             <div class="lg:col-span-6 flex justify-center items-center relative mt-8 lg:mt-0" id="hero-image-block">
+                <!-- Floating Soft Card Overlay -->
                 <div class="absolute -top-6 -left-6 bg-[#3A1F14]/90 border border-gold/20 p-5 rounded-[24px] hidden md:block backdrop-blur-md shadow-xl z-20" data-tilt data-tilt-speed="400" data-tilt-max="15">
                     <span class="text-gold font-script text-3xl">Pernell Johnson</span>
-                    <p class="text-[10px] tracking-[0.2em] uppercase text-secondary-accent font-sans mt-1">Master Baker &amp; Founder</p>
+                    <p class="text-[10px] tracking-[0.2em] uppercase text-secondary-accent font-sans mt-1">Master Baker & Founder</p>
                 </div>
 
-                <!-- Main Cake Portrait : SC_CarrotCake -->
-                <div class="relative w-full max-w-[480px] h-[550px] rounded-[28px] overflow-hidden shadow-2xl border border-gold/10 group bg-cover bg-center" style="background-image: url('REPLACE_WITH_SC_CARROTCAKE_URL');" data-tilt data-tilt-max="8" data-tilt-speed="600">
+                <!-- Main Cake Portrait -->
+                <div class="relative w-full max-w-[480px] h-[550px] rounded-[28px] overflow-hidden shadow-2xl border border-gold/10 group bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1920&q=80');" data-tilt data-tilt-max="8" data-tilt-speed="600">
+                    <!-- Elegant Cinematic Shadow Gradients -->
                     <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-transparent to-transparent opacity-80"></div>
+                    
+                    <!-- Hover Zoom Visual Element -->
                     <div class="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                         <div class="text-left">
                             <span class="font-serif text-2xl text-white block">Award-Winning</span>
@@ -237,6 +286,7 @@
                     </div>
                 </div>
 
+                <!-- Floating Decorative Gold Ring -->
                 <div class="absolute -bottom-10 -right-10 w-44 h-44 rounded-full border-2 border-gold/20 pointer-events-none hidden md:block"></div>
             </div>
         </div>
@@ -249,15 +299,16 @@
         </div>
     </section>
 
-    <!-- 3. SIGNATURE CAKES SECTION -->
+    <!-- 3. SIGNATURE CAKES SECTION (Optimized Spacing & Fixed Transitions) -->
     <section class="py-12 md:py-16 bg-secondary px-6 md:px-12 relative overflow-hidden" id="signature">
         <div class="max-w-7xl mx-auto">
-
+            
+            <!-- Section Header -->
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 space-y-4 md:space-y-0">
                 <div class="max-w-2xl">
                     <span class="text-gold font-serif text-lg tracking-[0.2em] uppercase block mb-2 flex items-center gap-4">
                         <span class="w-8 h-[1px] bg-gold"></span>
-                        Chef&rsquo;s Selection
+                        Chef’s Selection
                     </span>
                     <h2 class="font-serif text-4xl md:text-5xl lg:text-7xl text-charcoal font-light leading-tight">
                         Signature Cake <br><span class="italic text-primary">Sculptures</span>
@@ -268,11 +319,12 @@
                 </p>
             </div>
 
+            <!-- Stacked Content Flow -->
             <div class="flex flex-col gap-8">
-                <!-- Featured Masterpiece (Carrot Cake) : SC_CarrotCake -->
+                <!-- Featured Masterpiece (Carrot Cake) - Full Width Horizontal -->
                 <div class="signature-card bg-white rounded-[32px] overflow-hidden shadow-xl hover:shadow-2xl border border-gold/10 flex flex-col lg:flex-row group">
                     <div class="lg:w-1/2 h-[350px] lg:h-auto relative overflow-hidden">
-                        <img src="REPLACE_WITH_SC_CARROTCAKE_URL" alt="Carrot Cake Sensation" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
+                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1200&q=80" alt="Carrot Cake Sensation" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
                         <div class="absolute top-6 left-6 bg-primary text-gold text-xs font-semibold tracking-widest uppercase py-2 px-4 rounded-full shadow-lg backdrop-blur-md bg-opacity-90">
                             Top Best Seller
                         </div>
@@ -284,7 +336,7 @@
                         </div>
                         <span class="font-serif text-2xl text-gold font-semibold">$50.00</span>
                         <p class="font-sans text-base text-muted leading-relaxed">
-                            Savannah&rsquo;s premier 9-inch, 3-layer culinary icon. Beautifully spiced premium organic carrots, crushed pineapple, toasted pecans, layered inside lush velvety cream cheese frosting.
+                            Savannah’s premier 9-inch, 3-layer culinary icon. Beautifully spiced premium organic carrots, crushed pineapple, toasted pecans, layered inside lush velvety cream cheese frosting.
                         </p>
                         <div class="pt-6 border-t border-secondary-dark flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs tracking-widest uppercase font-semibold font-serif text-charcoal">
                             <span>Serves 12 - 15</span>
@@ -298,9 +350,10 @@
 
                 <!-- Full-width Bespoke Banner -->
                 <div class="signature-card bg-[#3A1F14] text-white rounded-[32px] overflow-hidden shadow-xl hover:shadow-2xl border border-gold/20 flex flex-col lg:flex-row relative">
+                    <!-- Decorative background elements -->
                     <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#C89147_1px,transparent_1px)] bg-[size:24px_24px]"></div>
                     <div class="absolute top-0 right-0 w-64 h-64 bg-gold/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
-
+                    
                     <div class="lg:w-1/2 p-8 lg:p-12 relative z-10 flex flex-col justify-center">
                         <span class="text-gold font-serif text-sm tracking-[0.2em] uppercase block mb-4 flex items-center gap-3">
                             <i data-lucide="sparkles" class="w-4 h-4"></i>
@@ -318,7 +371,7 @@
                         </div>
                     </div>
                     <div class="lg:w-1/2 min-h-[350px] lg:min-h-[400px] relative">
-                        <img src="REPLACE_WITH_RED_VELVET_URL" alt="Bespoke Wedding Cake" class="absolute inset-0 w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=1200&q=80" alt="Bespoke Wedding Cake" class="absolute inset-0 w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-l from-[#3A1F14] via-[#3A1F14]/50 to-transparent"></div>
                     </div>
                 </div>
@@ -328,25 +381,27 @@
     </section>
 
 
-    <!-- 4. LEGACY STORY SECTION -->
+    <!-- 4. LEGACY STORY SECTION (Editorial Split Layout) -->
     <section class="py-24 bg-secondary-dark px-6 md:px-12 relative" id="legacy">
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
-
-            <!-- Left Editorial Imagery : Firefly tablecloth cake + carrot slice inset -->
+            
+            <!-- Left Editorial Imagery -->
             <div class="lg:col-span-5 relative flex items-center justify-center">
                 <div class="absolute -top-10 -left-10 w-24 h-24 bg-gold/10 rounded-full blur-2xl"></div>
                 <div class="relative z-10 w-full max-w-[400px]">
-                    <div class="rounded-[28px] overflow-hidden shadow-2xl border border-gold/10 aspect-[4/5] bg-cover bg-center relative" style="background-image: url('REPLACE_WITH_TABLECLOTH_CAKE_URL');">
+                    <!-- Overlapping image boxes for high-end boutique look -->
+                    <div class="rounded-[28px] overflow-hidden shadow-2xl border border-gold/10 aspect-[4/5] bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1559622214-f8a9850965bb?w=1000&q=80');">
                         <div class="absolute inset-0 bg-primary/20 hover:bg-transparent transition-colors duration-500"></div>
                     </div>
-                    <div class="absolute -bottom-8 -right-8 w-[200px] h-[200px] rounded-[24px] overflow-hidden border-4 border-secondary-dark shadow-2xl hidden sm:block bg-cover bg-center" style="background-image: url('REPLACE_WITH_CARROT_SLICE_URL');"></div>
+                    <!-- Secondary offset smaller image -->
+                    <div class="absolute -bottom-8 -right-8 w-[200px] h-[200px] rounded-[24px] overflow-hidden border-4 border-secondary-dark shadow-2xl hidden sm:block bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1519869325930-281384150729?w=800&q=80');"></div>
                 </div>
             </div>
 
             <!-- Right Story Content -->
             <div class="lg:col-span-7 space-y-8 flex flex-col justify-center">
                 <span class="text-gold font-serif text-lg tracking-[0.2em] uppercase block">The Inheritance of Taste</span>
-
+                
                 <h2 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-charcoal font-light leading-tight">
                     The Recipe Passed Down. <br>
                     <span class="italic font-normal">Perfected Over Time.</span>
@@ -356,19 +411,20 @@
 
                 <div class="space-y-6 text-muted font-sans text-sm sm:text-base leading-relaxed max-w-xl">
                     <p class="font-medium text-charcoal">
-                        &ldquo;My cakes are birthed from the creativity of my mother. She passed the recipe on to me during my college years, and I have taken it to another level with different varieties.&rdquo;
+                        “My cakes are birthed from the creativity of my mother. She passed the recipe on to me during my college years, and I have taken it to another level with different varieties.”
                     </p>
                     <p class="font-light">
-                        What began as a treasured family heritage in Savannah, Georgia, has matured into "Carrot Cake Sensation." Under the meticulous eye of master baker Pernell Johnson, the legendary carrot cake recipe has transformed from a home dessert into a highly decorated culinary sensation.
+                        What began as a treasured family heritage in Savannah, Georgia, has matured into "Carrot Cake Sensation." Under the meticulous eye of master baker Pernell Johnson, the legendary carrot cake recipe has transformed from a home dessert into a highly decorated culinary sensation. 
                     </p>
                     <p class="font-light">
                         Today, we craft not just cakes, but memory-makers. Utilizing premium local pecans, fresh organic carrots, and gourmet vanillas, every bite evokes warm nostalgia reimagined for the modern luxury palate.
                     </p>
                 </div>
 
+                <!-- Hand-written signature display -->
                 <div class="pt-4 flex flex-col items-start space-y-1">
                     <span class="font-script text-4xl text-gold-dark transform -rotate-2">Pernell Johnson</span>
-                    <span class="text-xs tracking-[0.25em] uppercase text-charcoal font-semibold font-sans">Owner &amp; Culinary Creator</span>
+                    <span class="text-xs tracking-[0.25em] uppercase text-charcoal font-semibold font-sans">Owner & Culinary Creator</span>
                 </div>
             </div>
 
@@ -379,14 +435,18 @@
     <!-- 5. WHY CHOOSE US -->
     <section class="py-24 bg-white px-6 md:px-12 relative overflow-hidden">
         <div class="max-w-7xl mx-auto">
-
+            
+            <!-- Section Title -->
             <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
                 <span class="text-gold font-serif text-sm tracking-[0.25em] uppercase block">The Sensation Quality Standard</span>
                 <h2 class="font-serif text-4xl sm:text-5xl text-charcoal font-light leading-tight">What Makes Us Extraordinary</h2>
                 <p class="font-sans text-xs sm:text-sm text-muted">We curate premium sensory experiences that extend far beyond normal baking standards.</p>
             </div>
 
+            <!-- Quality Cards Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Card 1 -->
                 <div class="bg-secondary-light p-8 rounded-[24px] border border-gold/10 hover:border-gold transition-all duration-300 shadow-lg flex flex-col items-start space-y-6 group">
                     <div class="bg-gold/10 text-gold p-4 rounded-2xl group-hover:bg-primary group-hover:text-gold transition-colors duration-300">
                         <i data-lucide="chef-hat" class="w-6 h-6"></i>
@@ -397,6 +457,7 @@
                     </p>
                 </div>
 
+                <!-- Card 2 -->
                 <div class="bg-secondary-light p-8 rounded-[24px] border border-gold/10 hover:border-gold transition-all duration-300 shadow-lg flex flex-col items-start space-y-6 group">
                     <div class="bg-gold/10 text-gold p-4 rounded-2xl group-hover:bg-primary group-hover:text-gold transition-colors duration-300">
                         <i data-lucide="sparkles" class="w-6 h-6"></i>
@@ -407,6 +468,7 @@
                     </p>
                 </div>
 
+                <!-- Card 3 -->
                 <div class="bg-secondary-light p-8 rounded-[24px] border border-gold/10 hover:border-gold transition-all duration-300 shadow-lg flex flex-col items-start space-y-6 group">
                     <div class="bg-gold/10 text-gold p-4 rounded-2xl group-hover:bg-primary group-hover:text-gold transition-colors duration-300">
                         <i data-lucide="book-open" class="w-6 h-6"></i>
@@ -417,6 +479,7 @@
                     </p>
                 </div>
 
+                <!-- Card 4 -->
                 <div class="bg-secondary-light p-8 rounded-[24px] border border-gold/10 hover:border-gold transition-all duration-300 shadow-lg flex flex-col items-start space-y-6 group">
                     <div class="bg-gold/10 text-gold p-4 rounded-2xl group-hover:bg-primary group-hover:text-gold transition-colors duration-300">
                         <i data-lucide="map-pin" class="w-6 h-6"></i>
@@ -426,15 +489,17 @@
                         Independently operated, passionately supporting local organic growers. Elevating Georgia's legendary culinary identity with every bake.
                     </p>
                 </div>
+
             </div>
         </div>
     </section>
 
 
-    <!-- 6. CELEBRATION GALLERY -->
+    <!-- 6. CELEBRATION GALLERY (Luxury Masonry with Lightbox) -->
     <section class="py-24 bg-secondary px-6 md:px-12 relative" id="gallery">
         <div class="max-w-7xl mx-auto">
-
+            
+            <!-- Section Title -->
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 space-y-4 md:space-y-0">
                 <div class="max-w-xl">
                     <span class="text-gold font-serif text-lg tracking-[0.2em] uppercase block mb-3">Exquisite Moments</span>
@@ -447,50 +512,51 @@
                 </p>
             </div>
 
+            <!-- Asymmetric Masonry Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="masonry-gallery">
-
-                <!-- Gallery Item 1 : carrot slice -->
-                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer aspect-square bg-cover bg-center" style="background-image: url('REPLACE_WITH_CARROT_SLICE_URL');" onclick="ccsOpenLightbox(this.style.backgroundImage)">
+                
+                <!-- Gallery Item 1 -->
+                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer aspect-square bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=1600&q=80');" onclick="openLightbox(this.style.backgroundImage)">
                     <div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                         <span class="text-gold text-xs tracking-widest uppercase mb-1">Signature Dessert</span>
                         <h4 class="text-white font-serif text-xl">The Classic Slice</h4>
                     </div>
                 </div>
 
-                <!-- Gallery Item 2 : red velvet -->
-                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer lg:col-span-2 aspect-video bg-cover bg-center" style="background-image: url('REPLACE_WITH_RED_VELVET_URL');" onclick="ccsOpenLightbox(this.style.backgroundImage)">
+                <!-- Gallery Item 2 -->
+                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer lg:col-span-2 aspect-video bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=1600&q=80');" onclick="openLightbox(this.style.backgroundImage)">
                     <div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                         <span class="text-gold text-xs tracking-widest uppercase mb-1">Bespoke Galas</span>
                         <h4 class="text-white font-serif text-2xl">Ivory Wedding Sensation</h4>
                     </div>
                 </div>
 
-                <!-- Gallery Item 3 : german chocolate -->
-                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer aspect-square bg-cover bg-center" style="background-image: url('REPLACE_WITH_GERMAN_CHOCOLATE_URL');" onclick="ccsOpenLightbox(this.style.backgroundImage)">
+                <!-- Gallery Item 3 -->
+                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer aspect-square bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1464306076886-da185f6a9d05?w=1600&q=80');" onclick="openLightbox(this.style.backgroundImage)">
                     <div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                         <span class="text-gold text-xs tracking-widest uppercase mb-1">Artisan Toppings</span>
                         <h4 class="text-white font-serif text-xl">The Coconut Flake Bloom</h4>
                     </div>
                 </div>
 
-                <!-- Gallery Item 4 : red velvet cupcakes -->
-                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer aspect-[3/4] bg-cover bg-center" style="background-image: url('REPLACE_WITH_RED_VELVET_CUPCAKES_URL');" onclick="ccsOpenLightbox(this.style.backgroundImage)">
+                <!-- Gallery Item 4 -->
+                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer aspect-[3/4] bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=1600&q=80');" onclick="openLightbox(this.style.backgroundImage)">
                     <div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                         <span class="text-gold text-xs tracking-widest uppercase mb-1">Delicate Tea Slices</span>
                         <h4 class="text-white font-serif text-xl">Blueberry Glaze Details</h4>
                     </div>
                 </div>
 
-                <!-- Gallery Item 5 : IMG_3433 -->
-                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer aspect-square bg-cover bg-center" style="background-image: url('REPLACE_WITH_IMG_3433_URL');" onclick="ccsOpenLightbox(this.style.backgroundImage)">
+                <!-- Gallery Item 5 -->
+                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer aspect-square bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1519869325930-281384150729?w=1600&q=80');" onclick="openLightbox(this.style.backgroundImage)">
                     <div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                         <span class="text-gold text-xs tracking-widest uppercase mb-1">Special Occasions</span>
                         <h4 class="text-white font-serif text-xl">Strawberry Puree Topping</h4>
                     </div>
                 </div>
 
-                <!-- Gallery Item 6 : SC_CarrotCake -->
-                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer lg:col-span-2 aspect-[2/1] bg-cover bg-center" style="background-image: url('REPLACE_WITH_SC_CARROTCAKE_URL');" onclick="ccsOpenLightbox(this.style.backgroundImage)">
+                <!-- Gallery Item 6 -->
+                <div class="relative rounded-[28px] overflow-hidden group shadow-xl cursor-pointer lg:col-span-2 aspect-[2/1] bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1559622214-f8a9850965bb?w=1600&q=80');" onclick="openLightbox(this.style.backgroundImage)">
                     <div class="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                         <span class="text-gold text-xs tracking-widest uppercase mb-1">Handcrafted</span>
                         <h4 class="text-white font-serif text-2xl">Pernell Johnson Studio Sessions</h4>
@@ -502,22 +568,26 @@
     </section>
 
 
-    <!-- 7. ORDERING PROCESS -->
+    <!-- 7. ORDERING PROCESS (Timeline) -->
     <section class="py-24 bg-white px-6 md:px-12 relative overflow-hidden" id="process">
+        <!-- Floating details -->
         <div class="absolute top-1/4 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl pointer-events-none"></div>
 
         <div class="max-w-7xl mx-auto">
-
+            
             <div class="text-center max-w-2xl mx-auto mb-20 space-y-4">
                 <span class="text-gold font-serif text-sm tracking-[0.25em] uppercase block">Ordering Seamlessly</span>
                 <h2 class="font-serif text-4xl sm:text-5xl text-charcoal font-light leading-tight">Your Path To Dessert Elegance</h2>
                 <p class="font-sans text-xs sm:text-sm text-muted">Because exceptional luxury cakes require structural craftsmanship and pre-order precision.</p>
             </div>
 
+            <!-- Steps timeline -->
             <div class="relative grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 items-start">
-
+                
+                <!-- Timeline Connective Bar (Desktop) -->
                 <div class="absolute top-1/3 left-[15%] right-[15%] h-[1px] bg-secondary-accent hidden lg:block z-0"></div>
 
+                <!-- Step 1 -->
                 <div class="relative flex flex-col items-center text-center space-y-6 z-10 group">
                     <div class="w-20 h-20 bg-secondary rounded-full flex items-center justify-center border-2 border-secondary-dark group-hover:border-gold group-hover:bg-primary transition-all duration-500 shadow-xl">
                         <span class="font-serif text-2xl font-bold text-gold">01</span>
@@ -530,6 +600,7 @@
                     </div>
                 </div>
 
+                <!-- Step 2 -->
                 <div class="relative flex flex-col items-center text-center space-y-6 z-10 group">
                     <div class="w-20 h-20 bg-secondary rounded-full flex items-center justify-center border-2 border-secondary-dark group-hover:border-gold group-hover:bg-primary transition-all duration-500 shadow-xl">
                         <span class="font-serif text-2xl font-bold text-gold">02</span>
@@ -542,12 +613,13 @@
                     </div>
                 </div>
 
+                <!-- Step 3 -->
                 <div class="relative flex flex-col items-center text-center space-y-6 z-10 group">
                     <div class="w-20 h-20 bg-secondary rounded-full flex items-center justify-center border-2 border-secondary-dark group-hover:border-gold group-hover:bg-primary transition-all duration-500 shadow-xl">
                         <span class="font-serif text-2xl font-bold text-gold">03</span>
                     </div>
                     <div class="space-y-3">
-                        <h3 class="font-serif text-2xl text-charcoal">Pick Up &amp; Celebrate</h3>
+                        <h3 class="font-serif text-2xl text-charcoal">Pick Up & Celebrate</h3>
                         <p class="font-sans text-xs text-muted max-w-xs mx-auto leading-relaxed">
                             Collect your customized masterpiece from our Savannah location, or receive premier boutique local delivery setup directly at your celebratory venue.
                         </p>
@@ -561,11 +633,12 @@
 
     <!-- 8. TESTIMONIALS SECTION -->
     <section class="py-24 bg-gradient-to-br from-[#3A1F14] via-[#2A140E] to-[#1C0E08] text-white px-6 md:px-12 relative overflow-hidden">
-
+        
+        <!-- Background accents -->
         <div class="absolute bottom-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl"></div>
 
         <div class="max-w-7xl mx-auto">
-
+            
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 space-y-4 md:space-y-0">
                 <div class="max-w-xl">
                     <span class="text-gold font-serif text-lg tracking-[0.2em] uppercase block mb-3">Celebration Memories</span>
@@ -578,8 +651,10 @@
                 </p>
             </div>
 
+            <!-- Testimonial Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
+                
+                <!-- Review 1 -->
                 <div class="bg-white/5 border border-white/10 p-8 rounded-[24px] backdrop-blur-md flex flex-col justify-between space-y-8 hover:border-gold transition-all duration-300">
                     <div class="space-y-4">
                         <div class="flex items-center space-x-1 text-gold">
@@ -594,7 +669,7 @@
                         </p>
                     </div>
                     <div class="flex items-center space-x-4 pt-4 border-t border-white/5">
-                        <div class="w-12 h-12 rounded-full overflow-hidden bg-cover bg-center" style="background-image: url('REPLACE_WITH_CARROT_SLICE_URL');"></div>
+                        <div class="w-12 h-12 rounded-full overflow-hidden bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=200&q=80');"></div>
                         <div>
                             <h4 class="font-serif text-base text-white">Charlotte Vance</h4>
                             <span class="text-xs text-gold uppercase tracking-wider">Savannah Bride</span>
@@ -602,6 +677,7 @@
                     </div>
                 </div>
 
+                <!-- Review 2 -->
                 <div class="bg-white/5 border border-white/10 p-8 rounded-[24px] backdrop-blur-md flex flex-col justify-between space-y-8 hover:border-gold transition-all duration-300">
                     <div class="space-y-4">
                         <div class="flex items-center space-x-1 text-gold">
@@ -616,7 +692,7 @@
                         </p>
                     </div>
                     <div class="flex items-center space-x-4 pt-4 border-t border-white/5">
-                        <div class="w-12 h-12 rounded-full overflow-hidden bg-cover bg-center" style="background-image: url('REPLACE_WITH_RED_VELVET_CUPCAKES_URL');"></div>
+                        <div class="w-12 h-12 rounded-full overflow-hidden bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=200&q=80');"></div>
                         <div>
                             <h4 class="font-serif text-base text-white">Harrison Sterling</h4>
                             <span class="text-xs text-gold uppercase tracking-wider">Anniversary Curator</span>
@@ -624,6 +700,7 @@
                     </div>
                 </div>
 
+                <!-- Review 3 -->
                 <div class="bg-white/5 border border-white/10 p-8 rounded-[24px] backdrop-blur-md flex flex-col justify-between space-y-8 hover:border-gold transition-all duration-300">
                     <div class="space-y-4">
                         <div class="flex items-center space-x-1 text-gold">
@@ -638,7 +715,7 @@
                         </p>
                     </div>
                     <div class="flex items-center space-x-4 pt-4 border-t border-white/5">
-                        <div class="w-12 h-12 rounded-full overflow-hidden bg-cover bg-center" style="background-image: url('REPLACE_WITH_GERMAN_CHOCOLATE_URL');"></div>
+                        <div class="w-12 h-12 rounded-full overflow-hidden bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1464306076886-da185f6a9d05?w=200&q=80');"></div>
                         <div>
                             <h4 class="font-serif text-base text-white">Sasha Sterling</h4>
                             <span class="text-xs text-gold uppercase tracking-wider">Managing Director</span>
@@ -654,11 +731,12 @@
     <!-- 9. PRICING / MENU PREVIEW -->
     <section class="py-24 bg-secondary-light px-6 md:px-12 relative" id="menu">
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-
+            
+            <!-- Left Side Editorial Context -->
             <div class="lg:col-span-5 space-y-8 lg:sticky lg:top-28">
-                <span class="text-gold font-serif text-lg tracking-[0.2em] uppercase block">Curation &amp; Investment</span>
+                <span class="text-gold font-serif text-lg tracking-[0.2em] uppercase block">Curation & Investment</span>
                 <h2 class="font-serif text-4xl sm:text-5xl text-charcoal font-light leading-tight">
-                    The Dessert <br>Menu &amp; Pricing
+                    The Dessert <br>Menu & Pricing
                 </h2>
                 <p class="font-sans text-sm text-muted leading-relaxed max-w-md">
                     Each pricing includes our bespoke packaging, customized cake tags, and complete handling guides. We specialize in 9-inch 3-layer premium structures serving 12 to 15 individuals beautifully.
@@ -674,8 +752,10 @@
                 </div>
             </div>
 
+            <!-- Right Side Pricing Cards -->
             <div class="lg:col-span-7 space-y-6">
-
+                
+                <!-- Menu Item 1 -->
                 <div class="bg-white p-8 rounded-[24px] shadow-lg border border-gold/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-gold transition-colors duration-300">
                     <div>
                         <h3 class="font-serif text-2xl text-charcoal">Signature Carrot Cake</h3>
@@ -686,6 +766,7 @@
                     </div>
                 </div>
 
+                <!-- Menu Item 2 -->
                 <div class="bg-white p-8 rounded-[24px] shadow-lg border border-gold/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-gold transition-colors duration-300">
                     <div>
                         <h3 class="font-serif text-2xl text-charcoal">Traditional Classic Carrot</h3>
@@ -696,6 +777,7 @@
                     </div>
                 </div>
 
+                <!-- Menu Item 3 -->
                 <div class="bg-white p-8 rounded-[24px] shadow-lg border border-gold/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-gold transition-colors duration-300">
                     <div>
                         <h3 class="font-serif text-2xl text-charcoal">Regal Red Velvet Cake</h3>
@@ -706,6 +788,7 @@
                     </div>
                 </div>
 
+                <!-- Menu Item 4 -->
                 <div class="bg-white p-8 rounded-[24px] shadow-lg border border-gold/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-gold transition-colors duration-300">
                     <div>
                         <h3 class="font-serif text-2xl text-charcoal">Chantilly Dream Cake</h3>
@@ -716,6 +799,7 @@
                     </div>
                 </div>
 
+                <!-- Menu Item 5 -->
                 <div class="bg-white p-8 rounded-[24px] shadow-lg border border-gold/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-gold transition-colors duration-300">
                     <div>
                         <h3 class="font-serif text-2xl text-charcoal">Empress Strawberry Cake</h3>
@@ -735,17 +819,19 @@
     <!-- 10. FAQ ACCORDION -->
     <section class="py-24 bg-secondary px-6 md:px-12 relative overflow-hidden">
         <div class="max-w-4xl mx-auto">
-
+            
             <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
                 <span class="text-gold font-serif text-sm tracking-[0.25em] uppercase block">Assisting Curations</span>
                 <h2 class="font-serif text-4xl sm:text-5xl text-charcoal font-light leading-tight">Frequently Asked Queries</h2>
                 <p class="font-sans text-xs sm:text-sm text-muted">A collection of general guidance to assist your celebration planning.</p>
             </div>
 
+            <!-- Accordion List -->
             <div class="space-y-4">
-
+                
+                <!-- FAQ 1 -->
                 <div class="bg-white rounded-[24px] border border-gold/5 overflow-hidden transition-all duration-300 shadow-md">
-                    <button class="w-full text-left p-6 md:p-8 flex items-center justify-between font-serif text-lg md:text-xl text-charcoal font-medium select-none focus:outline-none" onclick="ccsToggleFaq(this)">
+                    <button class="w-full text-left p-6 md:p-8 flex items-center justify-between font-serif text-lg md:text-xl text-charcoal font-medium select-none focus:outline-none" onclick="toggleFaq(this)">
                         <span>How far in advance should I order?</span>
                         <i data-lucide="plus" class="w-5 h-5 text-gold transition-transform duration-300"></i>
                     </button>
@@ -756,8 +842,9 @@
                     </div>
                 </div>
 
+                <!-- FAQ 2 -->
                 <div class="bg-white rounded-[24px] border border-gold/5 overflow-hidden transition-all duration-300 shadow-md">
-                    <button class="w-full text-left p-6 md:p-8 flex items-center justify-between font-serif text-lg md:text-xl text-charcoal font-medium select-none focus:outline-none" onclick="ccsToggleFaq(this)">
+                    <button class="w-full text-left p-6 md:p-8 flex items-center justify-between font-serif text-lg md:text-xl text-charcoal font-medium select-none focus:outline-none" onclick="toggleFaq(this)">
                         <span>Do you make seasonal cakes?</span>
                         <i data-lucide="plus" class="w-5 h-5 text-gold transition-transform duration-300"></i>
                     </button>
@@ -768,8 +855,9 @@
                     </div>
                 </div>
 
+                <!-- FAQ 3 -->
                 <div class="bg-white rounded-[24px] border border-gold/5 overflow-hidden transition-all duration-300 shadow-md">
-                    <button class="w-full text-left p-6 md:p-8 flex items-center justify-between font-serif text-lg md:text-xl text-charcoal font-medium select-none focus:outline-none" onclick="ccsToggleFaq(this)">
+                    <button class="w-full text-left p-6 md:p-8 flex items-center justify-between font-serif text-lg md:text-xl text-charcoal font-medium select-none focus:outline-none" onclick="toggleFaq(this)">
                         <span>Do you offer wedding cakes?</span>
                         <i data-lucide="plus" class="w-5 h-5 text-gold transition-transform duration-300"></i>
                     </button>
@@ -788,12 +876,13 @@
 
     <!-- 11. FINAL EMOTIONAL CTA SECTION -->
     <section class="relative py-28 bg-[#3A1F14] text-white overflow-hidden curved-clip-top px-6 md:px-12" id="cta">
+        <!-- Intense Glow Overlay -->
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(200,145,71,0.15)_0%,rgba(0,0,0,0)_100%)]"></div>
         <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#C89147_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
         <div class="relative max-w-5xl mx-auto text-center space-y-8 z-10">
             <span class="text-gold font-serif text-lg md:text-xl tracking-[0.25em] uppercase block">A Luxury Memory Awaits</span>
-
+            
             <h2 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-light leading-tight max-w-4xl mx-auto">
                 Make Your Next Celebration <br>
                 <span class="italic font-normal text-gold">Unforgettable</span>
@@ -804,17 +893,20 @@
             </p>
 
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
+                <!-- Magnetic Order Button -->
                 <a href="tel:912-398-1636" class="btn-magnetic w-full sm:w-auto bg-gold hover:bg-gold-light text-charcoal font-semibold font-serif text-sm tracking-[0.2em] uppercase px-8 py-5 rounded-[16px] shadow-2xl transition-all duration-300 flex items-center justify-center space-x-2">
                     <i data-lucide="phone" class="w-5 h-5"></i>
                     <span>Call To Order</span>
                 </a>
-
+                
+                <!-- Email or alternative custom action -->
                 <a href="mailto:info@carrotcakesensation.com?subject=Cake Order Inquiry" class="btn-magnetic w-full sm:w-auto border border-secondary-accent/20 hover:border-gold hover:bg-white/5 text-secondary-light font-serif text-sm tracking-[0.2em] uppercase px-8 py-5 rounded-[16px] transition-all duration-300 flex items-center justify-center space-x-2">
                     <i data-lucide="mail" class="w-5 h-5"></i>
                     <span>Email Order Inquiry</span>
                 </a>
             </div>
-
+            
+            <!-- Real Contact Quick Stats -->
             <div class="pt-10 flex flex-wrap justify-center items-center gap-8 text-secondary-accent font-sans text-xs tracking-wider uppercase font-semibold">
                 <span class="flex items-center space-x-2">
                     <i data-lucide="check-circle" class="w-4 h-4 text-gold"></i>
@@ -838,15 +930,21 @@
     <!-- 12. LUXURY FOOTER -->
     <footer class="bg-[#1C0E08] text-[#DCC9B2] pt-20 pb-10 px-6 md:px-12 border-t border-gold/10 relative z-30">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-gold/10">
-
+            
+            <!-- Brand Overview Column -->
             <div class="lg:col-span-4 space-y-6">
                 <a href="#" class="flex flex-col items-start">
-                    <span class="font-serif text-2xl font-bold tracking-[0.15em] text-white">CARROT CAKE</span>
-                    <span class="font-script text-xl text-gold tracking-wider -mt-1">Sensation</span>
+                    <span class="font-serif text-2xl font-bold tracking-[0.15em] text-white">
+                        CARROT CAKE
+                    </span>
+                    <span class="font-script text-xl text-gold tracking-wider -mt-1">
+                        Sensation
+                    </span>
                 </a>
                 <p class="font-sans text-xs text-secondary-accent/80 leading-relaxed max-w-sm">
                     Luxury bakes and award-winning family recipes. Elevating special moments through handcrafted elegance and premium ingredient ratios since inception in Savannah, GA.
                 </p>
+                <!-- Social Icons -->
                 <div class="flex items-center space-x-4">
                     <a href="#" class="p-2.5 rounded-full bg-white/5 hover:bg-gold text-white hover:text-charcoal transition-all" aria-label="Instagram Page">
                         <i data-lucide="instagram" class="w-4 h-4"></i>
@@ -860,6 +958,7 @@
                 </div>
             </div>
 
+            <!-- Studio Locations/Address Info -->
             <div class="lg:col-span-4 space-y-4">
                 <h4 class="font-serif text-lg text-white tracking-widest uppercase">The Studio Address</h4>
                 <div class="h-[1px] w-12 bg-gold"></div>
@@ -879,6 +978,7 @@
                 </ul>
             </div>
 
+            <!-- Curated Business Hours -->
             <div class="lg:col-span-4 space-y-4">
                 <h4 class="font-serif text-lg text-white tracking-widest uppercase">Curation Hours</h4>
                 <div class="h-[1px] w-12 bg-gold"></div>
@@ -911,163 +1011,297 @@
     </footer>
 
 
-    <!-- LIGHTBOX MODAL -->
-    <div id="ccs-lightbox-modal" class="fixed inset-0 bg-charcoal/95 z-[10002] hidden flex-col justify-center items-center p-4 transition-all duration-300">
-        <button class="absolute top-6 right-6 text-white hover:text-gold transition-colors" onclick="ccsCloseLightbox()">
+    <!-- LIGHTBOX MODAL COMPONENT (Vanilla JavaScript Powered) -->
+    <div id="lightbox-modal" class="fixed inset-0 bg-charcoal/95 z-50 hidden flex-col justify-center items-center p-4 transition-all duration-300">
+        <button class="absolute top-6 right-6 text-white hover:text-gold transition-colors" onclick="closeLightbox()">
             <i data-lucide="x" class="w-8 h-8"></i>
         </button>
         <div class="max-w-5xl max-h-[80vh] w-full flex items-center justify-center">
-            <img id="ccs-lightbox-img" src="" alt="Detailed View" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl border border-white/10">
+            <img id="lightbox-img" src="" alt="Detailed View" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl border border-white/10">
         </div>
         <p class="text-secondary-accent text-xs mt-4 tracking-widest uppercase">Carrot Cake Sensation Signature Collection</p>
     </div>
 
-</div>
-<!-- ============================ /WIDGET ROOT ============================ -->
 
+    <!-- ========================================== -->
+    <!-- INTERACTIVE SCRIPTS / ANIMATION STACK -->
+    <!-- ========================================== -->
+    
+    <!-- Smooth Scrolling Engine (Lenis) -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    
+    <!-- GSAP for scroll triggered & reveal interactions -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-<!-- Libraries -->
-<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
-<script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Vanilla Tilt for exquisite physics on hovering images/cards -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
 
-<script>
-(function () {
-    var root = document.getElementById('ccs-root');
-    if (!root) return;
+    <script>
+        // 1. Initialise Lucide icons
+        lucide.createIcons();
 
-    function init() {
-        // Icons
-        if (window.lucide) lucide.createIcons();
+        // 2. Initialize Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
 
-        // Floating gold particles
-        var container = root.querySelector('#particles-container');
-        if (container && window.gsap) {
-            var colors = ['#C89147', '#D4A15D', '#8B5A36', '#FFFFFF'];
-            for (var i = 0; i < 40; i++) {
-                var p = document.createElement('div');
-                p.className = 'absolute rounded-full opacity-30 pointer-events-none';
-                var size = Math.random() * 4 + 2;
-                p.style.width = size + 'px';
-                p.style.height = size + 'px';
-                p.style.background = colors[Math.floor(Math.random() * colors.length)];
-                p.style.top = (Math.random() * 100) + '%';
-                p.style.left = (Math.random() * 100) + '%';
-                container.appendChild(p);
-                gsap.to(p, { y: 'random(-120, 120)', x: 'random(-60, 60)', opacity: 'random(0.1, 0.6)', duration: 'random(6, 12)', repeat: -1, yoyo: true, ease: 'sine.inOut' });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Connect ScrollTrigger to Lenis scroll updates
+        lenis.on('scroll', ScrollTrigger.update);
+
+        // 3. Floating gold particles on Hero Background
+        const createParticles = () => {
+            const container = document.getElementById('particles-container');
+            if(!container) return;
+            const colors = ['#C89147', '#D4A15D', '#8B5A36', '#FFFFFF'];
+            for (let i = 0; i < 40; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'absolute rounded-full opacity-30 pointer-events-none';
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.left = `${Math.random() * 100}%`;
+                container.appendChild(particle);
+
+                // Elegant ambient float using GSAP
+                gsap.to(particle, {
+                    y: `random(-120, 120)`,
+                    x: `random(-60, 60)`,
+                    opacity: 'random(0.1, 0.6)',
+                    duration: `random(6, 12)`,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
             }
         }
+        createParticles();
 
-        // Cursor follow light on hero
-        var hero = root.querySelector('#hero-glow-container');
-        var glow = root.querySelector('#hero-radial-glow');
-        if (hero && glow) {
-            hero.addEventListener('mousemove', function (e) {
-                var r = hero.getBoundingClientRect();
-                glow.style.background = 'radial-gradient(circle 450px at ' + (e.clientX - r.left) + 'px ' + (e.clientY - r.top) + 'px, rgba(200, 145, 71, 0.16) 0%, rgba(0,0,0,0) 100%)';
-            });
-            hero.addEventListener('mouseleave', function () {
-                glow.style.background = 'radial-gradient(circle 450px at 50% 50%, rgba(200, 145, 71, 0.08) 0%, rgba(0,0,0,0) 100%)';
-            });
-        }
+        // 4. Cursor Follow Light on Hero Glow Container
+        const cursorGlow = () => {
+            const container = document.getElementById('hero-glow-container');
+            const glowEl = document.getElementById('hero-radial-glow');
+            if (!container || !glowEl) return;
 
-        // Custom cursor rings
-        var ring = root.querySelector('#custom-cursor-ring');
-        var dot = root.querySelector('#custom-cursor-dot');
-        if (ring && dot && window.gsap) {
-            window.addEventListener('mousemove', function (e) {
+            container.addEventListener('mousemove', (e) => {
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                glowEl.style.background = `radial-gradient(circle 450px at ${x}px ${y}px, rgba(200, 145, 71, 0.16) 0%, rgba(0,0,0,0) 100%)`;
+            });
+            container.addEventListener('mouseleave', () => {
+                glowEl.style.background = `radial-gradient(circle 450px at 50% 50%, rgba(200, 145, 71, 0.08) 0%, rgba(0,0,0,0) 100%)`;
+            });
+        };
+        cursorGlow();
+
+        // 5. Custom Cursor Tracker Rings
+        const customCursor = () => {
+            const ring = document.getElementById('custom-cursor-ring');
+            const dot = document.getElementById('custom-cursor-dot');
+            if (!ring || !dot) return;
+
+            window.addEventListener('mousemove', (e) => {
                 gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1 });
                 gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.35 });
             });
-            root.querySelectorAll('a, button, [onclick]').forEach(function (link) {
-                link.addEventListener('mouseenter', function () { ring.style.width = '60px'; ring.style.height = '60px'; ring.style.backgroundColor = 'rgba(200, 145, 71, 0.1)'; });
-                link.addEventListener('mouseleave', function () { ring.style.width = '40px'; ring.style.height = '40px'; ring.style.backgroundColor = 'transparent'; });
-            });
-        }
 
-        // Magnetic buttons
-        root.querySelectorAll('.btn-magnetic').forEach(function (btn) {
-            btn.addEventListener('mousemove', function (e) {
-                var r = btn.getBoundingClientRect();
-                var x = e.clientX - r.left - r.width / 2;
-                var y = e.clientY - r.top - r.height / 2;
-                btn.style.transform = 'translate(' + (x * 0.3) + 'px, ' + (y * 0.3) + 'px)';
+            // Expand cursor on clicking or hovering links
+            const links = document.querySelectorAll('a, button, [onclick]');
+            links.forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    ring.style.width = '60px';
+                    ring.style.height = '60px';
+                    ring.style.backgroundColor = 'rgba(200, 145, 71, 0.1)';
+                });
+                link.addEventListener('mouseleave', () => {
+                    ring.style.width = '40px';
+                    ring.style.height = '40px';
+                    ring.style.backgroundColor = 'transparent';
+                });
             });
-            btn.addEventListener('mouseleave', function () { btn.style.transform = 'translate(0px, 0px)'; });
+        };
+        customCursor();
+
+        // 6. Magnetic Hover Effect on Buttons
+        const magneticButtons = () => {
+            const buttons = document.querySelectorAll('.btn-magnetic');
+            buttons.forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width/2;
+                    const y = e.clientY - rect.top - rect.height/2;
+                    
+                    // Pull effect
+                    btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'translate(0px, 0px)';
+                });
+            });
+        };
+        magneticButtons();
+
+        // 7. Glassmorphism Scroll listener
+        const headerScroll = () => {
+            const header = document.querySelector('header');
+            if(!header) return;
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        };
+        headerScroll();
+
+        // 8. Mobile Navigation Toggle Drawer
+        const setupMobileMenu = () => {
+            const btn = document.getElementById('mobile-menu-btn');
+            const closeBtn = document.getElementById('mobile-close-btn');
+            const menu = document.getElementById('mobile-nav');
+            const links = document.querySelectorAll('.mobile-nav-link');
+
+            if(!btn || !menu) return;
+
+            const toggle = () => menu.classList.toggle('hidden');
+
+            btn.addEventListener('click', toggle);
+            if (closeBtn) closeBtn.addEventListener('click', toggle);
+            links.forEach(link => link.addEventListener('click', toggle));
+        };
+        setupMobileMenu();
+
+        // 9. FAQ Accordion Toggle Interaction
+        window.toggleFaq = (button) => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            // Close all other accordions
+            const accordions = document.querySelectorAll('#process + section, section');
+            const allContents = document.querySelectorAll('.max-h-0, .max-h-96');
+            
+            // Adjust active element height
+            if (content.classList.contains('active-content')) {
+                content.style.maxHeight = null;
+                content.classList.remove('active-content');
+                if (icon) icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                content.classList.add('active-content');
+                if (icon) icon.style.transform = 'rotate(45deg)';
+            }
+        };
+
+        // 10. Lightbox Modal Interaction
+        window.openLightbox = (bgImage) => {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            if(!modal || !img) return;
+
+            // Extract url("...") content
+            const url = bgImage.replace(/^url\(['"](.+)['"]\)/, '$1');
+            img.src = url;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Pause page scroll inside Lenis
+            lenis.stop();
+        };
+
+        window.closeLightbox = () => {
+            const modal = document.getElementById('lightbox-modal');
+            if(!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            
+            // Resume page scroll inside Lenis
+            lenis.start();
+        };
+
+        // Close lightbox on escape key
+        window.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape') closeLightbox();
         });
 
-        // Header glass on scroll
-        var header = root.querySelector('header');
-        if (header) {
-            window.addEventListener('scroll', function () {
-                if (window.scrollY > 50) header.classList.add('scrolled');
-                else header.classList.remove('scrolled');
-            });
-        }
-
-        // Mobile menu
-        var mBtn = root.querySelector('#mobile-menu-btn');
-        var mClose = root.querySelector('#mobile-close-btn');
-        var mMenu = root.querySelector('#mobile-nav');
-        if (mBtn && mMenu) {
-            var toggle = function () { mMenu.classList.toggle('hidden'); };
-            mBtn.addEventListener('click', toggle);
-            if (mClose) mClose.addEventListener('click', toggle);
-            root.querySelectorAll('.mobile-nav-link').forEach(function (l) { l.addEventListener('click', toggle); });
-        }
-
-        // GSAP scroll reveals
-        if (window.gsap && window.ScrollTrigger) {
+        // 11. GSAP Scroll Trigger Entrance Animations
+        const registerGSAPAnimations = () => {
             gsap.registerPlugin(ScrollTrigger);
-            var tl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1 } });
-            tl.from('#ccs-root #hero-text-block', { y: 60, opacity: 0, delay: 0.2 })
-              .from('#ccs-root #hero-image-block', { scale: 0.9, opacity: 0 }, '-=0.6');
-            gsap.from('#ccs-root #signature .signature-card', { scrollTrigger: { trigger: '#ccs-root #signature', start: 'top 80%' }, y: 50, opacity: 0, duration: 1, stagger: 0.2, ease: 'power3.out' });
-            gsap.from('#ccs-root #legacy img, #ccs-root #legacy [style*="background-image"]', { scrollTrigger: { trigger: '#ccs-root #legacy', start: 'top 75%' }, scale: 0.9, opacity: 0, duration: 1.4, ease: 'power3.out' });
-            gsap.from('#ccs-root #masonry-gallery > div', { scrollTrigger: { trigger: '#ccs-root #gallery', start: 'top 80%' }, y: 50, opacity: 0, duration: 1, stagger: 0.1, ease: 'power2.out' });
-        }
 
-        // Vanilla Tilt
-        if (window.VanillaTilt) {
-            VanillaTilt.init(root.querySelectorAll('[data-tilt]'), { max: 10, speed: 400, glare: true, 'max-glare': 0.15 });
-        }
-    }
+            // Intro Hero animations
+            const tl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1 } });
+            tl.from('#hero-text-block', { y: 60, opacity: 0, delay: 0.2 })
+              .from('#hero-image-block', { scale: 0.9, opacity: 0 }, '-=0.6');
 
-    // FAQ accordion (global so inline onclick can reach it)
-    window.ccsToggleFaq = function (button) {
-        var content = button.nextElementSibling;
-        var icon = button.querySelector('i');
-        if (content.classList.contains('active-content')) {
-            content.style.maxHeight = null;
-            content.classList.remove('active-content');
-            if (icon) icon.style.transform = 'rotate(0deg)';
-        } else {
-            content.style.maxHeight = content.scrollHeight + 'px';
-            content.classList.add('active-content');
-            if (icon) icon.style.transform = 'rotate(45deg)';
-        }
-    };
+            // Card reveals
+            gsap.from('#signature .signature-card', {
+                scrollTrigger: {
+                    trigger: '#signature',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: 'power3.out'
+            });
 
-    // Lightbox
-    window.ccsOpenLightbox = function (bgImage) {
-        var modal = document.getElementById('ccs-lightbox-modal');
-        var img = document.getElementById('ccs-lightbox-img');
-        if (!modal || !img) return;
-        img.src = bgImage.replace(/^url\(['"]?(.+?)['"]?\)$/, '$1');
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-    };
-    window.ccsCloseLightbox = function () {
-        var modal = document.getElementById('ccs-lightbox-modal');
-        if (!modal) return;
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    };
-    window.addEventListener('keydown', function (e) { if (e.key === 'Escape') window.ccsCloseLightbox(); });
+            // Legacy Reveal
+            gsap.from('#legacy img', {
+                scrollTrigger: {
+                    trigger: '#legacy',
+                    start: 'top 75%',
+                },
+                scale: 0.9,
+                opacity: 0,
+                duration: 1.4,
+                ease: 'power3.out'
+            });
 
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-    else init();
-})();
-</script>
+            // Gallery reveal
+            gsap.from('#masonry-gallery > div', {
+                scrollTrigger: {
+                    trigger: '#gallery',
+                    start: 'top 80%',
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.1,
+                ease: 'power2.out'
+            });
+        };
+        
+        // Wait for page load
+        window.onload = () => {
+            registerGSAPAnimations();
+            
+            // Apply Vanilla Tilt manually to verify custom variables on dynamically compiled blocks
+            VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+                max: 10,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.15,
+            });
+        };
+    </script>
+
+</div>
