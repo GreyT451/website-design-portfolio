@@ -19,6 +19,12 @@ Portfolio Website/
 
 Each project folder's `index.html` is the deployed markup. Case study notes and design-language documentation live in the Obsidian vault at `~/Obsidian/Portfolio Website/` (`.md` files only, source of truth for content/design decisions — see `Portfolio-website.md`).
 
+## Design notes
+
+- Each project has a design/context note in my Obsidian vault at /home/shreyas/Obsidian/Portfolio Website/. Before any design or content work on a project page, find and read its note there.
+- Folder and note names in the vault do not exactly match the project folder names here (for example, the fun page's note is "Off the Clock.md" under Fun/). Search the vault folder rather than assuming a path.
+- Those notes are the source of truth for design language, locked content, and known issues. If a note conflicts with what's in the HTML, ask me instead of picking one.
+
 ## Rules
 
 1. **One live `index.html` per project folder, plus its `assets/`.** Edit in place. Never create `v2`, `-new`, `-copy`, or other duplicate files alongside it — if a page needs a new direction, use `_archive/` for the old version once the new one replaces it.
