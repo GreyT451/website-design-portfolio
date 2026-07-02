@@ -1,0 +1,5 @@
+_raw-assets/
+_archive/
+.DS_Store
+Thumbs.db
+*.tmp

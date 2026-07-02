@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Truckola Vendor App — Shreyas Gharat</title>
+<meta name="description" content="Redesigning a vendor logistics app for an underserved Indian trucking workforce. A UX case study by Shreyas Gharat." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&family=Work+Sans:wght@400;500;600&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F2EDE3;
+    --bg-2:#EAE3D5;
+    --ink:#0E0E0E;
+    --ink-2:#26221d;
+    --muted:#766f63;
+    --line:#0e0e0e1f;
+    --line-2:#0e0e0e0f;
+    --placeholder:#E4DECF;
+    --placeholder-2:#DAD2BF;
+    --accent:#C0392B;
+    --accent-deep:#9c2e22;
+    --disp:'Fraunces', Georgia, serif;
+    --body:'Work Sans', system-ui, sans-serif;
+    --meta:'DM Sans', system-ui, sans-serif;
+    --mono:'DM Mono', ui-monospace, monospace;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  html,body{background:var(--bg);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  body{overflow-x:hidden;position:relative;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
+  ::selection{background:var(--accent);color:#fff;}
+
+  /* ── grain + paper atmosphere ───────────────────────── */
+  .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(120% 80% at 80% -10%, #ffffff55, transparent 60%),
+               radial-gradient(90% 60% at -10% 110%, #C0392B0d, transparent 60%);}
+
+  /* ── scroll progress ────────────────────────────────── */
+  .progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:60;transition:width .1s linear;}
+
+  /* ── custom cursor (desktop) ────────────────────────── */
+  .cursor{position:fixed;top:0;left:0;width:34px;height:34px;border:1px solid var(--accent);border-radius:50%;
+    transform:translate(-50%,-50%);pointer-events:none;z-index:70;mix-blend-mode:difference;
+    transition:width .25s var(--ease),height .25s var(--ease),background .25s var(--ease);display:none;}
+  .cursor.big{width:74px;height:74px;background:#C0392B1a;}
+  @media (pointer:fine){.cursor{display:block;}}
+
+  /* ── thin top bar ───────────────────────────────────── */
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:50;background:#F2EDE3cc;backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .topbar .inner{max-width:1400px;margin:0 auto;padding:16px 40px;display:flex;justify-content:space-between;align-items:center;font-family:var(--meta);font-size:12px;letter-spacing:.08em;text-transform:uppercase;}
+  .topbar a.mark{font-weight:600;display:flex;align-items:center;gap:10px;}
+  .topbar a.mark .glyph{width:9px;height:9px;border-radius:50%;background:var(--accent);}
+  .topbar nav{display:flex;gap:30px;}
+  .topbar nav a{opacity:.55;transition:opacity .2s;}
+  .topbar nav a:hover{opacity:1;}
+
+  /* ── containers ─────────────────────────────────────── */
+  .wrap{max-width:1200px;margin:0 auto;padding:0 40px;}
+  .wrap-wide{max-width:1440px;margin:0 auto;padding:0 40px;}
+  .wrap-tight{max-width:720px;margin:0 auto;padding:0 40px;}
+
+  /* ── reveal ─────────────────────────────────────────── */
+  .reveal{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease);}
+  .reveal.in{opacity:1;transform:none;}
+  .reveal.d1{transition-delay:.08s;} .reveal.d2{transition-delay:.16s;} .reveal.d3{transition-delay:.24s;} .reveal.d4{transition-delay:.32s;}
+
+  /* ── hero ───────────────────────────────────────────── */
+  .hero{position:relative;z-index:2;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;padding:120px 0 40px;}
+  .hero .top-meta{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;gap:16px;align-items:center;margin-bottom:auto;}
+  .hero .top-meta .sep{width:30px;height:1px;background:var(--muted);}
+  .hero .top-meta .live{color:var(--accent);display:flex;gap:8px;align-items:center;}
+  .hero .top-meta .live .pulse{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 #C0392B66;}70%{box-shadow:0 0 0 9px #C0392B00;}100%{box-shadow:0 0 0 0 #C0392B00;}}
+
+  .hero-grid{display:grid;grid-template-columns:62fr 38fr;gap:56px;align-items:end;padding:56px 0;}
+  .hero h1{font-family:var(--disp);font-weight:340;font-size:clamp(48px,8.2vw,124px);line-height:.94;letter-spacing:-.028em;text-wrap:balance;font-variation-settings:"opsz" 144,"SOFT" 40,"WONK" 1;}
+  .hero h1 em{font-style:italic;font-weight:380;color:var(--accent);}
+  .hero h1 .w{display:inline-block;opacity:0;transform:translateY(110%) rotate(4deg);animation:rise .9s var(--ease) forwards;}
+  @keyframes rise{to{opacity:1;transform:none;}}
+
+  .hero-side{display:flex;flex-direction:column;gap:24px;}
+  .hero-img{aspect-ratio:3/4;}
+  .hero-meta{font-family:var(--meta);font-size:12px;letter-spacing:.06em;text-transform:uppercase;}
+  .hero-meta .row{display:grid;grid-template-columns:96px 1fr;gap:16px;padding:11px 0;border-bottom:1px solid var(--line);}
+  .hero-meta .row:first-child{border-top:1px solid var(--line);}
+  .hero-meta .row .k{color:var(--muted);}
+  .hero-meta .row .v{color:var(--ink);}
+
+  .scroll-cue{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);}
+  .scroll-cue .line{width:54px;height:1px;background:var(--accent);position:relative;overflow:hidden;}
+  .scroll-cue .line::after{content:"";position:absolute;inset:0;background:var(--bg);animation:wipe 2.2s var(--ease) infinite;}
+  @keyframes wipe{0%{transform:translateX(-100%);}60%,100%{transform:translateX(100%);}}
+
+  /* ── kinetic problem marquee ────────────────────────── */
+  .marquee{position:relative;z-index:2;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:18px 0;overflow:hidden;background:var(--ink);color:var(--bg);}
+  .marquee .track{display:inline-flex;gap:42px;white-space:nowrap;animation:slide 28s linear infinite;font-family:var(--disp);font-style:italic;font-size:clamp(20px,2.5vw,30px);font-weight:340;}
+  .marquee .track span{display:inline-flex;gap:42px;align-items:center;}
+  .marquee .track .star{color:var(--accent);font-style:normal;}
+  @keyframes slide{to{transform:translateX(-50%);}}
+
+  /* ── image placeholders ─────────────────────────────── */
+  .ph{background:linear-gradient(135deg,var(--placeholder),var(--placeholder-2));border:1px solid var(--ink);display:flex;align-items:center;justify-content:center;padding:28px;position:relative;overflow:hidden;}
+  .ph::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 13px,#0e0e0e08 13px,#0e0e0e08 14px);pointer-events:none;}
+  .ph .cap{font-family:var(--meta);font-size:11px;letter-spacing:.04em;line-height:1.65;color:var(--ink-2);text-align:center;max-width:46ch;position:relative;z-index:1;}
+  .ph .cap b{display:block;font-family:var(--mono);font-weight:500;letter-spacing:.1em;text-transform:uppercase;font-size:10px;margin-bottom:9px;color:var(--ink);}
+  .ph .corner{position:absolute;top:12px;left:16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);z-index:1;}
+  .ph .num{position:absolute;bottom:12px;right:14px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);z-index:1;}
+
+  /* ── sections ───────────────────────────────────────── */
+  section.s{position:relative;z-index:2;padding:128px 0;border-top:1px solid var(--line);}
+  .label{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:44px;display:flex;align-items:center;gap:14px;}
+  .label .num{color:var(--accent);font-weight:500;}
+  .label .bar{width:44px;height:1px;background:var(--ink);}
+
+  h2.section-head{font-family:var(--disp);font-weight:360;font-size:clamp(34px,5vw,62px);line-height:1.04;letter-spacing:-.022em;text-wrap:balance;max-width:20ch;font-variation-settings:"opsz" 144,"SOFT" 40;}
+  h2.section-head em{font-style:italic;color:var(--accent);}
+  h3.sub{font-family:var(--disp);font-weight:500;font-size:22px;line-height:1.3;letter-spacing:-.005em;margin-bottom:12px;}
+
+  p.body{font-family:var(--body);font-size:17px;line-height:1.72;color:var(--ink-2);margin-top:24px;max-width:64ch;text-wrap:pretty;}
+  p.body + p.body{margin-top:18px;}
+  p.body.lead{font-size:19px;color:var(--ink);}
+
+  /* ── two col ────────────────────────────────────────── */
+  .twocol{display:grid;grid-template-columns:1fr 2fr;gap:72px;align-items:start;}
+  .meta-list{font-family:var(--meta);font-size:12px;letter-spacing:.06em;text-transform:uppercase;line-height:2;color:var(--ink-2);}
+  .meta-list .row{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:10px 0;}
+  .meta-list .row span:first-child{color:var(--muted);}
+
+  /* ── stat band ──────────────────────────────────────── */
+  .stats{position:relative;z-index:2;background:var(--ink);color:var(--bg);padding:80px 0;}
+  .stats .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;}
+  .stat .v{font-family:var(--disp);font-weight:340;font-size:clamp(40px,5vw,68px);line-height:1;letter-spacing:-.02em;}
+  .stat .v em{font-style:italic;color:var(--accent);}
+  .stat .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#bcb4a4;margin-top:14px;max-width:24ch;}
+
+  /* ── pair grid ──────────────────────────────────────── */
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:60px;}
+  .pair .ph{aspect-ratio:4/3;}
+
+  /* ── audit triple ───────────────────────────────────── */
+  .triple-head{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:72px;margin-bottom:28px;}
+  .triple{display:grid;grid-template-columns:repeat(3,1fr);gap:44px;}
+  .triple .col p{font-size:16px;line-height:1.65;color:var(--ink-2);}
+
+  /* ── pulled quote ───────────────────────────────────── */
+  .quote{text-align:center;padding:72px 40px;max-width:980px;margin:72px auto 24px;}
+  .quote q{font-family:var(--disp);font-style:italic;font-weight:360;font-size:clamp(28px,3.6vw,46px);line-height:1.22;letter-spacing:-.01em;color:var(--accent);quotes:"\201C" "\201D";text-wrap:balance;}
+  .quote q::before{content:open-quote;} .quote q::after{content:close-quote;}
+  .quote .who{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);margin-top:26px;}
+
+  /* ── personas ───────────────────────────────────────── */
+  .personas{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:48px;border-top:1px solid var(--ink);}
+  .persona{padding:40px 32px;border-right:1px solid var(--line);transition:background .35s var(--ease);}
+  .persona:last-child{border-right:0;}
+  .persona:hover{background:var(--bg-2);}
+  .persona .idx{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--accent);margin-bottom:20px;}
+  .persona .role{font-family:var(--disp);font-weight:500;font-size:27px;line-height:1.12;margin-bottom:16px;}
+  .persona .pmeta{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);line-height:1.9;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0;margin-bottom:18px;}
+  .persona .pmeta .row{display:flex;justify-content:space-between;}
+  .persona p{font-family:var(--body);font-size:15.5px;line-height:1.62;color:var(--ink-2);}
+
+  /* ── before / after drag slider ─────────────────────── */
+  .ba-slider{position:relative;margin-top:52px;aspect-ratio:16/10;border:1px solid var(--ink);overflow:hidden;user-select:none;cursor:ew-resize;}
+  .ba-slider .side{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:32px;}
+  .ba-slider .before{background:linear-gradient(135deg,#ddd5c4,#cfc6b2);}
+  .ba-slider .after{background:linear-gradient(135deg,#e7e0d0,#ddd5c2);clip-path:inset(0 0 0 50%);}
+  .ba-slider .side .cap{max-width:42ch;text-align:center;font-family:var(--meta);font-size:12px;line-height:1.6;color:var(--ink-2);}
+  .ba-slider .side .cap b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;color:var(--ink);}
+  .ba-slider .tag{position:absolute;top:16px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:5px 11px;border:1px solid var(--ink);background:var(--bg);z-index:3;}
+  .ba-slider .tag.l{left:16px;} .ba-slider .tag.r{right:16px;color:#fff;background:var(--accent);border-color:var(--accent);}
+  .ba-slider .handle{position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--accent);z-index:4;transform:translateX(-50%);}
+  .ba-slider .handle .grip{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;letter-spacing:-2px;box-shadow:0 6px 24px #0003;}
+
+  /* ── carousel ───────────────────────────────────────── */
+  .group{margin-top:104px;}
+  .group .glabel{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:14px;}
+  .group .glabel .let{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--accent);color:var(--accent);border-radius:50%;font-size:12px;}
+  .group .gintro{font-family:var(--body);font-size:17px;line-height:1.55;max-width:58ch;color:var(--ink-2);margin-bottom:32px;}
+
+  .carousel{position:relative;}
+  .carousel .viewport{overflow:hidden;}
+  .carousel .rail{display:flex;gap:22px;transition:transform .6s var(--ease);will-change:transform;}
+  .carousel .slide{flex:0 0 auto;}
+  .carousel.phones .slide{width:clamp(210px,23vw,272px);}
+  .carousel.phones .slide .ph{aspect-ratio:9/19;}
+  .carousel.wide .slide{width:min(86vw,940px);}
+  .carousel.wide .slide .ph{aspect-ratio:16/10;}
+
+  .carousel .ctrl{display:flex;justify-content:space-between;align-items:center;margin-top:26px;}
+  .carousel .dots{display:flex;gap:9px;}
+  .carousel .dots button{width:8px;height:8px;border-radius:50%;border:1px solid var(--ink);background:transparent;padding:0;transition:all .3s var(--ease);}
+  .carousel .dots button.on{background:var(--accent);border-color:var(--accent);transform:scale(1.25);}
+  .carousel .arrows{display:flex;gap:10px;}
+  .carousel .arrows button{width:46px;height:46px;border:1px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s var(--ease);}
+  .carousel .arrows button:hover{background:var(--ink);color:var(--bg);}
+  .carousel .arrows button:disabled{opacity:.25;pointer-events:none;}
+  .carousel .arrows svg{width:15px;height:15px;}
+  .carousel .count{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--muted);}
+
+  /* ── full bleed figure ──────────────────────────────── */
+  .figure-wide{margin-top:60px;}
+  .figure-wide .ph{aspect-ratio:21/9;}
+
+  /* ── style guide ────────────────────────────────────── */
+  .sg{display:grid;grid-template-columns:1.4fr 1fr;gap:72px;margin-top:48px;}
+  .type-ramp .ramp-row{display:grid;grid-template-columns:150px 1fr;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line);}
+  .type-ramp .ramp-row .sp{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .type-ramp .ramp-row .sample{font-family:'Roboto',system-ui,sans-serif;color:var(--ink);}
+  .type-ramp .r-headline .sample{font-size:34px;font-weight:300;letter-spacing:-.005em;}
+  .type-ramp .r-title .sample{font-size:24px;font-weight:400;}
+  .type-ramp .r-sub .sample{font-size:18px;font-weight:500;}
+  .type-ramp .r-body .sample{font-size:15px;font-weight:400;line-height:1.5;}
+  .type-ramp .r-caption .sample{font-size:12px;font-weight:400;color:var(--muted);}
+  .palette{display:flex;flex-direction:column;gap:14px;}
+  .swatch{display:grid;grid-template-columns:56px 1fr;gap:16px;align-items:center;}
+  .swatch .chip{width:56px;height:56px;border:1px solid var(--ink);}
+  .swatch .vals{font-family:var(--mono);font-size:11px;letter-spacing:.04em;line-height:1.6;color:var(--ink-2);}
+  .swatch .vals b{display:block;font-weight:500;color:var(--ink);letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px;}
+
+  /* ── close / pdf ────────────────────────────────────── */
+  .close{position:relative;z-index:2;padding:150px 0 180px;text-align:center;border-top:1px solid var(--line);}
+  .close .h{font-family:var(--disp);font-weight:360;font-size:clamp(32px,4vw,52px);letter-spacing:-.015em;font-style:italic;}
+  .close .btn{display:inline-flex;align-items:center;gap:14px;background:var(--accent);color:#fff;padding:19px 30px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;margin-top:38px;transition:background .25s,transform .25s var(--ease);}
+  .close .btn:hover{background:var(--accent-deep);transform:translateY(-2px);}
+  .close .btn .arr{width:14px;height:14px;}
+  .close .doc{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:30px;}
+
+  /* ── footer ─────────────────────────────────────────── */
+  footer.foot{position:relative;z-index:2;border-top:1px solid var(--line);padding:30px 40px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);max-width:1400px;margin:0 auto;}
+  footer.foot a{color:var(--ink);}
+
+  /* ── responsive ─────────────────────────────────────── */
+  @media (max-width:960px){
+    .wrap,.wrap-wide,.wrap-tight{padding:0 24px;}
+    .hero-grid{grid-template-columns:1fr;gap:36px;align-items:start;}
+    .twocol{grid-template-columns:1fr;gap:32px;}
+    .pair{grid-template-columns:1fr;}
+    .triple{grid-template-columns:1fr;gap:30px;}
+    .personas{grid-template-columns:1fr;}
+    .persona{border-right:0;border-bottom:1px solid var(--line);}
+    .stats .grid{grid-template-columns:1fr 1fr;gap:36px 24px;}
+    .sg{grid-template-columns:1fr;gap:44px;}
+    section.s{padding:88px 0;}
+    .topbar nav{display:none;}
+    .quote{padding:44px 12px;}
+    .ba-slider{aspect-ratio:4/5;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;}
+    .reveal{opacity:1;transform:none;transition:none;}
+    html{scroll-behavior:auto;}
+    .carousel .rail{transition:none;}
+  }
+</style>
+</head>
+<body data-cursor>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="progress" id="progress"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<!-- ── top bar ──────────────────────────────────────────── -->
+<div class="topbar">
+  <div class="inner">
+    <a class="mark" href="#top"><span class="glyph"></span> Shreyas Gharat</a>
+    <nav>
+      <a href="#brief">Brief</a>
+      <a href="#audit">Audit</a>
+      <a href="#work">The Work</a>
+      <a href="#pdf">Thesis PDF</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ── HERO ─────────────────────────────────────────────── -->
+<header class="hero wrap-wide" id="top">
+  <div class="top-meta">
+    <span>Case 02</span><span class="sep"></span><span>Truckola Vendor App</span><span class="sep"></span>
+    <span class="live"><span class="pulse"></span>UX · 2020</span>
+  </div>
+
+  <div class="hero-grid">
+    <div>
+      <h1>
+        <span class="w" style="animation-delay:.05s">Redesigning</span>
+        <span class="w" style="animation-delay:.12s">a</span>
+        <span class="w" style="animation-delay:.19s"><em>vendor</em></span>
+        <span class="w" style="animation-delay:.26s">app</span>
+        <span class="w" style="animation-delay:.33s">for</span>
+        <span class="w" style="animation-delay:.40s">India's</span>
+        <span class="w" style="animation-delay:.47s">trucking</span>
+        <span class="w" style="animation-delay:.54s">workforce.</span>
+      </h1>
+    </div>
+    <div class="hero-side">
+      <div class="ph hero-img reveal" aria-label="Hero image placeholder">
+        <span class="corner">Fig. 00</span>
+        <span class="cap"><b>Hero screen</b>Strongest single high-fidelity vendor app screen, native resolution on off-white. No device mockup. Source: page 79–80 of thesis.</span>
+      </div>
+      <div class="hero-meta reveal d1">
+        <div class="row"><span class="k">Role</span><span class="v">UX research · interface design</span></div>
+        <div class="row"><span class="k">Timeline</span><span class="v">Four-month internship, 2020</span></div>
+        <div class="row"><span class="k">Platform</span><span class="v">Android vendor app</span></div>
+        <div class="row"><span class="k">Team</span><span class="v">Solo, embedded with engineering</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-cue"><span class="line"></span><span>Scroll to read</span></div>
+</header>
+
+<!-- ── kinetic problem marquee ──────────────────────────── -->
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>A feature-complete app <i class="star">✸</i> that nobody wanted to use <i class="star">✸</i> The call center had become the interface <i class="star">✸</i></span>
+    <span>A feature-complete app <i class="star">✸</i> that nobody wanted to use <i class="star">✸</i> The call center had become the interface <i class="star">✸</i></span>
+  </div>
+</div>
+
+<!-- ── 01 THE BRIEF ─────────────────────────────────────── -->
+<section class="s" id="brief">
+  <div class="wrap">
+    <div class="twocol">
+      <div class="reveal">
+        <div class="label"><span class="num">01</span><span class="bar"></span><span>The Brief</span></div>
+        <div class="meta-list">
+          <div class="row"><span>Client</span><span>Truckola Technologies</span></div>
+          <div class="row"><span>Scope</span><span>Vendor app redesign</span></div>
+          <div class="row"><span>Year</span><span>2020</span></div>
+          <div class="row"><span>Duration</span><span>Four months</span></div>
+        </div>
+      </div>
+      <div class="reveal d1">
+        <p class="body lead">Truckola Technologies is an Indian logistics startup connecting cargo clients to truck vendors. The vendor app already had every function the business needed — load discovery, trip management, document upload, billing, payment. But most vendors bypassed it entirely. They called Truckola's sales agents instead, who would walk them through each step, fill in details on their behalf, and confirm trips by phone.</p>
+        <p class="body">The cost of this pattern sat on Truckola. The company ran a call center to compensate for an app vendors did not trust, and that headcount scaled linearly with the platform. The brief was to redesign the vendor experience so the app could carry its own weight, reduce call volume into the sales floor, and let the business grow without the call center growing with it.</p>
+        <p class="body">The work happened inside the engineering team. Designs moved from sketch to implementation in the same room, with developers shipping new flows into staging while the next set was still on paper.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STAT BAND ────────────────────────────────────────── -->
+<section class="stats">
+  <div class="wrap-wide">
+    <div class="grid">
+      <div class="stat reveal"><div class="v" data-count="150" data-suffix="B">0<em>$</em></div><div class="k">USD Indian logistics market, 2020</div></div>
+      <div class="stat reveal d1"><div class="v" data-count="14" data-suffix="%">0</div><div class="k">Share of national GDP</div></div>
+      <div class="stat reveal d2"><div class="v" data-count="27" data-suffix="">0</div><div class="k">Distinct usability issues surfaced in audit</div></div>
+      <div class="stat reveal d3"><div class="v" data-count="13" data-suffix="">0</div><div class="k">Interviews across four cities</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 02 CONTEXT ───────────────────────────────────────── -->
+<section class="s" id="context">
+  <div class="wrap-tight">
+    <div class="label reveal"><span class="num">02</span><span class="bar"></span><span>Context</span></div>
+    <h2 class="section-head reveal">The Indian trucking market does not behave like a <em>Western logistics market.</em></h2>
+    <p class="body reveal d1">India's logistics sector was valued at 150 billion USD in 2020 and contributed about 14 percent of GDP. The vast majority of cargo moved by road. But the industry was, and largely still is, fragmented and underdigitised. Most vendors operated as individual owners or small family businesses.</p>
+    <p class="body reveal d1">Cash transactions dominated. Carbon-copy receipts were trusted more than digital documents. Drivers needed physical money for food, fuel, and lodging across multi-day journeys. Trust between strangers was thin, and deals were considered not done until cargo was physically loaded.</p>
+    <p class="body reveal d2">This context shaped every interface decision that followed. A design that assumed the conventions of an Uber or a DoorDash user would have failed immediately.</p>
+  </div>
+  <div class="wrap">
+    <div class="pair">
+      <div class="ph reveal"><span class="corner">Fig. 01</span><span class="cap"><b>Market structure</b>Main members, support services, government bodies. Source: page 21.</span></div>
+      <div class="ph reveal d1"><span class="corner">Fig. 02</span><span class="cap"><b>Logistics flow</b>Third-party and fourth-party logistics services. Source: page 22.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 03 SYSTEM MAPPING ────────────────────────────────── -->
+<section class="s" id="system">
+  <div class="wrap-tight">
+    <div class="label reveal"><span class="num">03</span><span class="bar"></span><span>System Mapping</span></div>
+    <h2 class="section-head reveal">Three actors, one transaction, dozens of handoffs.</h2>
+    <p class="body reveal d1">Before any interface work could begin, the existing transaction had to be drawn out end to end. A single completed trip involved a client posting a load, the company sourcing vendors, a vendor accepting and dispatching a truck, a driver executing the trip, proof of delivery flowing back upstream, and payment routing through the company before reaching the vendor's wallet. Every step touched at least two actors. Every handoff was a place the system could leak.</p>
+  </div>
+  <div class="wrap-wide">
+    <div class="figure-wide">
+      <div class="ph reveal"><span class="corner">Fig. 03</span><span class="cap"><b>Process flow</b>Client, Vendor, and Company swimlanes showing the complete trip lifecycle. Source: pages 35–36.</span></div>
+    </div>
+  </div>
+  <div class="wrap-tight" style="margin-top:56px;">
+    <p class="body reveal">Mapping the system this way made the failure pattern visible. Vendors were not avoiding the app because it was hard to use in isolation. They were avoiding it because the app sat in the middle of a chain that depended on trust — and the call agents had become the trust layer the interface had never managed to be.</p>
+  </div>
+</section>
+
+<!-- ── 04 AUDIT ─────────────────────────────────────────── -->
+<section class="s" id="audit">
+  <div class="wrap-tight">
+    <div class="label reveal"><span class="num">04</span><span class="bar"></span><span>Audit</span></div>
+    <h2 class="section-head reveal">A feature-complete app that nobody wanted to use.</h2>
+    <p class="body reveal d1">The existing app already did everything the business needed — vendors could discover loads, accept trips, upload proof of delivery, confirm freight memos, track payments, and manage their fleet. The problem was not absence. Every one of those flows had quietly accumulated enough small frictions that calling a sales agent was always the faster option.</p>
+    <p class="body reveal d1">The audit used Jakob Nielsen's ten heuristics, run with four evaluators, supplemented with task mapping across the full vendor journey. Twenty-seven distinct issues surfaced across the ten heuristics. None of them on their own were catastrophic. Together they explained why the call center existed.</p>
+  </div>
+
+  <!-- original screens carousel -->
+  <div class="wrap-wide">
+    <div class="group reveal" style="margin-top:64px;">
+      <div class="glabel"><span class="let">◷</span>The original vendor app — every screen, audited</div>
+      <p class="gintro">The complete set of current vendor app screens. Swipe through to see what shipped before the redesign. Source: page 33 of thesis.</p>
+      <div class="carousel phones" data-carousel data-autoplay="4200">
+        <div class="viewport"><div class="rail">
+          <div class="slide"><div class="ph"><span class="corner">Old 01</span><span class="cap"><b>Splash / login</b>Source: page 33.</span><span class="num">1 / 7</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">Old 02</span><span class="cap"><b>Home dashboard</b>Source: page 33.</span><span class="num">2 / 7</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">Old 03</span><span class="cap"><b>Load list</b>Source: page 33.</span><span class="num">3 / 7</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">Old 04</span><span class="cap"><b>Load details</b>Source: page 33.</span><span class="num">4 / 7</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">Old 05</span><span class="cap"><b>Trips — five tabs</b>Source: page 33.</span><span class="num">5 / 7</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">Old 06</span><span class="cap"><b>Document upload</b>Source: page 33.</span><span class="num">6 / 7</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">Old 07</span><span class="cap"><b>Bills / wallet</b>Source: page 33.</span><span class="num">7 / 7</span></div></div>
+        </div></div>
+        <div class="ctrl">
+          <div class="dots" data-dots></div>
+          <div style="display:flex;align-items:center;gap:20px;">
+            <span class="count" data-count-label>01 / 07</span>
+            <div class="arrows">
+              <button data-prev aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 5l-7 7 7 7"/></svg></button>
+              <button data-next aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="triple-head reveal">Where it broke</div>
+    <div class="triple">
+      <div class="col reveal"><h3 class="sub">Vocabulary.</h3><p>Short forms like POD, FM, and LR were used throughout without explanation. Most vendors did not know what they stood for. The interface assumed a language the audience did not speak.</p></div>
+      <div class="col reveal d1"><h3 class="sub">Trust.</h3><p>There was no in-app help, no FAQ, no visible loading states, and no clear way to recover from a mistake. When something went wrong, vendors defaulted to calling the company instead of trying again.</p></div>
+      <div class="col reveal d2"><h3 class="sub">Density.</h3><p>Crucial information sat in tiny type. Multiple buttons led to the same destination. Tab structures forced users to swipe through long lists when filtering would have served them better.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 05 RESEARCH ──────────────────────────────────────── -->
+<section class="s" id="research">
+  <div class="wrap-tight">
+    <div class="label reveal"><span class="num">05</span><span class="bar"></span><span>Research</span></div>
+    <h2 class="section-head reveal">Thirteen conversations across four cities.</h2>
+    <p class="body reveal d1">Research involved in-person and phone interviews with thirteen people: vendors, fleet owners, transport company managers, employees, and two of Truckola's own call agents in the sales department. Locations spanned Bhiwandi, Vashi, Thane, Kanpur, and Haryana.</p>
+  </div>
+  <div class="wrap">
+    <div class="figure-wide reveal"><div class="ph" style="aspect-ratio:16/9;"><span class="corner">Fig. 05</span><span class="cap"><b>Interviewee list</b>Thirteen subjects with name, company, location, profession. Source: page 63.</span></div></div>
+  </div>
+  <div class="quote reveal"><q>It is much easier if we get on the call with the person at the company.</q><div class="who">Vendor Manager · Bhiwandi</div></div>
+  <div class="wrap-tight">
+    <p class="body reveal">The app was not failing because the interface was ugly. It was failing because the calling relationship felt human and the app did not. Vendors trusted a voice on the phone in a way no progress bar could replace. The redesign had to acknowledge that and quietly earn ground back — not try to replace the call agents overnight.</p>
+  </div>
+</section>
+
+<!-- ── 06 CORE PROBLEM ──────────────────────────────────── -->
+<section class="s" id="core-problem">
+  <div class="wrap-tight">
+    <div class="label reveal"><span class="num">06</span><span class="bar"></span><span>The Core Problem</span></div>
+    <h2 class="section-head reveal">The call center had become the <em>interface.</em></h2>
+    <p class="body reveal d1">Across thirteen interviews one pattern repeated. Vendors did not see the app as a tool. They saw it as a thing they were sometimes asked to acknowledge after the real transaction had already happened on the phone. Loads were discussed, negotiated, and verbally confirmed with a sales agent. The app was where, eventually, the paperwork caught up.</p>
+    <p class="body reveal d1">This was efficient for the vendor in the short term and expensive for Truckola at every scale. Each onboarded vendor created a permanent call obligation. Each new trip produced multiple inbound calls: one to confirm the load, one to clarify an address, one to ask about payment status, one to walk through document upload. The sales floor was effectively a human API for an app that vendors did not feel they could operate alone.</p>
+    <p class="body reveal d2">The redesign could not remove the call center. The trust it provided was real and earned. But it could shift the relationship: route the truly ambiguous moments to a human, and let the app handle everything that did not actually need a voice. The goal was not zero calls. The goal was calls that mattered.</p>
+  </div>
+</section>
+
+<!-- ── 07 SYNTHESIS ─────────────────────────────────────── -->
+<section class="s" id="synthesis">
+  <div class="wrap">
+    <div class="label reveal"><span class="num">07</span><span class="bar"></span><span>Synthesis</span></div>
+    <h2 class="section-head reveal">Three vendor archetypes shaped the work.</h2>
+    <div class="personas reveal d1">
+      <div class="persona">
+        <div class="idx">Archetype 01</div>
+        <div class="role">Owner / Driver</div>
+        <div class="pmeta"><div class="row"><span>Vehicles</span><span>One</span></div><div class="row"><span>Experience</span><span>Eight years</span></div></div>
+        <p>Owns and drives a single truck, often the sole earner for the family. Wants steady loads and predictable payouts. Most frustrated when payment cycles slip and he has no clear way to chase status without leaving a phone call.</p>
+      </div>
+      <div class="persona">
+        <div class="idx">Archetype 02</div>
+        <div class="role">Fleet Owner</div>
+        <div class="pmeta"><div class="row"><span>Vehicles</span><span>Six to twenty</span></div><div class="row"><span>Experience</span><span>Fifteen years</span></div></div>
+        <p>Runs a small fleet with hired drivers and a clerk. Wants visibility across multiple trucks at once and the ability to delegate without losing oversight. Most frustrated when documents and bills live across separate threads he cannot reconcile.</p>
+      </div>
+      <div class="persona">
+        <div class="idx">Archetype 03</div>
+        <div class="role">Transport Company</div>
+        <div class="pmeta"><div class="row"><span>Vehicles</span><span>Thirty or more</span></div><div class="row"><span>Experience</span><span>Twenty years</span></div></div>
+        <p>Manages a full back office with dedicated coordinators. Wants the app to behave as an extension of their existing logistics workflow, not a parallel system. Most frustrated when the platform forces them to duplicate work they already do in ledgers.</p>
+      </div>
+    </div>
+    <div class="figure-wide reveal"><div class="ph"><span class="corner">Fig. 06</span><span class="cap"><b>Journey map</b>Vendor emotional experience across the full transaction, from sign-up to payment received. Source: pages 59–60.</span></div></div>
+  </div>
+</section>
+
+<!-- ── 08 IA — before/after drag slider ─────────────────── -->
+<section class="s" id="ia">
+  <div class="wrap">
+    <div class="label reveal"><span class="num">08</span><span class="bar"></span><span>Information Architecture</span></div>
+    <h2 class="section-head reveal">Restructuring around how vendors actually think.</h2>
+    <div class="ba-slider reveal d1" id="iaSlider" aria-label="Drag to compare before and after information architecture">
+      <span class="tag l">Before</span>
+      <span class="tag r">After</span>
+      <div class="side before"><div class="cap"><b>Original information architecture</b>Repeated tabs, buried help, icon-only actions. Source: page 49.</div></div>
+      <div class="side after"><div class="cap"><b>Revised information architecture</b>Collapsed tabs, surfaced CTAs, help lifted out of profile. Redrawn from the high-fidelity flow.</div></div>
+      <div class="handle"><span class="grip">‹ ›</span></div>
+    </div>
+    <p class="body reveal" style="margin-top:44px;">The revised architecture collapsed repeated tabs across the home and load screens, surfaced primary call-to-action buttons where icons had previously stood alone, and brought contact and help options up out of buried profile menus. The goal was to reduce the number of taps required for the three most frequent tasks — checking new loads, confirming a trip, and uploading delivery documents — and to make the rest of the app's depth optional rather than confrontational.</p>
+  </div>
+</section>
+
+<!-- ── 09 THE WORK ──────────────────────────────────────── -->
+<section class="s" id="work">
+  <div class="wrap">
+    <div class="label reveal"><span class="num">09</span><span class="bar"></span><span>The Work</span></div>
+    <h2 class="section-head reveal">Quiet, legible, and built to be trusted.</h2>
+    <p class="body reveal d1" style="max-width:70ch;">The design principles that came out of the research were modest: clear typographic hierarchy in Roboto, generous spacing, plain language wherever a short form had previously stood, explicit confirmation states for irreversible actions, a call button always one tap away from any trip screen, and consistent placement of map and address blocks across every screen that touched a trip. Every decision had the same underlying test — would a confident vendor still need to call a sales agent to complete this step? If the answer was yes, the screen was not done.</p>
+  </div>
+
+  <!-- Group A carousel -->
+  <div class="wrap-wide">
+    <div class="group reveal">
+      <div class="glabel"><span class="let">A</span>Load Discovery &amp; Acceptance</div>
+      <p class="gintro">How vendors find, evaluate, and accept an incoming load posting from the company.</p>
+      <div class="carousel phones" data-carousel data-autoplay="0">
+        <div class="viewport"><div class="rail">
+          <div class="slide"><div class="ph"><span class="corner">A1</span><span class="cap"><b>Load list</b>Redesigned. Source: page 79.</span><span class="num">Screen 1</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">A2</span><span class="cap"><b>Load details</b>Addresses surfaced inline. Source: page 79.</span><span class="num">Screen 2</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">A3</span><span class="cap"><b>Bid confirmation</b>Redesigned. Source: page 79.</span><span class="num">Screen 3</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">A4</span><span class="cap"><b>Acceptance state</b>Redesigned. Source: page 79.</span><span class="num">Screen 4</span></div></div>
+        </div></div>
+        <div class="ctrl">
+          <div class="dots" data-dots></div>
+          <div style="display:flex;align-items:center;gap:20px;">
+            <span class="count" data-count-label>01 / 04</span>
+            <div class="arrows">
+              <button data-prev aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 5l-7 7 7 7"/></svg></button>
+              <button data-next aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Group B carousel -->
+  <div class="wrap-wide">
+    <div class="group reveal">
+      <div class="glabel"><span class="let">B</span>Trip &amp; Document Handling</div>
+      <p class="gintro">Active trip status, address confirmation, and proof-of-delivery upload across the journey.</p>
+      <div class="carousel phones" data-carousel data-autoplay="0">
+        <div class="viewport"><div class="rail">
+          <div class="slide"><div class="ph"><span class="corner">B1</span><span class="cap"><b>Active trips</b>Three states, filtering inside. Source: page 80.</span><span class="num">Screen 1</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">B2</span><span class="cap"><b>Trip detail</b>Redesigned. Source: page 80.</span><span class="num">Screen 2</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">B3</span><span class="cap"><b>Document upload</b>Redesigned. Source: page 80.</span><span class="num">Screen 3</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">B4</span><span class="cap"><b>Delivery confirmation</b>Redesigned. Source: page 80.</span><span class="num">Screen 4</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">B5</span><span class="cap"><b>Trip complete</b>Redesigned. Source: page 80.</span><span class="num">Screen 5</span></div></div>
+        </div></div>
+        <div class="ctrl">
+          <div class="dots" data-dots></div>
+          <div style="display:flex;align-items:center;gap:20px;">
+            <span class="count" data-count-label>01 / 05</span>
+            <div class="arrows">
+              <button data-prev aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 5l-7 7 7 7"/></svg></button>
+              <button data-next aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotated before/after slider 01 -->
+  <div class="wrap">
+    <div class="group reveal" style="margin-top:96px;">
+      <div class="glabel"><span class="let">⇄</span>Annotated comparison · 01 — Load details</div>
+      <p class="gintro">Full address was hidden in the original, forcing vendors to call. The redesign surfaces the complete loading and unloading addresses inline. Drag to compare.</p>
+      <div class="ba-slider" aria-label="Drag to compare load details before and after">
+        <span class="tag l">Before · pg 33</span>
+        <span class="tag r">After · pg 79</span>
+        <div class="side before"><div class="cap"><b>Original load details</b>Full address hidden behind a tap.</div></div>
+        <div class="side after"><div class="cap"><b>Redesigned load details</b>Loading &amp; unloading addresses surfaced inline.</div></div>
+        <div class="handle"><span class="grip">‹ ›</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Group C carousel -->
+  <div class="wrap-wide">
+    <div class="group reveal">
+      <div class="glabel"><span class="let">C</span>Bills &amp; Payment</div>
+      <p class="gintro">Invoices, payment status, and the vendor wallet flow.</p>
+      <div class="carousel phones" data-carousel data-autoplay="0">
+        <div class="viewport"><div class="rail">
+          <div class="slide"><div class="ph"><span class="corner">C1</span><span class="cap"><b>Bills overview</b>Redesigned. Source: page 80.</span><span class="num">Screen 1</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">C2</span><span class="cap"><b>Bill detail</b>Redesigned. Source: page 80.</span><span class="num">Screen 2</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">C3</span><span class="cap"><b>Wallet &amp; payouts</b>Redesigned. Source: page 80.</span><span class="num">Screen 3</span></div></div>
+        </div></div>
+        <div class="ctrl">
+          <div class="dots" data-dots></div>
+          <div style="display:flex;align-items:center;gap:20px;">
+            <span class="count" data-count-label>01 / 03</span>
+            <div class="arrows">
+              <button data-prev aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 5l-7 7 7 7"/></svg></button>
+              <button data-next aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Group D carousel -->
+  <div class="wrap-wide">
+    <div class="group reveal">
+      <div class="glabel"><span class="let">D</span>Profile &amp; Account</div>
+      <p class="gintro">Vendor identity, fleet, documents on file, and support contact.</p>
+      <div class="carousel phones" data-carousel data-autoplay="0">
+        <div class="viewport"><div class="rail">
+          <div class="slide"><div class="ph"><span class="corner">D1</span><span class="cap"><b>Profile home</b>Redesigned. Source: page 80.</span><span class="num">Screen 1</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">D2</span><span class="cap"><b>Fleet &amp; trucks</b>Redesigned. Source: page 80.</span><span class="num">Screen 2</span></div></div>
+          <div class="slide"><div class="ph"><span class="corner">D3</span><span class="cap"><b>Help &amp; support</b>Lifted out of buried menus. Source: page 80.</span><span class="num">Screen 3</span></div></div>
+        </div></div>
+        <div class="ctrl">
+          <div class="dots" data-dots></div>
+          <div style="display:flex;align-items:center;gap:20px;">
+            <span class="count" data-count-label>01 / 03</span>
+            <div class="arrows">
+              <button data-prev aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 5l-7 7 7 7"/></svg></button>
+              <button data-next aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 10 SYSTEM / STYLE GUIDE ──────────────────────────── -->
+<section class="s" id="system-guide">
+  <div class="wrap">
+    <div class="label reveal"><span class="num">10</span><span class="bar"></span><span>System</span></div>
+    <h2 class="section-head reveal">A modest design system.</h2>
+    <div class="sg reveal d1">
+      <div class="type-ramp">
+        <div class="ramp-row r-headline"><div class="sp">Headline · 34 / Light</div><div class="sample">Headline display</div></div>
+        <div class="ramp-row r-title"><div class="sp">Title · 24 / Regular</div><div class="sample">Section title</div></div>
+        <div class="ramp-row r-sub"><div class="sp">Subheader · 18 / Medium</div><div class="sample">Subheader label</div></div>
+        <div class="ramp-row r-body"><div class="sp">Body · 15 / Regular</div><div class="sample">Body copy across forms, lists, and confirmations.</div></div>
+        <div class="ramp-row r-caption"><div class="sp">Caption · 12 / Regular</div><div class="sample">Caption and helper text</div></div>
+      </div>
+      <div class="palette">
+        <div class="swatch"><div class="chip" style="background:#0E0E0E;"></div><div class="vals"><b>Ink</b>#0E0E0E · RGB 14 14 14 · CMYK 0 0 0 95</div></div>
+        <div class="swatch"><div class="chip" style="background:#C0392B;"></div><div class="vals"><b>Truckola Red</b>#C0392B · RGB 192 57 43 · CMYK 0 70 78 25</div></div>
+        <div class="swatch"><div class="chip" style="background:#F2EDE3;"></div><div class="vals"><b>Paper</b>#F2EDE3 · RGB 242 237 227 · CMYK 0 2 6 5</div></div>
+        <div class="swatch"><div class="chip" style="background:#4A4A4A;"></div><div class="vals"><b>Slate</b>#4A4A4A · RGB 74 74 74 · CMYK 0 0 0 71</div></div>
+        <div class="swatch"><div class="chip" style="background:#9B9B9B;"></div><div class="vals"><b>Mute</b>#9B9B9B · RGB 155 155 155 · CMYK 0 0 0 39</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 11 COMPANION ─────────────────────────────────────── -->
+<section class="s" id="companion">
+  <div class="wrap-tight">
+    <div class="label reveal"><span class="num">11</span><span class="bar"></span><span>Companion Work</span></div>
+    <h2 class="section-head reveal">A second app for the other side of the platform.</h2>
+    <p class="body reveal d1">The internship also included a parallel three-month group project: a cargo client mobile app built around the existing Truckola website. The brief was similar in shape but the user was different. Clients were more comfortable with digital tools, and the design could move faster and lean on more conventional patterns.</p>
+  </div>
+  <div class="wrap">
+    <div class="figure-wide reveal"><div class="ph" style="aspect-ratio:16/9;max-width:760px;margin:0 auto;"><span class="corner">Fig. 09</span><span class="cap"><b>Client app screen</b>Strongest single high-fidelity client app screen. Source: page 103–104.</span></div></div>
+  </div>
+</section>
+
+<!-- ── 12 REFLECTION ────────────────────────────────────── -->
+<section class="s" id="reflection">
+  <div class="wrap-tight">
+    <div class="label reveal"><span class="num">12</span><span class="bar"></span><span>In Retrospect</span></div>
+    <h2 class="section-head reveal">What this project taught me.</h2>
+    <p class="body reveal d1">This project was my first sustained encounter with research as a design discipline. The heuristic evaluation, the persona work, the system mapping, and the rhythm of letting interviews actually change the design rather than confirming what I already wanted to do are all still recognisable in how I approach problems today.</p>
+    <p class="body reveal d1">The brief was operational. The intent was to reduce Truckola's dependency on a call center that had become the de facto interface for the vendor side of the platform. I do not have the post-launch metrics to know how much that shifted. What I do know is that the team I worked with shipped this redesign, that I watched flows move from paper to staging in the same week, and that the discipline of designing against a measurable business pressure rather than against an aesthetic ideal is the thing I carry from this project most.</p>
+    <p class="body reveal d2">Some of the visual decisions I would now make differently. The reliance on Material Design as a system was the right pragmatic choice in 2020 for an Indian Android-first audience, but the result lacks the kind of identity I would now want to build for a project at this scale. What holds up is the research rigor, the systems thinking, and the discipline of designing for the specific context I was in rather than the conventions of a market I was not.</p>
+  </div>
+</section>
+
+<!-- ── 13 CLOSE / PDF ───────────────────────────────────── -->
+<section class="close" id="pdf">
+  <div class="h reveal">Read the full thesis.</div>
+  <a class="btn reveal d1" href="./assets/Shreyas_Gharat_Thesis_Book.pdf" target="_blank" rel="noopener">
+    Open Thesis PDF
+    <svg class="arr" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 7 H12 M8 3 L12 7 L8 11"/></svg>
+  </a>
+  <div class="doc reveal d2">Document · ISDI Parsons Mumbai · 2020</div>
+</section>
+
+<footer class="foot">
+  <div>© 2026 Shreyas Gharat. Set in Fraunces, Work Sans &amp; DM Sans.</div>
+  <div><a href="#top">Back to top ↑</a></div>
+  <div>Designed &amp; built by hand</div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* scroll progress */
+  var progress = document.getElementById('progress');
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    progress.style.width = (max>0 ? (h.scrollTop/max*100) : 0) + '%';
+  }
+  document.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* custom cursor */
+  var cursor = document.getElementById('cursor');
+  if(window.matchMedia('(pointer:fine)').matches && !reduce){
+    var cx=0,cy=0,tx=0,ty=0;
+    document.addEventListener('mousemove',function(e){tx=e.clientX;ty=e.clientY;});
+    (function loop(){cx+=(tx-cx)*.18;cy+=(ty-cy)*.18;cursor.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
+    document.querySelectorAll('a,button,.ba-slider,.carousel').forEach(function(el){
+      el.addEventListener('mouseenter',function(){cursor.classList.add('big');});
+      el.addEventListener('mouseleave',function(){cursor.classList.remove('big');});
+    });
+  }
+
+  /* reveal on scroll */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);} });
+  },{threshold:.12, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  /* animated counters */
+  var counted = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(!en.isIntersecting) return;
+      var el = en.target.querySelector('[data-count]');
+      if(!el || el.dataset.done) { counted.unobserve(en.target); return; }
+      el.dataset.done = '1';
+      var target = +el.dataset.count, suf = el.dataset.suffix||'', dur=1400, start=null;
+      var hadDollar = el.textContent.indexOf('$')>-1;
+      if(reduce){ el.innerHTML = target+suf+(hadDollar?'<em>$</em>':''); counted.unobserve(en.target); return; }
+      function step(ts){
+        if(!start) start=ts; var p=Math.min((ts-start)/dur,1);
+        var val=Math.round((1-Math.pow(1-p,3))*target);
+        el.innerHTML = val+suf+(hadDollar?'<em>$</em>':'');
+        if(p<1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+      counted.unobserve(en.target);
+    });
+  },{threshold:.5});
+  document.querySelectorAll('.stat').forEach(function(s){ counted.observe(s); });
+
+  /* carousels */
+  document.querySelectorAll('[data-carousel]').forEach(function(root){
+    var rail = root.querySelector('.rail');
+    var slides = Array.prototype.slice.call(root.querySelectorAll('.slide'));
+    var dotsWrap = root.querySelector('[data-dots]');
+    var label = root.querySelector('[data-count-label]');
+    var prev = root.querySelector('[data-prev]');
+    var next = root.querySelector('[data-next]');
+    var index = 0, autoMs = +(root.dataset.autoplay||0), timer=null;
+
+    function pad(n){return (n<10?'0':'')+n;}
+    function perView(){
+      var vw = root.querySelector('.viewport').clientWidth;
+      var sw = slides[0].getBoundingClientRect().width + 22;
+      return Math.max(1, Math.round(vw/sw));
+    }
+    function maxIndex(){ return Math.max(0, slides.length - perView()); }
+
+    slides.forEach(function(_,i){
+      var b=document.createElement('button'); b.setAttribute('aria-label','Go to slide '+(i+1));
+      b.addEventListener('click',function(){ go(i); rest(); }); dotsWrap.appendChild(b);
+    });
+
+    function render(){
+      var sw = slides[0].getBoundingClientRect().width + 22;
+      rail.style.transform = 'translateX(' + (-index*sw) + 'px)';
+      Array.prototype.forEach.call(dotsWrap.children,function(d,i){ d.classList.toggle('on', i===index); });
+      if(label) label.textContent = pad(index+1)+' / '+pad(slides.length);
+      if(prev) prev.disabled = index<=0;
+      if(next) next.disabled = index>=maxIndex();
+    }
+    function go(i){ index=Math.max(0,Math.min(i,maxIndex())); render(); }
+    function rest(){ if(!autoMs) return; clearInterval(timer); timer=setInterval(function(){ go(index>=maxIndex()?0:index+1); }, autoMs); }
+
+    if(prev) prev.addEventListener('click',function(){ go(index-1); rest(); });
+    if(next) next.addEventListener('click',function(){ go(index+1); rest(); });
+
+    /* drag / swipe */
+    var down=false,sx=0,base=0;
+    var vp = root.querySelector('.viewport');
+    function start(x){ down=true; sx=x; base=index; rail.style.transition='none'; clearInterval(timer); }
+    function move(x){ if(!down) return; var sw=slides[0].getBoundingClientRect().width+22; rail.style.transform='translateX('+(-base*sw+(x-sx))+'px)'; }
+    function end(x){ if(!down) return; down=false; rail.style.transition=''; var sw=slides[0].getBoundingClientRect().width+22; var moved=Math.round((sx-x)/sw); go(base+moved); rest(); }
+    vp.addEventListener('mousedown',function(e){ start(e.clientX); e.preventDefault(); });
+    window.addEventListener('mousemove',function(e){ move(e.clientX); });
+    window.addEventListener('mouseup',function(e){ end(e.clientX); });
+    vp.addEventListener('touchstart',function(e){ start(e.touches[0].clientX); },{passive:true});
+    vp.addEventListener('touchmove',function(e){ move(e.touches[0].clientX); },{passive:true});
+    vp.addEventListener('touchend',function(e){ end(e.changedTouches[0].clientX); });
+
+    window.addEventListener('resize', function(){ go(Math.min(index,maxIndex())); });
+    if(autoMs && !reduce){ rest(); root.addEventListener('mouseenter',function(){clearInterval(timer);}); root.addEventListener('mouseleave',rest); }
+    render();
+  });
+
+  /* before/after drag sliders */
+  document.querySelectorAll('.ba-slider').forEach(function(sl){
+    var after = sl.querySelector('.after');
+    var handle = sl.querySelector('.handle');
+    var dragging=false;
+    function set(px){
+      var r=sl.getBoundingClientRect();
+      var pct=Math.max(2,Math.min(98,(px-r.left)/r.width*100));
+      after.style.clipPath='inset(0 0 0 '+pct+'%)';
+      handle.style.left=pct+'%';
+    }
+    function down(x){ dragging=true; set(x); }
+    function move(x){ if(dragging) set(x); }
+    function up(){ dragging=false; }
+    sl.addEventListener('mousedown',function(e){ down(e.clientX); });
+    window.addEventListener('mousemove',function(e){ move(e.clientX); });
+    window.addEventListener('mouseup',up);
+    sl.addEventListener('touchstart',function(e){ down(e.touches[0].clientX); },{passive:true});
+    sl.addEventListener('touchmove',function(e){ move(e.touches[0].clientX); },{passive:true});
+    sl.addEventListener('touchend',up);
+  });
+})();
+</script>
+</body>
+</html>

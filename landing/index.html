@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--
+    FRAMER EMBED — Hero + Projects (no nav, no footer)
+    ─────────────────────────────────────────────────
+    HOW TO USE:
+      Framer → Insert → Embed → HTML → paste entire file contents
+      Set embed width to "Fill" in Framer's right panel
+      Set embed height to "Auto" or a tall fixed value (e.g. 8000px)
+
+    IMAGES: Replace every IMAGE_URL_## below with the actual
+    framerusercontent.com URL from your Framer media library.
+    (Connect Framer MCP plugin to retrieve URLs automatically.)
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,200;0,300;0,400;0,500;0,600;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@1,9..144,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── RESET ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ─── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --bg-light:  #FFFFFF;
+      --bg-dark:   #0B0B0B;
+      --text-dark: #0E0E0E;
+      --text-dim:  #666;
+      --accent:    #E8341A;
+      --border-l:  rgba(0,0,0,0.10);
+      --border-d:  rgba(255,255,255,0.07);
+      --sans:      'Barlow', sans-serif;
+      --cond:      'Barlow Condensed', sans-serif;
+      --mono:      'DM Mono', monospace;
+      --max:       1320px;
+    }
+
+    /* ─── ROOT — block layout, full width ───────────────────── */
+    /* Critical: prevents Framer's flex container from making
+       sections appear side-by-side instead of top-to-bottom   */
+    html, body {
+      display: block;
+      width: 100%;
+      height: auto;
+      font-size: 16px;
+      font-family: var(--sans);
+      background: var(--bg-light);
+      color: var(--text-dark);
+    }
+
+    /* All sections must be explicitly block + full width */
+    section, .project-group, .proj-grid {
+      display: block;
+      width: 100%;
+    }
+
+    /* Override for proj-grid — needs grid, but still full-width */
+    .proj-grid {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      border-top: 1px solid var(--border-d);
+      border-bottom: 1px solid var(--border-d);
+    }
+
+    /* ─── HERO ───────────────────────────────────────────────── */
+    .hero {
+      background: var(--bg-light);
+      padding: 64px 28px 52px;
+    }
+    .hero-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .hero-greeting {
+      font-size: clamp(52px, 7vw, 96px);
+      font-family: var(--sans);
+      font-weight: 300;
+      letter-spacing: -0.025em;
+      line-height: 1;
+      color: var(--text-dark);
+      margin-bottom: 14px;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-tagline {
+      font-family: var(--sans);
+      font-size: clamp(17px, 2.4vw, 24px);
+      font-weight: 300;
+      color: #3a3a3a;
+      line-height: 1.45;
+      margin-bottom: 52px;
+      letter-spacing: -0.01em;
+      animation: fadeUp 0.6s 0.08s ease both;
+    }
+    .hero-tagline em { font-style: italic; font-weight: 400; }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border-l);
+      border-bottom: 1px solid var(--border-l);
+      margin-bottom: 40px;
+      animation: fadeUp 0.6s 0.16s ease both;
+    }
+    .stat-col { padding: 16px 0; }
+    .stat-col:not(:first-child) { padding-left: 24px; border-left: 1px solid var(--border-l); }
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 8.5px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 7px;
+    }
+    .stat-value {
+      font-family: var(--sans);
+      font-size: 13.5px;
+      font-weight: 400;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      animation: ring 2.2s ease-in-out infinite;
+    }
+    @keyframes ring {
+      0%   { box-shadow: 0 0 0 0 rgba(232,52,26,0.55); }
+      60%  { box-shadow: 0 0 0 6px rgba(232,52,26,0); }
+      100% { box-shadow: 0 0 0 0 rgba(232,52,26,0); }
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.24s ease both;
+    }
+    .filter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,0.22);
+      background: transparent;
+      font-family: var(--sans);
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
+      -webkit-user-select: none; user-select: none;
+    }
+    .filter-btn .dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+    .filter-btn:hover  { background: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.3); }
+    .filter-btn:active { transform: scale(0.95); }
+    .filter-btn.active { background: var(--text-dark); color: #fff; border-color: var(--text-dark); }
+    .filter-btn.active .dot { background: var(--accent); }
+
+    /* ─── PROJECTS SECTION ───────────────────────────────────── */
+    .projects-section {
+      background: var(--bg-dark);
+      position: relative;
+    }
+    .projects-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 26px 26px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .project-group { position: relative; z-index: 1; }
+
+    .proj-divider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 5;
+      padding: 22px 28px 0;
+    }
+    .proj-divider-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+    }
+    .proj-divider-inner::after { content: ''; flex: 1; height: 1px; background: var(--border-d); }
+
+    /* ─── FEATURED ───────────────────────────────────────────── */
+    .proj-featured {
+      position: relative;
+      display: block;
+      width: 100%;
+      min-height: 580px;
+      overflow: hidden;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border-d);
+      text-decoration: none;
+    }
+    .proj-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .proj-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.7s ease, filter 0.4s ease;
+      filter: brightness(0.72);
+    }
+    .proj-featured:hover .proj-bg img { transform: scale(1.025); filter: brightness(0.86); }
+
+    .proj-fog {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(to top,
+        rgba(0,0,0,1.00) 0%,
+        rgba(0,0,0,0.96) 12%,
+        rgba(0,0,0,0.75) 32%,
+        rgba(0,0,0,0.22) 58%,
+        transparent 100%);
+      transition: background 0.4s;
+    }
+    .proj-featured:hover .proj-fog {
+      background: linear-gradient(to top,
+        rgba(0,0,0,0.95) 0%,
+        rgba(0,0,0,0.88) 12%,
+        rgba(0,0,0,0.60) 32%,
+        rgba(0,0,0,0.18) 58%,
+        transparent 100%);
+    }
+    .proj-bloom {
+      position: absolute; inset: 0; z-index: 2;
+      background: radial-gradient(ellipse at 0% 100%, rgba(232,52,26,0.12) 0%, transparent 55%);
+      opacity: 0; transition: opacity 0.5s; pointer-events: none;
+    }
+    .proj-featured:hover .proj-bloom { opacity: 1; }
+
+    .corner {
+      position: absolute; width: 12px; height: 12px; z-index: 3;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .proj-featured:hover .corner,
+    .proj-card:hover .corner { opacity: 1; }
+    .corner.tl { top:18px; left:18px; border-top:1px solid rgba(255,255,255,0.22); border-left:1px solid rgba(255,255,255,0.22); }
+    .corner.tr { top:18px; right:18px; border-top:1px solid rgba(255,255,255,0.22); border-right:1px solid rgba(255,255,255,0.22); }
+    .corner.bl { bottom:18px; left:18px; border-bottom:1px solid rgba(255,255,255,0.22); border-left:1px solid rgba(255,255,255,0.22); }
+    .corner.br { bottom:18px; right:18px; border-bottom:1px solid rgba(255,255,255,0.22); border-right:1px solid rgba(255,255,255,0.22); }
+
+    .proj-content { position: absolute; bottom: 0; left: 0; right: 0; z-index: 4; }
+    .proj-content-inner { max-width: var(--max); margin: 0 auto; padding: 36px 28px; }
+    .proj-cat {
+      font-family: var(--mono); font-size: 9.5px;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.38); margin-bottom: 10px;
+    }
+    .proj-title {
+      font-family: var(--cond);
+      font-size: clamp(38px, 5.5vw, 80px);
+      font-weight: 600; color: #fff;
+      letter-spacing: -0.01em; line-height: 0.95;
+      margin-bottom: 13px;
+      text-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+    .proj-desc {
+      font-family: var(--sans); font-size: 13.5px; font-weight: 300;
+      color: rgba(255,255,255,0.6); max-width: 520px;
+      line-height: 1.65; margin-bottom: 22px; transition: color 0.3s;
+    }
+    .proj-featured:hover .proj-desc,
+    .proj-card:hover .proj-desc { color: rgba(255,255,255,0.88); }
+
+    .view-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.5); text-decoration: none;
+      padding-bottom: 2px; border-bottom: 1px solid rgba(255,255,255,0.15);
+      transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+    .view-btn .arr { display: inline-block; transition: transform 0.22s; }
+    .proj-featured:hover .view-btn,
+    .proj-card:hover .view-btn { color: #fff; border-color: rgba(255,255,255,0.5); }
+    .proj-featured:hover .view-btn .arr,
+    .proj-card:hover .view-btn .arr { transform: translateX(5px); }
+
+    /* ─── 2-COL CARD ─────────────────────────────────────────── */
+    .proj-card {
+      position: relative;
+      display: block;
+      min-height: 480px;
+      overflow: hidden;
+      cursor: pointer;
+      border-right: 1px solid var(--border-d);
+      text-decoration: none;
+    }
+    .proj-card:last-child { border-right: none; }
+    .proj-card .proj-bg img { filter: brightness(0.62); }
+    .proj-card:hover .proj-bg img { filter: brightness(0.80); transform: scale(1.03); }
+    .proj-card .proj-fog {
+      background: linear-gradient(to top,
+        rgba(0,0,0,1.00) 0%, rgba(0,0,0,0.96) 15%,
+        rgba(0,0,0,0.65) 38%, rgba(0,0,0,0.10) 60%, transparent 100%);
+    }
+    .proj-card:hover .proj-fog {
+      background: linear-gradient(to top,
+        rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.88) 15%,
+        rgba(0,0,0,0.50) 38%, rgba(0,0,0,0.08) 60%, transparent 100%);
+    }
+    .proj-card .proj-bloom {
+      background: radial-gradient(ellipse at 50% 100%, rgba(232,52,26,0.09) 0%, transparent 55%);
+    }
+    .proj-card-label {
+      position: absolute; top: 20px; left: 24px; z-index: 4;
+      font-family: var(--mono); font-size: 9px;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+    }
+    .proj-card-content {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 4;
+      padding: 24px; display: flex;
+      align-items: flex-end; justify-content: space-between; gap: 16px;
+    }
+    .proj-card-title {
+      font-family: var(--cond);
+      font-size: clamp(26px, 3.5vw, 40px);
+      font-weight: 600; color: #fff;
+      line-height: 1; margin-bottom: 6px;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.5);
+    }
+    .proj-card .proj-desc { font-size: 11.5px; max-width: 240px; margin-bottom: 0; }
+    .view-btn-corner {
+      display: inline-flex; flex-direction: row;
+      align-items: center; gap: 4px;
+      font-family: var(--mono); font-size: 8.5px;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(255,255,255,0.3); flex-shrink: 0;
+      white-space: nowrap; text-align: right;
+      padding-bottom: 2px; border-bottom: 1px solid rgba(255,255,255,0.15);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .view-btn-corner .arr { display: inline-block; transition: transform 0.22s; }
+    .proj-card:hover .view-btn-corner { color: rgba(255,255,255,0.9); border-color: rgba(255,255,255,0.5); }
+    .proj-card:hover .view-btn-corner .arr { transform: translateX(5px); }
+    .proj-num { font-family: 'Fraunces', Georgia, serif; font-style: italic; font-weight: 400; }
+
+    /* ─── ANIMATIONS ─────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      .stat-col:nth-child(3) { border-top: 1px solid var(--border-l); grid-column: span 2; }
+      .proj-grid { grid-template-columns: 1fr !important; }
+      .proj-card { border-right: none; border-bottom: 1px solid var(--border-d); min-height: 400px; }
+    }
+    @media (max-width: 600px) {
+      .hero-stats { grid-template-columns: 1fr; }
+      .stat-col { border-left: none !important; border-top: 1px solid var(--border-l) !important; }
+      .stat-col:first-child { border-top: none !important; }
+      .proj-card-content { flex-direction: column; align-items: flex-start; gap: 14px; }
+      .view-btn-corner { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-inner">
+      <h1 class="hero-greeting">Hello!</h1>
+      <p class="hero-tagline">
+        I'm Shreyas, an <em>Industrial Designer</em> and <em>Product Designer.</em>
+      </p>
+      <div class="hero-stats">
+        <div class="stat-col">
+          <div class="stat-label">Education / 01</div>
+          <div class="stat-value">SCAD · M.A, Industrial Design</div>
+        </div>
+        <div class="stat-col">
+          <div class="stat-label">Based / 02</div>
+          <div class="stat-value">Savannah, GA — 32.08° N</div>
+        </div>
+        <div class="stat-col">
+          <div class="stat-label">Status / 03</div>
+          <div class="stat-value"><span class="live-dot"></span>Open to work</div>
+        </div>
+      </div>
+      <div class="filter-row">
+        <button class="filter-btn active" data-filter="all"><span class="dot"></span>Projects</button>
+        <button class="filter-btn" data-filter="industrial"><span class="dot"></span>Industrial Design</button>
+        <button class="filter-btn" data-filter="ux"><span class="dot"></span>UX</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       PROJECTS
+       Replace IMAGE_URL_01 … IMAGE_URL_11 with your
+       framerusercontent.com asset URLs from Framer's media library.
+  ═══════════════════════════════════════════════════════════ -->
+  <section class="projects-section">
+
+    <!-- 01 iSport-I -->
+    <div class="project-group" data-group="industrial">
+      <div class="proj-divider"><div class="proj-divider-inner">/ 01 — Industrial</div></div>
+      <a class="proj-featured" href="https://www.shreyasgharat.com/professional-atheletes-performance-with-cyrotherapy" target="_top">
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+        <div class="proj-bg" style="background:#c8c8c6;">
+          <img src="https://files.catbox.moe/9zkau6.jpg" alt="iSport I" onerror="this.style.display='none'">
+        </div>
+        <div class="proj-fog"></div><div class="proj-bloom"></div>
+        <div class="proj-content"><div class="proj-content-inner">
+          <div class="proj-cat">Industrial Design · 2024</div>
+          <h2 class="proj-title">iSport — <span class="proj-num">1</span></h2>
+          <p class="proj-desc">Improving professional athletes' gameplay experience with cryotherapy to help them achieve their peak performance.</p>
+          <span class="view-btn">View project <span class="arr">→</span></span>
+        </div></div>
+      </a>
+    </div>
+
+    <!-- 02–03 Clutch + Zero G -->
+    <div class="project-group" data-group="industrial">
+      <div class="proj-grid">
+        <a class="proj-card" href="https://www.shreyasgharat.com/clutch" target="_top">
+          <div class="corner tl"></div><div class="corner tr"></div>
+          <div class="corner bl"></div><div class="corner br"></div>
+          <div class="proj-bg" style="background:#111111;">
+            <img src="https://files.catbox.moe/ognidz.jpg" alt="Clutch" onerror="this.style.display='none'">
+          </div>
+          <div class="proj-fog"></div><div class="proj-bloom"></div>
+          <div class="proj-card-label">/ 02 — Industrial</div>
+          <div class="proj-card-content">
+            <div><div class="proj-card-title">Clutch</div><p class="proj-desc">Smart cryotherapy device · 2023</p></div>
+            <span class="view-btn-corner">View Project <span class="arr">→</span></span>
+          </div>
+        </a>
+        <a class="proj-card" href="https://www.shreyasgharat.com/zero-g" target="_top">
+          <div class="corner tl"></div><div class="corner tr"></div>
+          <div class="corner bl"></div><div class="corner br"></div>
+          <div class="proj-bg" style="background:#06091a;">
+            <img src="https://files.catbox.moe/9gy50g.jpg" alt="Zero G" onerror="this.style.display='none'">
+          </div>
+          <div class="proj-fog"></div><div class="proj-bloom"></div>
+          <div class="proj-card-label">/ 03 — Industrial</div>
+          <div class="proj-card-content">
+            <div><div class="proj-card-title">Zero G</div><p class="proj-desc">Suborbital space travel experience · 2023</p></div>
+            <span class="view-btn-corner">View Project <span class="arr">→</span></span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 04–05 Wisecart + Kinetic -->
+    <div class="project-group" data-group="industrial">
+      <div class="proj-grid">
+        <a class="proj-card" href="https://www.shreyasgharat.com/wisecart" target="_top">
+          <div class="corner tl"></div><div class="corner tr"></div>
+          <div class="corner bl"></div><div class="corner br"></div>
+          <div class="proj-bg" style="background:#d6d6d6;">
+            <img src="https://files.catbox.moe/l1w2qy.jpg" alt="Wisecart" onerror="this.style.display='none'">
+          </div>
+          <div class="proj-fog"></div><div class="proj-bloom"></div>
+          <div class="proj-card-label">/ 04 — Industrial</div>
+          <div class="proj-card-content">
+            <div><div class="proj-card-title">Wisecart</div><p class="proj-desc">Smart clinical cart for connected patient care · 2024</p></div>
+            <span class="view-btn-corner">View Project <span class="arr">→</span></span>
+          </div>
+        </a>
+        <a class="proj-card" href="https://www.shreyasgharat.com/arowana" target="_top">
+          <div class="corner tl"></div><div class="corner tr"></div>
+          <div class="corner bl"></div><div class="corner br"></div>
+          <div class="proj-bg" style="background:#0a0a0a;">
+            <img src="https://files.catbox.moe/k75b1c.jpg" alt="Kinetic Design" onerror="this.style.display='none'">
+          </div>
+          <div class="proj-fog"></div><div class="proj-bloom"></div>
+          <div class="proj-card-label">/ 05 — Industrial</div>
+          <div class="proj-card-content">
+            <div><div class="proj-card-title">Kinetic Design</div><p class="proj-desc">Motion, material, and form through sculptural study · 2023</p></div>
+            <span class="view-btn-corner">View Project <span class="arr">→</span></span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 06 Chef -->
+    <div class="project-group" data-group="industrial">
+      <a class="proj-featured" href="https://www.shreyasgharat.com/cooking-assistant-ai" target="_top">
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+        <div class="proj-bg" style="background:#1a1208;">
+          <img src="https://files.catbox.moe/92ugmh.png" alt="Chef" onerror="this.style.display='none'">
+        </div>
+        <div class="proj-fog"></div><div class="proj-bloom"></div>
+        <div class="proj-content"><div class="proj-content-inner">
+          <div class="proj-cat">Industrial Design · 2023</div>
+          <h2 class="proj-title">Chef</h2>
+          <p class="proj-desc">A food experience designed around the joy of cooking and dining together.</p>
+          <span class="view-btn">View project <span class="arr">→</span></span>
+        </div></div>
+      </a>
+    </div>
+
+    <!-- 07 Spark -->
+    <div class="project-group" data-group="ux">
+      <div class="proj-divider"><div class="proj-divider-inner">/ 07 — UX</div></div>
+      <a class="proj-featured" href="https://www.shreyasgharat.com/client-project-spark" target="_top">
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+        <div class="proj-bg" style="background:#111116;">
+          <img src="https://files.catbox.moe/6ix3b9.png" alt="Spark" onerror="this.style.display='none'">
+        </div>
+        <div class="proj-fog"></div><div class="proj-bloom"></div>
+        <div class="proj-content"><div class="proj-content-inner">
+          <div class="proj-cat">UX Design · 2023</div>
+          <h2 class="proj-title">Spark</h2>
+          <p class="proj-desc">Eliminating bureaucratic friction for small businesses — a streamlined compliance platform designed with radical clarity and zero friction.</p>
+          <span class="view-btn">View project <span class="arr">→</span></span>
+        </div></div>
+      </a>
+    </div>
+
+    <!-- 08–09 Truckola + Talk the Talk -->
+    <div class="project-group" data-group="ux">
+      <div class="proj-grid">
+        <a class="proj-card" href="https://www.shreyasgharat.com/truckola" target="_top">
+          <div class="corner tl"></div><div class="corner tr"></div>
+          <div class="corner bl"></div><div class="corner br"></div>
+          <div class="proj-bg" style="background:#0a140a;">
+            <img src="https://files.catbox.moe/2574ta.jpg" alt="Truckola" onerror="this.style.display='none'">
+          </div>
+          <div class="proj-fog"></div><div class="proj-bloom"></div>
+          <div class="proj-card-label">/ 08 — UX</div>
+          <div class="proj-card-content">
+            <div><div class="proj-card-title">Truckola</div><p class="proj-desc">Brand identity & digital experience for a transparent logistics platform · 2023</p></div>
+            <span class="view-btn-corner">View Project <span class="arr">→</span></span>
+          </div>
+        </a>
+        <a class="proj-card" href="https://www.shreyasgharat.com/talkthetalk" target="_top">
+          <div class="corner tl"></div><div class="corner tr"></div>
+          <div class="corner bl"></div><div class="corner br"></div>
+          <div class="proj-bg" style="background:#161616;">
+            <img src="https://files.catbox.moe/ndfnlf.jpg" alt="Talk the Talk" onerror="this.style.display='none'">
+          </div>
+          <div class="proj-fog"></div><div class="proj-bloom"></div>
+          <div class="proj-card-label">/ 09 — UX</div>
+          <div class="proj-card-content">
+            <div><div class="proj-card-title">Talk the Talk</div><p class="proj-desc">An inclusive social skills game designed to support autistic children through play · 2023</p></div>
+            <span class="view-btn-corner">View Project <span class="arr">→</span></span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 10 Savannah Scapes -->
+    <div class="project-group" data-group="ux">
+      <a class="proj-featured" href="https://www.shreyasgharat.com/savannah-scapes" target="_top">
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+        <div class="proj-bg" style="background:#120e08;">
+          <img src="https://files.catbox.moe/1nxc08.jpg" alt="Savannah Scapes" onerror="this.style.display='none'">
+        </div>
+        <div class="proj-fog"></div><div class="proj-bloom"></div>
+        <div class="proj-content"><div class="proj-content-inner">
+          <div class="proj-cat">UX Design · 2024</div>
+          <h2 class="proj-title">Savannah Scapes</h2>
+          <p class="proj-desc">Interactive family exploration pack — turning Savannah, GA into a living playground.</p>
+          <span class="view-btn">View project <span class="arr">→</span></span>
+        </div></div>
+      </a>
+    </div>
+
+    <!-- 11–12 Coffee + Blood Bank -->
+    <div class="project-group" data-group="ux">
+      <div class="proj-grid">
+        <a class="proj-card" href="https://www.shreyasgharat.com/coffee-experience" target="_top">
+          <div class="corner tl"></div><div class="corner tr"></div>
+          <div class="corner bl"></div><div class="corner br"></div>
+          <div class="proj-bg" style="background:#120d08;">
+            <img src="https://files.catbox.moe/afhkrx.webp" alt="Coffee Experience" onerror="this.style.display='none'">
+          </div>
+          <div class="proj-fog"></div><div class="proj-bloom"></div>
+          <div class="proj-card-label">/ 11 — UX</div>
+          <div class="proj-card-content">
+            <div><div class="proj-card-title">Coffee Experience</div><p class="proj-desc">Redesigning the ritual of coffee — a sensory-first experience design study · 2022</p></div>
+            <span class="view-btn-corner">View Project <span class="arr">→</span></span>
+          </div>
+        </a>
+        <a class="proj-card" href="https://www.shreyasgharat.com/bloodbanks" target="_top">
+          <div class="corner tl"></div><div class="corner tr"></div>
+          <div class="corner bl"></div><div class="corner br"></div>
+          <div class="proj-bg" style="background:#080e16;">
+            <img src="https://files.catbox.moe/hzzgnx.jpg" alt="Blood Bank" onerror="this.style.display='none'">
+          </div>
+          <div class="proj-fog"></div><div class="proj-bloom"></div>
+          <div class="proj-card-label">/ 12 — UX</div>
+          <div class="proj-card-content">
+            <div><div class="proj-card-title">Blood Bank</div><p class="proj-desc">Reimagining blood bank delivery logistics to save critical time in emergency healthcare · 2023</p></div>
+            <span class="view-btn-corner">View Project <span class="arr">→</span></span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </section>
+
+  <script>
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const groups     = document.querySelectorAll('.project-group');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        groups.forEach(g => {
+          const cat = g.dataset.group;
+          if (f === 'all' || cat === f) {
+            g.style.display = '';
+            g.style.opacity = '0';
+            g.style.transform = 'translateY(10px)';
+            requestAnimationFrame(() => {
+              g.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+              g.style.opacity = '1';
+              g.style.transform = 'translateY(0)';
+            });
+          } else {
+            g.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
