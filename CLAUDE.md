@@ -27,4 +27,11 @@ Each project folder's `index.html` is the deployed markup. Case study notes and 
 
 ## Known gaps (as of 2026-07-02 migration)
 
-- `fun/index.html` references `assets/CAD/Gun.jpg`, which does not exist in the source assets and was not found anywhere in the old tree. The reference is broken until the file is supplied.
+- ~~`fun/index.html` referenced `assets/CAD/Gun.jpg`~~ — resolved 2026-07-02: the file never existed anywhere in the old tree, so the dead array entry was removed from `fun/index.html`.
+
+## Version control
+
+- This folder is a git repository. Claude Code operates git (init, add, commit, etc.); Shreyas speaks plain English about what he wants and Claude Code translates that into git actions.
+- Commit after each completed, working change, with a one-line plain-English commit message.
+- Never commit `_raw-assets/` or `_archive/` — both are excluded via `.gitignore` and should stay that way.
+- Before any large or risky change, commit first so there is a clean point to return to.
