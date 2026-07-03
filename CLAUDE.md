@@ -38,6 +38,7 @@ Each project folder's `index.html` is the deployed markup. Case study notes and 
 ## Version control
 
 - This folder is a git repository. Claude Code operates git (init, add, commit, etc.); Shreyas speaks plain English about what he wants and Claude Code translates that into git actions.
-- Commit after each completed, working change, with a one-line plain-English commit message.
+- Commit immediately after each approved change, before starting the next task, with a one-line plain-English commit message.
+- Push to origin after every commit. Local work must never end a session unpushed.
 - Never commit `_raw-assets/` or `_archive/` — both are excluded via `.gitignore` and should stay that way.
 - Before any large or risky change, commit first so there is a clean point to return to.
