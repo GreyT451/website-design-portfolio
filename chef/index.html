@@ -90,8 +90,9 @@ p{margin:0 0 1em}
 .rail::before{content:"";flex:0 0 auto;width:34px;height:1px;background:currentColor}
 
 /* ---------- hero ---------- */
-.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;
-  background:var(--paper);position:relative;overflow:hidden;padding-bottom:clamp(28px,5vw,60px)}
+.hero{display:flex;flex-direction:column;justify-content:flex-end;
+  background:var(--paper);position:relative;overflow:hidden;
+  padding-top:clamp(120px,14vw,220px);padding-bottom:clamp(28px,5vw,60px)}
 .hero__bg{position:absolute;inset:0;z-index:0}
 .hero__bg::after{content:"";position:absolute;inset:0;background:
   radial-gradient(120% 90% at 78% 18%, rgba(198,140,132,.0) 0%, rgba(198,140,132,.22) 60%, rgba(176,118,110,.42) 100%),
@@ -207,12 +208,23 @@ p{margin:0 0 1em}
 .acard .lab{padding:12px 14px;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;display:flex;justify-content:space-between;gap:6px;color:var(--paper)}
 .acard .lab b{color:var(--rose)}
 
-/* ---------- storyboard horizontal ---------- */
+/* ---------- storyboard horizontal ----------
+   Native horizontal scroll, not a scroll-position-driven pin+translate:
+   the old version read window.scrollY / getBoundingClientRect() from
+   inside .board__sticky (overflow:hidden), which only ever moves when
+   the iframe's own document scrolls. Under the Wix embed (fixed iframe
+   height matched to content, so the iframe itself never scrolls — the
+   outer Wix page scrolls the whole embed box instead) that JS never
+   fires, so .board__track never translates and steps 2-8 stay clipped
+   and unreachable. Native overflow-x here works regardless of which
+   document is doing the scrolling. */
 .board{position:relative;background:var(--ink);color:var(--paper)}
-.board__sticky{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
-.board__head{padding:clamp(22px,4vw,40px) var(--pad) 0;display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
-.board__track{display:flex;gap:clamp(16px,2vw,30px);padding:clamp(24px,4vw,48px) var(--pad);will-change:transform}
-.step{flex:0 0 clamp(240px,30vw,360px)}
+.board__sticky{padding-block:clamp(28px,4vw,48px)}
+.board__head{padding:0 var(--pad) clamp(20px,3vw,32px);display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+.board__track{display:flex;gap:clamp(16px,2vw,30px);padding:0 var(--pad) clamp(24px,3vw,40px);overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.board__track::-webkit-scrollbar{height:6px}
+.board__track::-webkit-scrollbar-thumb{background:var(--rose);border-radius:3px}
+.step{flex:0 0 clamp(240px,30vw,360px);scroll-snap-align:start}
 .step .media{aspect-ratio:4/5;border-radius:14px;background:#2a231d;position:relative}
 .step .media .actor{position:absolute;bottom:12px;left:14px;font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:rgba(27,22,18,.55);backdrop-filter:blur(6px);padding:4px 9px;border-radius:20px}
 .step .icard{aspect-ratio:4/5;border-radius:14px;border:1px solid var(--line-light);display:grid;place-items:center;
@@ -228,11 +240,9 @@ p{margin:0 0 1em}
 .step .n{font-family:var(--display);font-weight:700;font-size:2.4rem;letter-spacing:-.03em;line-height:1;color:var(--rose);margin-top:14px}
 .step h3{margin-top:4px;color:var(--paper)}
 .board__hint{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--rose)}
-/* reduced-motion fallback grid */
-.board--static{display:none}
+/* reduced-motion: normal wrapping grid, no scroll needed at all (per Chef.md) */
 @media (prefers-reduced-motion:reduce){
-  .board__sticky{position:static;height:auto}
-  .board__track{flex-wrap:wrap}
+  .board__track{flex-wrap:wrap;overflow-x:visible}
   .step{flex:1 1 240px}
 }
 
@@ -247,7 +257,7 @@ p{margin:0 0 1em}
 .feat dd{margin:4px 0 0;font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:#cdbfa8}
 
 /* ---------- finale ---------- */
-.finale{position:relative;height:100svh;min-height:560px;overflow:hidden;display:flex;align-items:flex-end;background:#000}
+.finale{position:relative;height:clamp(560px,62vw,860px);overflow:hidden;display:flex;align-items:flex-end;background:#000}
 .finale img{position:absolute;inset:0;width:100%;height:115%;object-fit:cover;will-change:transform;opacity:.92}
 .finale__grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,transparent 30%,transparent 55%,rgba(0,0,0,.78) 100%)}
 .finale__inner{position:relative;z-index:2;color:#fff;padding:var(--pad);width:100%}
@@ -283,7 +293,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--rose);outline-offse
 
 <!-- HERO -->
 <header class="hero" id="top">
-  <div class="hero__bg"><img class="hero__img" id="heroImg" src="./assets/hero-twin.jpg" alt="Two Chef devices in dusty-rose finish, screens showing the recipe app, on a soft pink studio backdrop." /></div>
+  <div class="hero__bg"><img class="hero__img" id="heroImg" src="https://greyt451.github.io/website-design-portfolio/chef/assets/hero-twin.jpg" alt="Two Chef devices in dusty-rose finish, screens showing the recipe app, on a soft pink studio backdrop." /></div>
   <div class="hero__inner wrap">
     <span class="eyebrow reveal">Industrial Design × UX · SCAD</span>
     <h1 aria-label="Chef"><span>C</span><span>h</span><span>e</span><span>f</span></h1>
@@ -308,7 +318,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--rose);outline-offse
         <p class="lead" style="margin-top:1.4em;max-width:46ch">Despite smart appliances and cooking apps, there's a lack of solutions that seamlessly blend convenience, personalization, and engagement to make home cooking effortless and enjoyable.</p>
       </div>
       <figure class="reveal d2" style="margin:0">
-        <div class="media" style="aspect-ratio:4/5"><img src="./assets/food-collage.jpg" alt="Takeout soups and a meal-delivery box, illustrating reliance on fast food and frozen meals." loading="lazy" /></div>
+        <div class="media" style="aspect-ratio:4/5"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/food-collage.jpg" alt="Takeout soups and a meal-delivery box, illustrating reliance on fast food and frozen meals." loading="lazy" /></div>
         <figcaption class="cap">The gap — between takeout and the table</figcaption>
       </figure>
     </div>
@@ -357,10 +367,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--rose);outline-offse
           <span class="tag b">Single-Function</span>
           <span class="tag l">Traditional</span>
           <span class="tag r">Interactive</span>
-          <div class="dot" style="left:24%;top:68%"><img src="./assets/comp-instantpot.jpg" alt="Single-function pressure cooker"></div>
-          <div class="dot" style="left:30%;top:34%"><img src="./assets/comp-thermomix.jpg" alt="Multi-function cooking robot"></div>
-          <div class="dot" style="left:72%;top:64%"><img src="./assets/comp-nesthub.jpg" alt="Interactive kitchen display"></div>
-          <div class="dot" style="left:20%;top:20%"><img src="./assets/comp-fridge.jpg" alt="Smart refrigerator"></div>
+          <div class="dot" style="left:24%;top:68%"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/comp-instantpot.jpg" alt="Single-function pressure cooker"></div>
+          <div class="dot" style="left:30%;top:34%"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/comp-thermomix.jpg" alt="Multi-function cooking robot"></div>
+          <div class="dot" style="left:72%;top:64%"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/comp-nesthub.jpg" alt="Interactive kitchen display"></div>
+          <div class="dot" style="left:20%;top:20%"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/comp-fridge.jpg" alt="Smart refrigerator"></div>
           <div class="me"><span class="pin">Chef</span></div>
         </div>
         <p class="cap">Single / Multi-Function × Traditional / Interactive</p>
@@ -417,11 +427,11 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--rose);outline-offse
       <p class="lead reveal d2" style="max-width:42ch">Dozens of silhouettes explored a single idea — a tablet that rests on a soft cylindrical roll, free to tilt to any angle. The form was pressure-tested in paper and foam before it was ever rendered.</p>
     </div>
     <div class="gal">
-      <figure class="media g-wide reveal" style="aspect-ratio:16/10;margin:0"><img src="./assets/sketches.jpg" alt="Isometric ideation sketches of the Chef device on its rolled base." loading="lazy"></figure>
-      <figure class="media g-tall reveal d1" style="margin:0"><img src="./assets/proto-cardboard.jpg" alt="Cardboard study model of the device and roll." loading="lazy"></figure>
-      <figure class="media g-half reveal" style="aspect-ratio:4/3;margin:0"><img src="./assets/sketches-2.jpg" alt="Refinement sketches exploring the base and screen." loading="lazy"></figure>
-      <figure class="media g-tall reveal d1" style="aspect-ratio:1/1;margin:0"><img src="./assets/proto-foam.jpg" alt="Pink foam model of the device on its roll." loading="lazy"></figure>
-      <figure class="media reveal d2" style="aspect-ratio:1/1;margin:0"><img src="./assets/cmf-samples.jpg" alt="CMF material and finish samples." loading="lazy"></figure>
+      <figure class="media g-wide reveal" style="aspect-ratio:16/10;margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/sketches.jpg" alt="Isometric ideation sketches of the Chef device on its rolled base." loading="lazy"></figure>
+      <figure class="media g-tall reveal d1" style="margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/proto-cardboard.jpg" alt="Cardboard study model of the device and roll." loading="lazy"></figure>
+      <figure class="media g-half reveal" style="aspect-ratio:4/3;margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/sketches-2.jpg" alt="Refinement sketches exploring the base and screen." loading="lazy"></figure>
+      <figure class="media g-tall reveal d1" style="aspect-ratio:1/1;margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/proto-foam.jpg" alt="Pink foam model of the device on its roll." loading="lazy"></figure>
+      <figure class="media reveal d2" style="aspect-ratio:1/1;margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/cmf-samples.jpg" alt="CMF material and finish samples." loading="lazy"></figure>
     </div>
   </div>
 </section>
@@ -454,15 +464,15 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--rose);outline-offse
       <p class="lead reveal d2" style="max-width:40ch;color:#cdbfa8">A back stand lets the screen adjust to any angle; a recessed projector, soft LED and tidy wire outlet keep the silhouette quiet on a busy counter.</p>
     </div>
     <div class="anatomy">
-      <div class="acard reveal"><div class="media"><img src="./assets/story-scan.jpg" alt="Round push-button prototype held in hand." loading="lazy"></div><div class="lab"><span>Button</span><b>01</b></div></div>
-      <div class="acard reveal d1"><div class="media"><img src="./assets/pink-render.jpg" alt="Device resting back on its cylindrical roll stand." loading="lazy"></div><div class="lab"><span>Back Stand</span><b>02</b></div></div>
-      <div class="acard reveal d2"><div class="media"><img src="./assets/story-scan2.jpg" alt="Small indicator component prototype held in hand." loading="lazy"></div><div class="lab"><span>LED indicator</span><b>03</b></div></div>
-      <div class="acard reveal d3"><div class="media"><img src="./assets/detail-projector.jpg" alt="Recessed projector lens detail on the sage finish." loading="lazy"></div><div class="lab"><span>Projector</span><b>04</b></div></div>
-      <div class="acard reveal d4"><div class="media"><img src="./assets/detail-wire.jpg" alt="Wire outlet and braided cable detail." loading="lazy"></div><div class="lab"><span>Wire outlet</span><b>05</b></div></div>
+      <div class="acard reveal"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/story-scan.jpg" alt="Round push-button prototype held in hand." loading="lazy"></div><div class="lab"><span>Button</span><b>01</b></div></div>
+      <div class="acard reveal d1"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/pink-render.jpg" alt="Device resting back on its cylindrical roll stand." loading="lazy"></div><div class="lab"><span>Back Stand</span><b>02</b></div></div>
+      <div class="acard reveal d2"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/story-scan2.jpg" alt="Small indicator component prototype held in hand." loading="lazy"></div><div class="lab"><span>LED indicator</span><b>03</b></div></div>
+      <div class="acard reveal d3"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/detail-projector.jpg" alt="Recessed projector lens detail on the sage finish." loading="lazy"></div><div class="lab"><span>Projector</span><b>04</b></div></div>
+      <div class="acard reveal d4"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/detail-wire.jpg" alt="Wire outlet and braided cable detail." loading="lazy"></div><div class="lab"><span>Wire outlet</span><b>05</b></div></div>
     </div>
     <div class="gal" style="margin-top:clamp(16px,2vw,24px)">
-      <figure class="media g-wide reveal" style="aspect-ratio:16/9;margin:0"><img src="./assets/anatomy-green.jpg" alt="Exploded view of the device with labelled internal components." loading="lazy"></figure>
-      <figure class="media reveal d1" style="aspect-ratio:4/5;margin:0"><img src="./assets/real-context.jpg" alt="Working prototype on a real kitchen counter beside everyday appliances." loading="lazy"></figure>
+      <figure class="media g-wide reveal" style="aspect-ratio:16/9;margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/anatomy-green.jpg" alt="Exploded view of the device with labelled internal components." loading="lazy"></figure>
+      <figure class="media reveal d1" style="aspect-ratio:4/5;margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/real-context.jpg" alt="Working prototype on a real kitchen counter beside everyday appliances." loading="lazy"></figure>
     </div>
     <p class="cap reveal">Usability — adjustable to any angle · back stand</p>
   </div>
@@ -483,13 +493,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--rose);outline-offse
       <article class="step"><div class="icard"><b>You</b><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M34 22 L66 22 L66 74 L60 70 L54 74 L48 70 L42 74 L36 70 L34 74 Z"/><path d="M42 36 L58 36 M42 46 L58 46 M42 56 L52 56"/><path d="M24 30 L24 30 M22 50 L30 50" stroke-dasharray="1 7"/></svg></div><div class="n">02</div><h3>Scans the receipt</h3></article>
       <article class="step"><div class="icard"><b>You</b><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M30 70 C20 70 20 54 32 54 C32 38 56 36 58 52 C72 50 74 66 64 70"/><path d="M50 78 L50 48 M40 58 L50 48 L60 58"/></svg></div><div class="n">03</div><h3>Uploads</h3></article>
       <article class="step"><div class="icard"><b>You</b><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M24 50 L50 26 L76 50"/><path d="M32 46 L32 76 L68 76 L68 46"/><path d="M44 76 L44 58 L56 58 L56 76"/></svg></div><div class="n">04</div><h3>Arrives home</h3></article>
-      <article class="step"><div class="media"><img src="./assets/real-context.jpg" alt="Tapping the Chef device on the counter to begin." loading="lazy"><span class="actor">Chef</span></div><div class="n">05</div><h3>Clicks on the device</h3></article>
-      <article class="step"><div class="media"><img src="./assets/app-context.jpg" alt="Selecting a recipe on the Chef screen." loading="lazy"><span class="actor">Chef</span></div><div class="n">06</div><h3>Selects the recipe</h3></article>
-      <article class="step"><div class="media"><img src="./assets/app-ui.jpg" alt="Following the cooking steps on the app." loading="lazy"><span class="actor">Chef</span></div><div class="n">07</div><h3>Follows the cooking steps</h3></article>
-      <article class="step"><div class="media"><img src="./assets/kitchen-wide.jpg" alt="The finished meal, Chef quiet on the counter." loading="lazy"><span class="actor">Chef</span></div><div class="n">08</div><h3>Meal is served</h3></article>
+      <article class="step"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/real-context.jpg" alt="Tapping the Chef device on the counter to begin." loading="lazy"><span class="actor">Chef</span></div><div class="n">05</div><h3>Clicks on the device</h3></article>
+      <article class="step"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/app-context.jpg" alt="Selecting a recipe on the Chef screen." loading="lazy"><span class="actor">Chef</span></div><div class="n">06</div><h3>Selects the recipe</h3></article>
+      <article class="step"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/app-ui.jpg" alt="Following the cooking steps on the app." loading="lazy"><span class="actor">Chef</span></div><div class="n">07</div><h3>Follows the cooking steps</h3></article>
+      <article class="step"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/kitchen-wide.jpg" alt="The finished meal, Chef quiet on the counter." loading="lazy"><span class="actor">Chef</span></div><div class="n">08</div><h3>Meal is served</h3></article>
     </div>
   </div>
-  <div class="board__spacer" id="boardSpacer" aria-hidden="true"></div>
 </section>
 
 <!-- INTERFACE -->
@@ -510,10 +519,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--rose);outline-offse
         </dl>
       </div>
       <div class="reveal d2">
-        <figure class="media" style="aspect-ratio:1/1;margin:0 0 14px;background:#000"><img src="./assets/app-ui.jpg" alt="The Chef app on a phone, showing recipe cards, Set Time and Shopping list." loading="lazy"></figure>
+        <figure class="media" style="aspect-ratio:1/1;margin:0 0 14px;background:#000"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/app-ui.jpg" alt="The Chef app on a phone, showing recipe cards, Set Time and Shopping list." loading="lazy"></figure>
         <div class="app-shots">
-          <figure class="media" style="margin:0"><img src="./assets/app-screen-a.jpg" alt="App home with recipe tiles and warm amber accents." loading="lazy"></figure>
-          <figure class="media" style="margin:0"><img src="./assets/app-screen-b.jpg" alt="Recipe detail screen." loading="lazy"></figure>
+          <figure class="media" style="margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/app-screen-a.jpg" alt="App home with recipe tiles and warm amber accents." loading="lazy"></figure>
+          <figure class="media" style="margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/app-screen-b.jpg" alt="Recipe detail screen." loading="lazy"></figure>
         </div>
       </div>
     </div>
@@ -522,7 +531,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--rose);outline-offse
 
 <!-- FINALE -->
 <section class="finale" id="insitu" aria-label="Chef in a kitchen">
-  <img id="finaleImg" src="./assets/final-kitchen.jpg" alt="The Chef device standing on a kitchen counter against white subway tile, screen lit with the recipe app." />
+  <img id="finaleImg" src="https://greyt451.github.io/website-design-portfolio/chef/assets/final-kitchen.jpg" alt="The Chef device standing on a kitchen counter against white subway tile, screen lit with the recipe app." />
   <div class="finale__grad"></div>
   <div class="finale__inner wrap">
     <p class="rail" style="color:#fff;margin-bottom:14px"><b>07</b> — In situ</p>
@@ -564,10 +573,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--rose);outline-offse
       requestAnimationFrame(function(){ hi.style.opacity=reduce?'.9':'.95'; }); }
   });
 
-  /* reveal observer */
+  /* reveal observer — threshold 0, no rootMargin: rootMargin is ignored
+     in cross-origin iframes and the old 0.12 threshold left sections
+     invisible as blank bands under the Wix embed */
   var io=new IntersectionObserver(function(entries){
     entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-  },{threshold:0.12, rootMargin:'0px 0px -8% 0px'});
+  },{threshold:0});
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
 
   /* count-up */
@@ -608,29 +619,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--rose);outline-offse
         }
       }
     }
-    boardScroll();
-  }
-
-  /* horizontal storyboard pinned */
-  var board=document.getElementById('story');
-  var track=document.getElementById('boardTrack');
-  var spacer=document.getElementById('boardSpacer');
-  var sticky=document.getElementById('boardSticky');
-  function boardSize(){
-    if(reduce||!track||!spacer){ if(spacer) spacer.style.height='0px'; return; }
-    var extra=track.scrollWidth-window.innerWidth;
-    if(extra<0) extra=0;
-    spacer.style.height=extra+'px';
-    spacer._extra=extra;
-  }
-  function boardScroll(){
-    if(reduce||!board||!track||!spacer) return;
-    var extra=spacer._extra||0;
-    var rect=board.getBoundingClientRect();
-    var scrolled=-rect.top;
-    var max=extra;
-    var x=Math.max(0,Math.min(max,scrolled));
-    track.style.transform='translateX('+(-x)+'px)';
   }
 
   /* magnetic links */
@@ -647,8 +635,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--rose);outline-offse
   }
 
   window.addEventListener('scroll', onScroll, {passive:true});
-  window.addEventListener('resize', function(){ boardSize(); onScroll(); });
-  boardSize(); onScroll();
+  window.addEventListener('resize', onScroll);
+  onScroll();
 })();
 </script>
 </body>
