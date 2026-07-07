@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wise Cart. Industrial design case study.</title>
+<meta name="description" content="Wise Cart, a smart shopping cart concept that reads the nutritional balance of the whole basket while you shop. Case study by Shreyas Gharat.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340..600;1,9..144,340..600&family=Work+Sans:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --studio:#F4F5F3;
+  --studio-2:#E9EBE8;
+  --ink:#131511;
+  --ink-soft:#43463F;
+  --graphite:#26282A;
+  --void:#0D0E0C;
+  --line:rgba(19,21,17,.14);
+  --line-d:rgba(244,245,243,.16);
+  --led-blue:#3B82F6;
+  --led-green:#2EC06B;
+  --led-yellow:#F2C230;
+  --led-red:#E5484D;
+  --strip-g:linear-gradient(90deg,var(--led-blue),var(--led-green),var(--led-yellow),var(--led-red));
+  --disp:'Fraunces',Georgia,serif;
+  --body:'Work Sans',system-ui,sans-serif;
+  --meta:'DM Sans',system-ui,sans-serif;
+  --maxw:1240px;
+  --pad:clamp(20px,5vw,84px);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+html,body{display:block;width:100%;height:auto;background:var(--studio);color:var(--ink)}
+body{
+  font-family:var(--body);font-size:clamp(16px,1.02vw,18px);line-height:1.62;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+section,footer{display:block;width:100%}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--ink);color:var(--studio)}
+.dark ::selection{background:var(--studio);color:var(--ink)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.dark :focus-visible{outline-color:var(--studio)}
+
+/* ---------- progress strip: fixed spectrum revealed by width ---------- */
+.progress-rail{position:fixed;top:0;left:0;width:100%;height:3px;z-index:60;background:var(--studio-2);box-shadow:0 1px 0 var(--line)}
+.progress-strip{height:100%;width:0;background-image:var(--strip-g);background-size:100vw 100%;background-repeat:no-repeat}
+
+/* ---------- shared shell ---------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+.sec{padding-top:clamp(64px,9vw,140px);padding-bottom:clamp(64px,9vw,140px)}
+.dark{background:var(--void);color:var(--studio)}
+.dark .soft{color:rgba(244,245,243,.74)}
+.soft{color:var(--ink-soft)}
+h1,h2,h3{font-family:var(--disp);font-weight:420;line-height:1.06;letter-spacing:-0.015em;text-wrap:balance}
+h1{font-size:clamp(3rem,8.5vw,5.9rem)}
+h2{font-size:clamp(2rem,4.6vw,3.4rem);margin-bottom:clamp(20px,3vw,40px)}
+h3{font-size:clamp(1.25rem,2vw,1.6rem);font-weight:480}
+p{max-width:64ch}
+p.lede{font-size:clamp(1.08rem,1.4vw,1.3rem);line-height:1.55;max-width:56ch;text-wrap:pretty}
+.label{font-family:var(--meta);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.dark .label{color:rgba(244,245,243,.6)}
+
+/* gradient underline carries all interaction */
+.glink{position:relative;font-weight:500;background-image:var(--strip-g);background-repeat:no-repeat;background-position:0 100%;background-size:100% 2px;padding-bottom:3px;transition:background-size .25s var(--ease)}
+.glink:hover,.glink:focus-visible{background-size:100% 4px}
+
+/* strip segments used as chapter dividers / accents */
+.seg{display:block;width:76px;height:2px;background-image:var(--strip-g);background-size:76px 2px;border:0;box-shadow:0 1px 0 var(--line)}
+.seg.draw{transform-origin:left center}
+
+/* ---------- figures ---------- */
+figure{margin:0}
+.fig{position:relative;overflow:hidden;background:var(--studio-2)}
+.fig img{width:100%;height:100%;object-fit:cover}
+.fig.r169{aspect-ratio:16/9}
+.fig.r43{aspect-ratio:4/3}
+.fig.r32{aspect-ratio:3/2}
+.fig.frame{box-shadow:inset 0 0 0 1px var(--line)}
+.dark .fig{background:#171815}
+.dark .fig.frame{box-shadow:inset 0 0 0 1px var(--line-d)}
+figcaption{font-family:var(--meta);font-size:.82rem;letter-spacing:.02em;color:var(--ink-soft);padding-top:10px;display:flex;gap:10px;align-items:baseline}
+.dark figcaption{color:rgba(244,245,243,.6)}
+figcaption .fno{letter-spacing:.12em;text-transform:uppercase;font-size:.72rem;white-space:nowrap}
+.fig .edge{position:absolute;left:0;right:0;bottom:0;height:2px;background-image:var(--strip-g);background-size:100% 2px;opacity:0;transition:opacity .3s var(--ease)}
+figure:hover .fig .edge{opacity:1}
+
+/* ---------- hero ---------- */
+.hero{padding-top:clamp(64px,10vw,150px)}
+.hero .label{margin-bottom:18px}
+.hero h1{margin-bottom:14px}
+.hero .seg{margin:26px 0 18px;width:120px;background-size:120px 2px}
+.hero .tag{font-size:clamp(1.1rem,1.6vw,1.45rem);color:var(--ink-soft);max-width:34ch;text-wrap:pretty}
+.hero-fig{margin-top:clamp(36px,5vw,72px)}
+
+/* meta strip: deliberate spec sheet blanks */
+.meta-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:clamp(40px,6vw,80px)}
+.meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0}
+.meta-cell{padding:16px 18px 14px 0;font-family:var(--meta);font-size:.86rem}
+.meta-cell + .meta-cell{padding-left:18px;border-left:1px solid var(--line)}
+.meta-cell .k{display:block;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px}
+.meta-cell .tbd{color:var(--ink-soft);border-bottom:1px dashed var(--line)}
+
+/* ---------- challenge (dark chapter 1) ---------- */
+.challenge-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,4vw,64px);align-items:start}
+.challenge-grid h2{max-width:16ch}
+.plist{list-style:none;margin-top:clamp(28px,4vw,56px)}
+.plist li{display:grid;grid-template-columns:64px 1fr;gap:18px;padding:22px 0;border-top:1px solid var(--line-d)}
+.plist .n{font-family:var(--meta);font-size:.78rem;letter-spacing:.14em;color:rgba(244,245,243,.55);padding-top:5px}
+.plist h3{margin-bottom:6px}
+.plist p{color:rgba(244,245,243,.74);max-width:52ch}
+
+/* ---------- concept ---------- */
+.concept-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(28px,4vw,64px);align-items:center}
+.hw{list-style:none;margin-top:clamp(24px,3vw,44px)}
+.hw li{position:relative;padding:20px 0 20px 26px;border-top:1px solid var(--line)}
+.hw li::before{content:"";position:absolute;left:0;top:24px;width:12px;height:2px;background-image:var(--strip-g);background-size:12px 2px;box-shadow:0 1px 0 var(--line)}
+.hw li:nth-child(2)::before{background:var(--led-green)}
+.hw li:nth-child(3)::before{background:var(--led-yellow)}
+.hw li:nth-child(1)::before{background:var(--led-blue)}
+.hw h3{font-family:var(--body);font-size:1rem;font-weight:600;letter-spacing:0;margin-bottom:4px}
+.hw p{color:var(--ink-soft);max-width:52ch}
+
+/* ---------- why this stack ---------- */
+.stack-rows{border-top:1px solid var(--line)}
+.stack-row{display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:clamp(18px,3vw,48px);padding:clamp(22px,3vw,36px) 0;border-bottom:1px solid var(--line)}
+.stack-row .verdict{font-family:var(--meta);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);padding-top:6px}
+.stack-row.chosen{position:relative}
+.stack-row.chosen::before{content:"";position:absolute;left:0;top:-1px;width:100%;height:2px;background-image:var(--strip-g);background-size:100% 2px;box-shadow:0 1px 0 var(--line)}
+.stack-row.chosen .verdict{color:var(--ink);font-weight:500}
+.stack-row h3{font-family:var(--body);font-size:1.05rem;font-weight:600;margin-bottom:6px}
+.stack-row p{color:var(--ink-soft)}
+.precedent{margin-top:clamp(24px,3vw,40px);padding-left:clamp(18px,3vw,48px);max-width:60ch}
+.precedent p{font-size:1.02rem}
+
+/* ---------- process / the aisle ---------- */
+.aisle-head{display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap}
+.aisle-hint{font-family:var(--meta);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.aisle{display:flex;gap:clamp(14px,2vw,26px);overflow-x:auto;padding:clamp(20px,3vw,36px) var(--pad);margin:0 calc(-1 * var(--pad));scroll-snap-type:x proximity;cursor:grab;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.aisle.dragging{cursor:grabbing;scroll-snap-type:none}
+.aisle figure{flex:0 0 auto;width:clamp(260px,38vw,500px);scroll-snap-align:center}
+.aisle .fig{aspect-ratio:16/10}
+.process-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(14px,2vw,26px);margin-top:clamp(28px,4vw,56px)}
+.process-grid .c8{grid-column:span 8}
+.process-grid .c4{grid-column:span 4}
+.process-grid .c6{grid-column:span 6}
+.proto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(14px,2vw,26px);margin-top:clamp(14px,2vw,26px)}
+.process-note{margin:clamp(40px,6vw,72px) 0 clamp(16px,2vw,28px)}
+
+/* ---------- display (dark chapter 2) ---------- */
+.display-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center}
+.legend{list-style:none;border-top:1px solid var(--line-d)}
+.legend li{display:grid;grid-template-columns:minmax(130px,180px) 1fr;gap:18px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line-d)}
+.legend .cat{font-family:var(--meta);font-size:.86rem;letter-spacing:.04em}
+.legend .bar{height:4px;border-radius:2px}
+.legend .bar.full{background-image:var(--strip-g);background-size:100% 4px;box-shadow:0 0 12px rgba(46,192,107,.35),0 0 12px rgba(59,130,246,.25)}
+.legend .bar.b{background:var(--led-blue);box-shadow:0 0 10px rgba(59,130,246,.5)}
+.legend .bar.g{background:var(--led-green);box-shadow:0 0 10px rgba(46,192,107,.5)}
+.legend .bar.y{background:var(--led-yellow);box-shadow:0 0 10px rgba(242,194,48,.5)}
+.legend .bar.r{background:var(--led-red);box-shadow:0 0 10px rgba(229,72,77,.5)}
+.legend li.balanced .cat{font-weight:500}
+.display-copy p{color:rgba(244,245,243,.74);margin-top:14px}
+
+/* ---------- flow ---------- */
+.flow-grid{display:grid;grid-template-columns:1fr 1.7fr 1fr;gap:clamp(18px,3vw,40px);margin-top:clamp(32px,4vw,56px);align-items:end}
+.step .fig{background:#171815}
+.step .fig.phone{aspect-ratio:47/96}
+.step .fig.wide{aspect-ratio:208/73}
+.step-head{display:flex;align-items:baseline;gap:12px;margin-top:16px}
+.step-head .n{font-family:var(--meta);font-size:.72rem;letter-spacing:.14em;color:rgba(244,245,243,.55)}
+.step-head h3{font-family:var(--body);font-size:1rem;font-weight:600}
+.step p{color:rgba(244,245,243,.7);font-size:.94rem;margin-top:6px;max-width:34ch}
+.flow-rail{height:2px;background:rgba(244,245,243,.12);margin-top:clamp(28px,4vw,48px);position:relative;overflow:hidden}
+.flow-rail .fill{position:absolute;inset:0;background-image:var(--strip-g);background-size:100% 2px;transform:scaleX(0);transform-origin:left center;transition:transform .8s var(--ease)}
+.flow-rail.lit .fill{transform:scaleX(1)}
+
+/* ---------- business ---------- */
+.biz-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,4vw,64px);align-items:start}
+.biz-facts{border-top:1px solid var(--line)}
+.biz-facts>div{padding:22px 0;border-bottom:1px solid var(--line)}
+.biz-facts .k{font-family:var(--meta);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+.biz-facts p{color:var(--ink-soft)}
+.biz-facts strong{color:var(--ink);font-weight:600}
+.roles{list-style:none;margin-top:10px}
+.roles li{padding:10px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(120px,170px) 1fr;gap:16px}
+.roles .who{font-family:var(--meta);font-size:.82rem;letter-spacing:.06em;padding-top:2px;font-weight:500}
+.roles p{color:var(--ink-soft);font-size:.94rem}
+
+/* ---------- finals ---------- */
+.final-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(14px,2vw,26px)}
+.final-grid .c12{grid-column:span 12}
+.final-grid .c6{grid-column:span 6}
+
+/* ---------- reflection ---------- */
+.reflect p{color:var(--ink-soft);border-left:1px dashed var(--line);padding:4px 0 4px 20px;margin-top:18px;max-width:58ch}
+
+/* ---------- footer ---------- */
+.foot{border-top:1px solid var(--line);padding:28px var(--pad);display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-family:var(--meta);font-size:.82rem;color:var(--ink-soft)}
+
+/* ---------- reveal choreography (JS enhances a visible default) ---------- */
+.js .rv{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:calc(var(--i,0)*70ms)}
+.js .rv.in{opacity:1;transform:none}
+.js .hero .rv{transition-duration:.9s}
+.js .seg.draw{transform:scaleX(0);transition:transform .9s var(--ease) .35s}
+.js .seg.draw.in{transform:scaleX(1)}
+@keyframes breathe{from{opacity:.85}to{opacity:1}}
+.dark .legend .bar{animation:breathe 6s ease-in-out infinite alternate}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .js .rv{opacity:1;transform:none;transition:none}
+  .js .seg.draw{transform:none;transition:none}
+  .dark .legend .bar{animation:none}
+  .progress-strip,.flow-rail .fill,.glink{transition:none}
+}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .challenge-grid,.concept-grid,.display-grid,.biz-grid{grid-template-columns:1fr}
+  .flow-grid{grid-template-columns:1fr;align-items:start}
+  .step .fig.phone{aspect-ratio:auto;max-width:300px}
+  .step .fig.phone img{aspect-ratio:47/96;object-fit:cover}
+  .process-grid .c8,.process-grid .c4,.process-grid .c6{grid-column:span 12}
+  .final-grid .c6{grid-column:span 12}
+  .stack-row{grid-template-columns:1fr;gap:6px}
+  .challenge-grid .fig{order:-1}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-rail" aria-hidden="true"><div class="progress-strip" id="pstrip"></div></div>
+
+<!-- 1 · hero -->
+<section class="sec hero" id="top">
+  <div class="wrap">
+    <p class="label rv">Industrial design case study</p>
+    <h1 class="rv" style="--i:1">Wise Cart</h1>
+    <hr class="seg draw" aria-hidden="true">
+    <p class="tag rv" style="--i:2">A shopping cart that reads the basket as a whole, while you shop, not per item after the fact.</p>
+    <figure class="hero-fig rv" style="--i:3">
+      <div class="fig r169"><img src="assets/hero.jpg" alt="Final render, light gray cart with twin stacked baskets and a black strap handle, under studio light" width="1920" height="1080" fetchpriority="high"></div>
+      <figcaption><span class="fno">Fig 01</span> Final form, twin basket cart with the scanner handle</figcaption>
+    </figure>
+
+    <div class="meta-strip">
+      <div class="meta-grid">
+        <div class="meta-cell"><span class="k">Course</span><span class="tbd">[to be filled]</span></div>
+        <div class="meta-cell"><span class="k">School</span><span class="tbd">[to be filled]</span></div>
+        <div class="meta-cell"><span class="k">Duration</span><span class="tbd">[to be filled]</span></div>
+        <div class="meta-cell"><span class="k">Role</span>Solo. Concept design, CAD, rendering</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · challenge (dark chapter 1) -->
+<section class="sec dark">
+  <div class="wrap">
+    <div class="challenge-grid">
+      <div>
+        <h2 class="rv">Groceries decide diets, and nobody reads the whole basket</h2>
+        <p class="lede soft rv" style="--i:1">Nutrition advice happens per item: labels, apps, scores. But nobody eats one item. The unit that actually decides a week of eating is the full cart, and no tool reads it while the decisions are still being made.</p>
+      </div>
+      <figure class="rv" style="--i:2">
+        <div class="fig r43 frame"><img src="assets/challenge-food.jpg" alt="Overhead spread of groceries, meat, fish, cheese, vegetables and fruit on a wooden table" width="1885" height="1414" loading="lazy"><span class="edge"></span></div>
+        <figcaption><span class="fno">Fig 02</span> The real unit of decision, a week of food at once</figcaption>
+      </figure>
+    </div>
+    <ul class="plist">
+      <li class="rv"><span class="n">01</span><div><h3>Unhealthy food is the convenient default</h3><p>Unhealthy options are often cheaper, faster and easier to reach than the alternatives.</p></div></li>
+      <li class="rv" style="--i:1"><span class="n">02</span><div><h3>Processed food is marketed hardest</h3><p>The heaviest advertising budgets sit behind processed products, which keeps them the most visible choice in the store.</p></div></li>
+      <li class="rv" style="--i:2"><span class="n">03</span><div><h3>Nutritional value is opaque at the shelf</h3><p>Most shoppers cannot judge the nutritional weight of a full basket from individual labels while standing in an aisle.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 3 · concept -->
+<section class="sec">
+  <div class="wrap">
+    <div class="concept-grid">
+      <figure class="rv">
+        <div class="fig r32 frame"><img src="assets/concept.jpg" alt="Concept render, cart with two blue baskets on a gray tubular frame in a dark studio" width="2200" height="1238" loading="lazy"><span class="edge"></span></div>
+        <figcaption><span class="fno">Fig 03</span> Concept stage, basket carrier with the sensing frame</figcaption>
+      </figure>
+      <div>
+        <h2 class="rv">A cart that shows the balance of everything in it</h2>
+        <p class="soft rv" style="--i:1">Wise Cart gives the shopper one live signal: how balanced the whole basket is right now. It is framed as balance across food groups, not as good and bad food, so the cart informs without shaming. Checkout happens on the cart itself. No register lane, no bagging station.</p>
+        <ul class="hw">
+          <li class="rv" style="--i:2"><h3>Scanner at the base of the handle</h3><p>Items are scanned one motion before they drop into the basket.</p></li>
+          <li class="rv" style="--i:3"><h3>LED strip along the handle</h3><p>Shifts along a color scale as the basket fills, reading balance across food groups.</p></li>
+          <li class="rv" style="--i:4"><h3>Weight sensing under the basket</h3><p>Confirms each scanned item by weight and flags anything that entered unscanned.</p></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · why this stack -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <h2 class="rv">Why scan plus weight</h2>
+    <p class="soft rv" style="--i:1">The sensing approach was chosen by elimination, and the rejected options are part of the design.</p>
+    <div class="stack-rows" style="margin-top:clamp(24px,3vw,40px)">
+      <div class="stack-row rv"><span class="verdict">Rejected</span><div><h3>Camera detection of the full basket</h3><p>Items in a cart stack and occlude each other, unlike items passing over a flat scanning surface. Vision alone cannot see what the pile is hiding.</p></div></div>
+      <div class="stack-row rv" style="--i:1"><span class="verdict">Rejected</span><div><h3>Lidar</h3><p>Disproportionate hardware for the job. The cart needs to know what went in, not a point cloud of it.</p></div></div>
+      <div class="stack-row chosen rv" style="--i:2"><span class="verdict">Chosen</span><div><h3>Scan plus weight</h3><p>The scanner records intent, the scale verifies it. Two cheap sensors that check each other.</p></div></div>
+    </div>
+    <div class="precedent rv">
+      <p class="soft" data-check="external claim, verify before publish">The approach has commercial precedent. In 2024 Amazon pulled its ceiling camera based Just Walk Out system from its full size grocery stores and moved to smart carts that scan and weigh at the basket.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · process -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="aisle-head">
+      <h2 class="rv">Process</h2>
+      <span class="aisle-hint rv" style="--i:1">Drag or scroll sideways</span>
+    </div>
+  </div>
+  <div class="aisle" id="aisle" tabindex="0" role="region" aria-label="Sketch exploration gallery, scrolls horizontally">
+    <figure><div class="fig frame"><img src="assets/sketch-01.jpg" alt="Pencil sketch page, early cart volumes and basket carriers" width="1920" height="1080" loading="lazy"></div><figcaption><span class="fno">S 01</span> First volumes</figcaption></figure>
+    <figure><div class="fig frame"><img src="assets/sketch-02.jpg" alt="Sketch collage, six marker studies of enclosed cart bodies" width="1920" height="1080" loading="lazy"></div><figcaption><span class="fno">S 02</span> Enclosed body studies</figcaption></figure>
+    <figure><div class="fig frame"><img src="assets/sketch-03.jpg" alt="Pen sketches, cart frames with stacked baskets and wheel details" width="1920" height="1080" loading="lazy"></div><figcaption><span class="fno">S 03</span> Frame and wheel logic</figcaption></figure>
+    <figure><div class="fig frame"><img src="assets/sketch-04.jpg" alt="Ballpoint thumbnails exploring folding and drum shaped carts" width="1920" height="1080" loading="lazy"></div><figcaption><span class="fno">S 04</span> Folding and drum directions</figcaption></figure>
+    <figure><div class="fig frame"><img src="assets/sketch-05.jpg" alt="Line sketches of open frame carts on a white page" width="1498" height="1080" loading="lazy"></div><figcaption><span class="fno">S 05</span> Open frame direction</figcaption></figure>
+    <figure><div class="fig frame"><img src="assets/sketch-06.jpg" alt="Marker rendering of an angular enclosed cart with dark accents" width="1920" height="1080" loading="lazy"></div><figcaption><span class="fno">S 06</span> Angular body render</figcaption></figure>
+    <figure><div class="fig frame"><img src="assets/sketch-07.jpg" alt="Light pencil sketch of the twin basket cart close to the final form" width="1920" height="1080" loading="lazy"></div><figcaption><span class="fno">S 07</span> Converging on the final form</figcaption></figure>
+  </div>
+  <div class="wrap">
+    <div class="process-grid">
+      <figure class="c8 rv"><div class="fig r169 frame"><img src="assets/form-cad.jpg" alt="CAD study, two translucent cart iterations side by side" width="1920" height="1080" loading="lazy"><span class="edge"></span></div><figcaption><span class="fno">Fig 04</span> CAD iterations of the carrier frame</figcaption></figure>
+      <figure class="c4 rv" style="--i:1"><div class="fig r169 frame" style="aspect-ratio:auto;height:100%"><img src="assets/form-frames.jpg" alt="Handle frame iterations overlaid in shades from black to light gray" width="1196" height="688" loading="lazy" style="object-fit:contain;background:#fff"><span class="edge"></span></div><figcaption><span class="fno">Fig 05</span> Frame iterations overlaid, black to gray</figcaption></figure>
+      <figure class="c6 rv"><div class="fig r169 frame"><img src="assets/form-wire.jpg" alt="Wireframe overlay render of the cart frame with construction lines" width="1920" height="1080" loading="lazy"><span class="edge"></span></div><figcaption><span class="fno">Fig 06</span> Construction lines over the final frame</figcaption></figure>
+      <figure class="c6 rv" style="--i:1"><div class="fig r169 frame"><img src="assets/refine-book-1.jpg" alt="Sketchbook spread with a shaded drawing of the twin basket cart" width="1920" height="1080" loading="lazy"><span class="edge"></span></div><figcaption><span class="fno">Fig 07</span> Refinement pass in the sketchbook</figcaption></figure>
+    </div>
+    <div class="process-note">
+      <h3 class="rv">Checking it at hand scale</h3>
+      <p class="soft rv" style="--i:1">Cardboard and print mockups settled the handle width, the button spacing and how the basket splits before any surface modelling was trusted.</p>
+    </div>
+    <div class="proto-grid">
+      <figure class="rv"><div class="fig r43 frame"><img src="assets/proto-frame.jpg" alt="Small white 3D printed frame prototype standing on a cutting mat" width="2200" height="1650" loading="lazy"><span class="edge"></span></div><figcaption><span class="fno">Fig 08</span> Printed frame study</figcaption></figure>
+      <figure class="rv" style="--i:1"><div class="fig r43 frame"><img src="assets/proto-handle.jpg" alt="Cardboard handle mockup with five marked buttons on a cutting mat" width="2200" height="1650" loading="lazy"><span class="edge"></span></div><figcaption><span class="fno">Fig 09</span> Handle and button spacing mockup</figcaption></figure>
+      <figure class="rv" style="--i:2"><div class="fig r43 frame"><img src="assets/proto-basket.jpg" alt="Cardboard basket mockup with a divided interior" width="2200" height="1650" loading="lazy"><span class="edge"></span></div><figcaption><span class="fno">Fig 10</span> Basket volume mockup</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · the display (dark chapter 2) -->
+<section class="sec dark">
+  <div class="wrap">
+    <div class="display-grid">
+      <div class="display-copy">
+        <h2 class="rv">The strip reads the whole cart</h2>
+        <p class="rv" style="--i:1">The LED strip along the handle is the entire interface while shopping. It shifts along a color scale as items go in, reading the balance of the basket across food groups. A full spectrum means a balanced cart. It is a reading, not a verdict: no food is marked bad, the cart only shows what the mix currently is.</p>
+        <ul class="legend" style="margin-top:26px" aria-label="LED color legend by food group">
+          <li class="balanced rv"><span class="cat">Balanced cart</span><span class="bar full"></span></li>
+          <li class="rv" style="--i:1"><span class="cat">Meat and seafood</span><span class="bar b"></span></li>
+          <li class="rv" style="--i:2"><span class="cat">Fruits and vegetables</span><span class="bar g"></span></li>
+          <li class="rv" style="--i:3"><span class="cat">Dairy</span><span class="bar y"></span></li>
+          <li class="rv" style="--i:4"><span class="cat">Fats, sugar and oil</span><span class="bar r"></span></li>
+        </ul>
+      </div>
+      <figure class="rv" style="--i:2">
+        <div class="fig r169 frame"><img src="assets/display-handle.jpg" alt="Front view render of the handle unit with the LED strip, screen and contactless pad" width="1920" height="1080" loading="lazy"><span class="edge"></span></div>
+        <figcaption><span class="fno">Fig 11</span> Handle unit, scanner, screen and the strip</figcaption>
+      </figure>
+    </div>
+
+    <!-- 7 · user flow, continues the dark chapter -->
+    <h2 class="rv" style="margin-top:clamp(64px,9vw,130px)">Scan, shop, check out</h2>
+    <div class="flow-grid">
+      <div class="step rv">
+        <figure><div class="fig phone"><img src="assets/app-pair.jpg" alt="App screen with a pairing icon and the prompt to tap the cart to scan" width="470" height="960" loading="lazy"></div>
+        <figcaption class="step-head"><span class="n">Step 1</span><h3>Scan</h3></figcaption></figure>
+        <p>Pair the app with a tap, then scan each item at the handle as it goes in. Weight confirms it landed.</p>
+      </div>
+      <div class="step rv" style="--i:1">
+        <figure><div class="fig wide"><img src="assets/app-suggest.jpg" alt="App screen with a running receipt next to a suggestion swapping regular chips for a baked version" width="2080" height="730" loading="lazy"></div>
+        <figcaption class="step-head"><span class="n">Step 2</span><h3>Shop</h3></figcaption></figure>
+        <p>The strip shifts as the basket fills. The screen keeps a running total and can suggest swaps and offers along the way.</p>
+      </div>
+      <div class="step rv" style="--i:2">
+        <figure><div class="fig phone"><img src="assets/app-checkout.jpg" alt="App screen confirming payment was successful" width="460" height="940" loading="lazy"></div>
+        <figcaption class="step-head"><span class="n">Step 3</span><h3>Check out</h3></figcaption></figure>
+        <p>Pay on the cart and leave. No register lane, no bagging station, no second handling of the basket.</p>
+      </div>
+    </div>
+    <div class="flow-rail" id="flowrail" aria-hidden="true"><span class="fill"></span></div>
+  </div>
+</section>
+
+<!-- 8 · business case -->
+<section class="sec">
+  <div class="wrap">
+    <h2 class="rv">The business case</h2>
+    <div class="biz-grid" style="margin-top:clamp(24px,3vw,44px)">
+      <div>
+        <div class="biz-facts">
+          <div class="rv"><span class="k">Manufacturing</span><p>Estimated cost lands around <strong>$131.5 per cart</strong> at mass production, hardware and raw material included.</p></div>
+          <div class="rv" style="--i:1"><span class="k">Market</span><p data-check="external claim, verify before publish">The smart cart market was valued at roughly <strong>$1.4 billion in 2022</strong> and is projected to reach roughly <strong>$9.7 billion by 2030</strong> (ResearchAndMarkets, 2023).</p></div>
+          <div class="rv" style="--i:2"><span class="k">Who it serves</span>
+            <ul class="roles" style="border-top:0">
+              <li><span class="who">Shoppers</span><p>Balance reading while shopping and checkout without a lane.</p></li>
+              <li><span class="who">Retailers</span><p>Replaces register lanes and surfaces offers at the moment of choice.</p></li>
+              <li><span class="who">Point of sale companies</span><p>Their payment hardware rides on every cart instead of one lane.</p></li>
+              <li><span class="who">Brands</span><p>Placement and offers inside the shopping moment itself.</p></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <figure class="rv" style="--i:1">
+        <div class="fig r32 frame"><img src="assets/bmc.jpg" alt="Printed business model canvas for Wise Cart on a desk next to a laptop" width="2200" height="1461" loading="lazy"><span class="edge"></span></div>
+        <figcaption><span class="fno">Fig 12</span> Business model canvas working sheet</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 9 · final renders -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <h2 class="rv">Final form</h2>
+    <div class="final-grid" style="margin-top:clamp(24px,3vw,44px)">
+      <figure class="c12 rv"><div class="fig r169"><img src="assets/final-cart.jpg" alt="Final render, cart with two navy baskets on a gray frame with black casters" width="2200" height="1238" loading="lazy"><span class="edge"></span></div><figcaption><span class="fno">Fig 13</span> Production intent CMF, navy baskets on a cast gray frame</figcaption></figure>
+      <figure class="c6 rv"><div class="fig r169"><img src="assets/final-handle.jpg" alt="Detail render of the navy handle bar meeting the gray frame" width="2200" height="1238" loading="lazy"><span class="edge"></span></div><figcaption><span class="fno">Fig 14</span> Handle detail</figcaption></figure>
+      <figure class="c6 rv" style="--i:1"><div class="fig r169"><img src="assets/final-under.jpg" alt="Detail render of the underside surface transition" width="1920" height="1449" loading="lazy"><span class="edge"></span></div><figcaption><span class="fno">Fig 15</span> Underside surfacing</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · reflection -->
+<section class="sec reflect" style="padding-top:0">
+  <div class="wrap">
+    <h2 class="rv">Reflection</h2>
+    <p class="rv" style="--i:1">[Reflection paragraph one, to be written by Shreyas.]</p>
+    <p class="rv" style="--i:2">[Reflection paragraph two, to be written by Shreyas.]</p>
+  </div>
+</section>
+
+<footer class="foot">
+  <div>© 2026 Shreyas Gharat. Set in Fraunces, Work Sans &amp; DM Sans.</div>
+  <div><a class="glink" href="#top">Back to top ↑</a></div>
+  <div>Designed &amp; built by hand</div>
+</footer>
+
+<script>
+(function(){
+  var d=document, reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  d.documentElement.classList.add('js');
+
+  /* progress strip: fixed spectrum revealed by width */
+  var strip=d.getElementById('pstrip'), ticking=false;
+  function paint(){
+    var h=d.documentElement, max=h.scrollHeight-h.clientHeight;
+    strip.style.width=(max>0?(h.scrollTop||d.body.scrollTop)/max*100:0)+'%';
+    ticking=false;
+  }
+  addEventListener('scroll',function(){ if(!ticking){ticking=true;requestAnimationFrame(paint);} },{passive:true});
+  paint();
+
+  /* reveals: enhance an already visible default, unobserve after firing */
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{rootMargin:'0px 0px -8% 0px',threshold:0.08});
+  d.querySelectorAll('.rv,.seg.draw').forEach(function(el){ io.observe(el); });
+
+  /* flow rail lights when the steps are passed */
+  var rail=d.getElementById('flowrail');
+  if(rail){
+    var io2=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ rail.classList.add('lit'); io2.unobserve(rail); } });
+    },{threshold:0.6});
+    io2.observe(rail);
+  }
+
+  /* the aisle: native horizontal scroll plus drag, no wheel hijack */
+  var aisle=d.getElementById('aisle');
+  if(aisle){
+    var down=false,sx=0,sl=0,moved=false;
+    aisle.addEventListener('pointerdown',function(e){
+      if(e.pointerType!=='mouse')return;
+      down=true;moved=false;sx=e.clientX;sl=aisle.scrollLeft;
+      aisle.classList.add('dragging');
+    });
+    addEventListener('pointermove',function(e){
+      if(!down)return;
+      var dx=e.clientX-sx;
+      if(Math.abs(dx)>3)moved=true;
+      aisle.scrollLeft=sl-dx;
+    });
+    addEventListener('pointerup',function(){ down=false;aisle.classList.remove('dragging'); });
+    aisle.addEventListener('click',function(e){ if(moved){e.preventDefault();} },true);
+  }
+})();
+</script>
+</body>
+</html>
