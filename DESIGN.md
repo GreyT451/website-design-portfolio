@@ -155,6 +155,10 @@ their required imagery, driven by the source PDF:
 9. **Business case** (light): revenue stream roles, manufacturing cost,
    market figures, retail chains. Only figures already present in the
    source PDF; nothing new is invented.
+   Copy lock flag: the source PDF's market figures are internally
+   inconsistent ($23B headline vs $28.3 billion body; $4.9B US headline
+   vs $4,938 billion body). These must be resolved or dropped when copy
+   is written; they may not be reproduced as printed.
 10. **Final renders** (light): grid of finals. No cart nesting render;
     that design question is unresolved and is not visualized.
 11. **Reflection**: bracketed placeholder paragraphs. Stays bracketed.
@@ -174,6 +178,11 @@ their required imagery, driven by the source PDF:
   naming exactly what belongs there.
 - Alt text names the object specifically ("final render, cart with twin
   baskets under studio light", not "cart render").
+- Content color is exempt from the chrome rule: photographs, app UI
+  mockups, and the nutrition pyramid carry their own color as content.
+  The emitted light rule governs page chrome only. App mockups sit in
+  neutral graphite device frames so their orange UI reads as the app's
+  own interface, never as a page accent.
 
 ### Motion
 
