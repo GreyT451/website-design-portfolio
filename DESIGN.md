@@ -42,8 +42,9 @@ Reference implementation: truckola/index.html.
 
 ### Embed constraints (inherited from PRODUCT.md, plus code precedent)
 
-- Deployed via GitHub Pages, embedded in Wix through a Custom Element
-  widget, never a plain Embed widget.
+- Deployed via GitHub Pages, embedded in Wix via the Embed HTML element
+  in Website address mode pointing at the page's GitHub Pages URL; Code
+  mode (pasted HTML) where page to Wix messaging is needed.
 - No viewport height dependent layouts (100vh sections, vh based pinning).
   Chef shipped broken inside the embed until its viewport height CSS was
   removed. Measure elements, not the viewport.

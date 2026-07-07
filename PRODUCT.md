@@ -20,10 +20,11 @@ https://www.shreyasgharat.com on Wix Studio. Seven case studies total
 planned; six pages currently built.
 
 Each page is a self contained index.html in its own folder, deployed via
-GitHub Pages and embedded in Wix through a Custom Element widget. Never a
-plain Wix Embed widget: it has a known iframe height and scroll isolation
-bug, already hit and fixed once on the home page grid. Pages must work
-inside that embed context.
+GitHub Pages. Pages are embedded in Wix Studio with the Embed HTML
+element in Website address mode, an iframe pointing at the page's GitHub
+Pages URL; that is the standard for all pages. Code mode (pasted HTML)
+is the alternative used where page to Wix messaging is needed. Pages
+must work inside that iframe embed context.
 
 ## Brand Personality
 
@@ -64,7 +65,10 @@ distinction comes from each project's own accent colour and context.
 - Writing rules bind all page copy: no hyphens anywhere including compound
   adjectives and ranges (rewrite instead), no em dashes, verified
   programmatically after build.
-- Deployment: GitHub Pages plus Wix Custom Element widget, per page, always.
+- Deployment: GitHub Pages per page, embedded in Wix via the Embed HTML
+  element in Website address mode pointing at the page's GitHub Pages
+  URL. Code mode (pasted HTML) is the alternative where page to Wix
+  messaging is needed.
 
 ## Accessibility & Inclusion
 
