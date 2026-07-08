@@ -634,8 +634,8 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
       </article>
       <article class="lab__tile lab__tile--add reveal" data-state="soon">
         <span class="lab__cat">More</span>
-        <h3>+ whatever's next</h3>
-        <p>This grid is built to keep growing.</p>
+        <h3>upcoming</h3>
+        <p>upcoming</p>
       </article>
     </div>
   </div>
@@ -700,7 +700,6 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
   <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Next">&#8250;</button>
 </div>
 
-<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 <script>
 /* ============================================================
    OFF THE CLOCK — interaction + motion
@@ -709,21 +708,14 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isTouch = window.matchMedia('(pointer: coarse)').matches;
 
-  /* ---------- Smooth scroll (Lenis) ---------- */
-  let lenis = null;
-  if (!reduce && typeof Lenis !== 'undefined') {
-    lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 1 });
-    const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
-    requestAnimationFrame(raf);
-  }
-  // anchor links route through Lenis
+  // anchor links use native smooth scroll (no Lenis — it swallows wheel
+  // events when this page is embedded in a Wix iframe)
   document.querySelectorAll('a[href^="#"]').forEach((a) => {
     a.addEventListener('click', (e) => {
       const t = document.querySelector(a.getAttribute('href'));
       if (!t) return;
       e.preventDefault();
-      if (lenis) lenis.scrollTo(t, { offset: 0, duration: 1.3 });
-      else t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+      t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
     });
   });
 
@@ -791,7 +783,6 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
     lb.classList.toggle('is-single', items.length <= 1);
     lb.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
-    if (lenis) lenis.stop();
     lbRender();
   }
   function closeLightbox() {
@@ -799,7 +790,6 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
     lb.setAttribute('aria-hidden', 'true');
     lbMedia.innerHTML = '';
     document.body.style.overflow = '';
-    if (lenis) lenis.start();
   }
   function lbStep(d) { lbIndex = (lbIndex + d + lbItems.length) % lbItems.length; lbRender(); }
   if (lb) {
@@ -1100,8 +1090,7 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
         img.style.transform = `translateY(${prog * amt}px) scale(1.06)`;
       });
     };
-    if (lenis) lenis.on('scroll', onScroll);
-    else window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
   }
 })();
