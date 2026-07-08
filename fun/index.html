@@ -129,7 +129,7 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
    HERO
    ============================================================ */
 .hero{
-  min-height:100svh; padding:clamp(56px,8vh,96px) clamp(20px,4vw,56px) 24px;
+  min-height: var(--real-vh, 100svh); padding:clamp(56px,8vh,96px) clamp(20px,4vw,56px) 24px;
   display:flex; flex-direction:column; justify-content:center;
   position:relative;
 }
@@ -708,6 +708,18 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 (() => {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isTouch = window.matchMedia('(pointer: coarse)').matches;
+
+  /* ---------- Real viewport height ----------
+     100svh/100vh compute against the iframe's own box when this page is
+     embedded in Wix — not the visitor's actual screen. Measure the real
+     window height in JS and drive the hero off that instead. */
+  const setRealVh = () => {
+    const h = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+    document.documentElement.style.setProperty('--real-vh', `${h}px`);
+  };
+  setRealVh();
+  window.addEventListener('resize', setRealVh);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', setRealVh);
 
   /* ---------- Smooth scroll (Lenis) ---------- */
   let lenis = null;
