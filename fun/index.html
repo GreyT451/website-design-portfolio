@@ -11,38 +11,29 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Hanken+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 <style>
 /* ============================================================
-   OFF THE CLOCK v6 — single-file embed for Wix Studio
-   Iframe-safe: no vh units, no Lenis scroll hijack, lightbox
-   anchored to the click position instead of position:fixed.
-   Vertical rhythm on a rem scale (--beat-*); horizontal
-   gutters stay fluid (vw = iframe width, which is real).
+   OFF THE CLOCK — fun / side-projects page
+   A warm editorial "field almanac" with an after-hours dark finale.
    ============================================================ */
 
 :root{
-  --paper:      #f1eadc;
-  --paper-2:    #141414;
-  --ink:        #101010;
-  --ink-soft:   #8c8479;
-  --line:       #2a2a2a;
-  --accent:     #AD0C0C;
-  --accent-2:   #591be5;
+  /* dark theme — black canvas with a single red accent */
+  --paper:      #f1eadc;   /* light bone — used for chips / text on dark blocks */
+  --paper-2:    #141414;   /* dark panel (cards, ruled-paper, terminal dots) */
+  --ink:        #101010;   /* near-black block (footer, terminal, badges) */
+  --ink-soft:   #8c8479;   /* muted warm-grey secondary text on black */
+  --line:       #2a2a2a;   /* hairline borders, visible on black */
+  --accent:     #AD0C0C;   /* deep red */
+  --accent-2:   #591be5;   /* brand purple, used sparingly */
   --radius:     14px;
   --ease:       cubic-bezier(.2,.7,.2,1);
   --ease-out:   cubic-bezier(.16,1,.3,1);
+
   --bg: #000;
   --fg: #ece7df;
-
-  /* vertical rhythm — rem only, never viewport units */
-  --gutter:  clamp(20px, 4vw, 56px);
-  --beat-xl: 6.5rem;   /* section padding: 13rem between exhibits */
-  --beat-lg: 3.5rem;   /* section head → content, major blocks */
-  --beat-md: 2.25rem;  /* sub-blocks inside a section */
-  --beat-sm: 1.25rem;  /* labels, intra-block gaps */
-}
-@media (max-width:760px){
-  :root{ --beat-xl: 4.5rem; --beat-lg: 2.5rem; --beat-md: 1.75rem; }
 }
 
+/* night theme (gaming finale) — flipped by JS via [data-theme] on <body>.
+   Kept aligned with the black + red palette so the accent stays consistent. */
 body[data-theme="night"]{
   --bg: #000;
   --fg: #efe9ff;
@@ -52,22 +43,19 @@ body[data-theme="night"]{
   --paper-2: #141414;
 }
 
-/* dot-matrix: position:absolute so it fills the document, not just the iframe viewport */
+/* dot-matrix field (Nothing-style) — sits above the black canvas, behind content */
 body::before{
-  content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
   background-image:radial-gradient(circle, rgba(255,255,255,.10) 1px, transparent 1.6px);
   background-size:24px 24px;
 }
 
 *{ box-sizing:border-box; margin:0; padding:0; }
 
-html{
-  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-  background:#000;
-}
+html{ -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; background:#000; }
 
 body{
-  background:#000;
+  background:transparent;
   color:var(--fg);
   font-family:"Hanken Grotesk", system-ui, sans-serif;
   font-size:clamp(16px,1.05vw,18px);
@@ -85,21 +73,20 @@ a{ color:inherit; text-decoration:none; }
 em{ font-style:italic; color:var(--accent); }
 ::selection{ background:var(--accent); color:var(--paper); }
 
+/* ---------- type helpers ---------- */
 .dim{ color:var(--ink-soft); }
 .mono{ font-family:"Space Mono", monospace; }
 
 /* ============================================================
    TEXTURE + CURSOR + PEEK
    ============================================================ */
-/* grain: position:absolute — covers the full document, not just the iframe box */
 .grain{
-  position:absolute; inset:0; z-index:9000; pointer-events:none;
+  position:fixed; inset:0; z-index:9000; pointer-events:none;
   opacity:.05; mix-blend-mode:screen;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 
-/* cursor + peek stay fixed — they follow the mouse and don't affect document flow */
 .cursor{ position:fixed; top:0; left:0; z-index:9999; pointer-events:none; mix-blend-mode:difference; }
 .cursor__dot{ position:absolute; width:7px; height:7px; border-radius:50%; background:#fff; transform:translate(-50%,-50%); }
 .cursor__ring{
@@ -139,17 +126,16 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 @media (max-width:640px){ .nav__label, .nav__clock{ display:none; } }
 
 /* ============================================================
-   HERO — no nav on this page, so no nav clearance:
-   a modest top beat, and a firm exit into exhibit 01.
+   HERO
    ============================================================ */
 .hero{
-  padding:3.5rem var(--gutter) 4.5rem;
-  display:flex; flex-direction:column; justify-content:flex-start;
+  min-height:100svh; padding:clamp(56px,8vh,96px) clamp(20px,4vw,56px) 24px;
+  display:flex; flex-direction:column; justify-content:center;
   position:relative;
 }
 .hero__eyebrow{
   font-family:"Space Mono",monospace; text-transform:uppercase;
-  letter-spacing:.18em; font-size:13px; margin-bottom:clamp(20px,2.5vw,46px);
+  letter-spacing:.18em; font-size:13px; margin-bottom:clamp(20px,4vh,46px);
 }
 .hero__eyebrow span:first-child{ color:var(--accent); }
 
@@ -165,8 +151,8 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 .hero__dot{ color:var(--accent); display:inline-block; transform:translateY(110%); }
 
 .hero__meta{
-  margin-top:clamp(28px,3vw,48px);
-  display:flex; flex-direction:column; align-items:flex-start; gap:clamp(22px,3vw,40px);
+  margin-top:clamp(28px,5vh,56px);
+  display:flex; flex-direction:column; align-items:flex-start; gap:clamp(22px,4vh,40px);
   max-width:760px;
 }
 .hero__lede{ font-size:clamp(18px,1.6vw,24px); max-width:40ch; color:var(--fg); }
@@ -194,13 +180,14 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 @keyframes scroll{ to{ transform:translateX(-50%); } }
 
 /* ============================================================
-   INDEX — v5: vh replaced with vw
+   INDEX
    ============================================================ */
-.index{ padding:clamp(36px,4vw,60px) clamp(20px,4vw,56px) clamp(80px,8vw,120px); }
-.section-head{ margin-bottom:clamp(34px,3vw,56px); }
+.index{ padding:clamp(36px,6vh,72px) clamp(20px,4vw,56px) clamp(80px,12vh,150px); }
+.section-head{ margin-bottom:clamp(34px,5vh,64px); }
 .section-head__no{ font-family:"Space Mono",monospace; text-transform:uppercase; letter-spacing:.16em; font-size:12px; color:var(--accent); }
 .section-head__title{ font-family:"Fraunces",serif; font-weight:500; font-size:clamp(40px,6vw,84px); line-height:.95; letter-spacing:-.02em; margin-top:14px; }
 
+/* horizontal 5-up row of cards */
 .idx{ list-style:none; display:grid; grid-template-columns:repeat(5,1fr); gap:clamp(12px,1.2vw,18px); }
 .idx__row{ border:1px solid var(--line); border-radius:var(--radius); transition:border-color .4s var(--ease), transform .4s var(--ease); }
 .idx__row:hover{ border-color:var(--accent); transform:translateY(-4px); }
@@ -218,22 +205,24 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 @media (max-width:560px){ .idx{ grid-template-columns:1fr; } }
 
 /* ============================================================
-   EXHIBIT (shared) — rem rhythm: --beat-xl padding both sides
-   gives one consistent 13rem breath between sections.
+   EXHIBIT (shared)
    ============================================================ */
-.exhibit{ padding:var(--beat-xl) var(--gutter); position:relative; }
-.hero + .exhibit{ padding-top:3rem; }
+.exhibit{ padding:clamp(80px,12vh,150px) clamp(20px,4vw,56px); position:relative; }
+/* first exhibit follows the full-height hero — pull its content up so the
+   page doesn't open on a wall of empty space */
+.hero + .exhibit{ padding-top:clamp(48px,7vh,90px); }
+/* each exhibit head reads as a masthead: number + title sitting on a rule */
 .exhibit__head{
   display:flex; gap:clamp(20px,3vw,40px); align-items:flex-start;
   max-width:1400px; margin-inline:auto;
-  margin-bottom:var(--beat-lg);
-  padding-bottom:1.5rem; border-bottom:1px solid var(--line);
+  margin-bottom:clamp(40px,6vh,72px);
+  padding-bottom:clamp(22px,3.2vh,38px); border-bottom:1px solid var(--line);
 }
 .exhibit__no{ font-family:"Space Mono",monospace; font-size:14px; color:var(--accent); padding-top:14px; }
 .exhibit__title{ font-family:"Fraunces",serif; font-weight:500; font-size:clamp(44px,8vw,120px); line-height:.9; letter-spacing:-.03em; }
 .exhibit__kicker{ margin-top:16px; max-width:48ch; color:var(--ink-soft); font-size:clamp(15px,1.3vw,18px); }
 
-/* ---------- gallery ---------- */
+/* ---------- 01 gallery ---------- */
 .gallery{ display:grid; grid-template-columns:repeat(12,1fr); gap:clamp(12px,1.6vw,24px); max-width:1400px; margin:0 auto; }
 .gallery__item{ grid-column:span 6; position:relative; overflow:hidden; border-radius:var(--radius); }
 .gallery__item--tall{ grid-column:span 5; grid-row:span 2; }
@@ -249,6 +238,7 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 .gallery__item:hover figcaption{ transform:none; opacity:1; }
 @media (max-width:760px){ .gallery__item, .gallery__item--tall, .gallery__item--wide{ grid-column:span 12; grid-row:auto; } }
 
+/* car gallery — uniform 3-up, smaller; extra frames revealed on expand */
 .gallery--grid{ grid-template-columns:repeat(3,1fr); }
 .gallery--grid .gallery__item{ grid-column:auto; grid-row:auto; aspect-ratio:4/3; }
 .gallery--grid .gallery__item img{ height:100%; }
@@ -258,6 +248,7 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 @media (max-width:760px){ .gallery--grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:480px){ .gallery--grid{ grid-template-columns:1fr; } }
 
+/* subtle red "more" toggle, sits to the right of the section head */
 .more-btn{
   margin-left:auto; align-self:center; flex:none; cursor:none;
   display:inline-flex; align-items:center; gap:10px;
@@ -269,23 +260,24 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 .more-btn:hover{ background:rgba(173,12,12,.18); border-color:var(--accent); transform:translateY(-2px); }
 .more-btn__sign{ font-size:15px; line-height:1; transition:transform .3s var(--ease); }
 .more-btn.is-open .more-btn__sign{ transform:rotate(45deg); }
-.gallery-actions{ max-width:1400px; margin:var(--beat-sm) auto 0; display:flex; justify-content:flex-end; }
+/* button row, sits below the gallery, aligned to the content's right edge */
+.gallery-actions{ max-width:1400px; margin:clamp(20px,3vh,32px) auto 0; display:flex; justify-content:flex-end; }
 
-/* car marquee — v5: height uses vw instead of vh */
+/* car marquee — seamless right-to-left auto-scroll */
 .car-marquee{ overflow:hidden; width:100%;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent); }
 .car-marquee__track{ display:flex; gap:clamp(12px,1.4vw,20px); width:max-content; animation:car-scroll 90s linear infinite; }
 .car-marquee:hover .car-marquee__track{ animation-play-state:paused; }
-.car-marquee__item{ flex:none; height:clamp(200px,18vw,300px); border-radius:var(--radius); overflow:hidden; }
+.car-marquee__item{ flex:none; height:clamp(200px,26vh,300px); border-radius:var(--radius); overflow:hidden; }
 .car-marquee__item img{ height:100%; width:auto; object-fit:cover; display:block; }
 @keyframes car-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
 
-/* repo card */
+/* repo placeholder card (future GitHub link) */
 .repo-card{
   display:flex; align-items:center; gap:18px; max-width:760px;
   border:1px solid var(--line); border-radius:var(--radius); padding:18px 22px;
-  background:var(--paper-2); margin-bottom:var(--beat-md);
+  background:var(--paper-2); margin-bottom:clamp(28px,4vh,44px);
   transition:border-color .3s var(--ease), transform .3s var(--ease);
 }
 .repo-card:hover{ border-color:var(--accent); transform:translateY(-3px); }
@@ -297,9 +289,9 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 .repo-card__arrow{ margin-left:auto; flex:none; color:var(--ink-soft); transition:transform .3s var(--ease), color .3s; }
 .repo-card:hover .repo-card__arrow{ transform:translate(4px,-4px); color:var(--accent); }
 
-/* lab notebook */
+/* the lab notebook — one cohesive, growable grid of experiments */
 .lab{ max-width:1400px; }
-.lab__head{ margin-bottom:var(--beat-md); max-width:680px; }
+.lab__head{ margin-bottom:clamp(24px,4vh,40px); max-width:680px; }
 .lab__eyebrow{ font-family:"Space Mono",monospace; text-transform:uppercase; letter-spacing:.16em; font-size:12px; color:var(--accent); }
 .lab__intro{ margin-top:10px; color:var(--ink-soft); font-size:clamp(15px,1.3vw,17px); }
 .lab__grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(12px,1.2vw,18px); }
@@ -322,9 +314,9 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 @media (max-width:1000px){ .lab__grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:560px){ .lab__grid{ grid-template-columns:1fr; } }
 
-/* ComfyUI showcase */
-.comfy{ max-width:1400px; margin:0 auto var(--beat-lg); }
-.comfy__head{ max-width:680px; margin-bottom:var(--beat-sm); }
+/* ---------- ComfyUI showcase (v4) — process shots open the shared lightbox ---------- */
+.comfy{ max-width:1400px; margin:0 auto clamp(40px,6vh,72px); }
+.comfy__head{ max-width:680px; margin-bottom:clamp(18px,3vh,28px); }
 .comfy__eyebrow{ font-family:"Space Mono",monospace; text-transform:uppercase; letter-spacing:.16em; font-size:12px; color:var(--accent); }
 .comfy__intro{ margin-top:10px; color:var(--ink-soft); font-size:clamp(15px,1.3vw,17px); }
 .comfy__hint{ color:var(--fg); }
@@ -345,8 +337,8 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 @media (max-width:880px){ .comfy__strip{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:480px){ .comfy__strip{ grid-template-columns:1fr; } }
 
-/* terminal */
-.terminal{ max-width:760px; border-radius:var(--radius); overflow:hidden; border:1px solid var(--line); margin-bottom:var(--beat-lg); box-shadow:8px 8px 0 rgba(173,12,12,.35); }
+/* ---------- 02 terminal + cards ---------- */
+.terminal{ max-width:760px; border-radius:var(--radius); overflow:hidden; border:1px solid var(--line); margin-bottom:clamp(36px,5vh,60px); box-shadow:8px 8px 0 rgba(173,12,12,.35); }
 .terminal__bar{ display:flex; align-items:center; gap:7px; padding:11px 16px; background:var(--ink); color:var(--paper); }
 .terminal__bar .dot{ width:11px; height:11px; border-radius:50%; background:var(--paper-2); opacity:.5; }
 .terminal__bar .dot:first-child{ background:var(--accent); opacity:1; }
@@ -365,7 +357,7 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 .card__chip{ font-family:"Space Mono",monospace; font-size:11px; text-transform:uppercase; letter-spacing:.08em; border:1px solid var(--line); border-radius:30px; padding:5px 11px; display:inline-block; }
 @media (max-width:880px){ .cards{ grid-template-columns:1fr; } }
 
-/* spec */
+/* ---------- 03 spec ---------- */
 .spec{ display:grid; grid-template-columns:1fr 1.1fr; gap:clamp(30px,5vw,70px); align-items:center; max-width:1400px; }
 .spec__visual{ position:relative; border-radius:var(--radius); overflow:hidden; }
 .spec__visual img{ width:100%; aspect-ratio:5/6; object-fit:cover; }
@@ -379,8 +371,8 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 @keyframes pulse{ 0%,100%{ box-shadow:0 0 0 0 rgba(173,12,12,.5);} 50%{ box-shadow:0 0 0 7px rgba(173,12,12,0);} }
 @media (max-width:880px){ .spec{ grid-template-columns:1fr; } }
 
-/* build */
-.build{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(12px,1.4vw,20px); max-width:1400px; margin-bottom:clamp(30px,4vw,52px); }
+/* build photos — hands-on, figuring it out */
+.build{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(12px,1.4vw,20px); max-width:1400px; margin-bottom:clamp(30px,5vh,56px); }
 .build__shot{ position:relative; border-radius:var(--radius); overflow:hidden; aspect-ratio:4/5; }
 .build__shot img{ width:100%; height:100%; object-fit:cover; transition:transform .8s var(--ease-out); }
 .build__shot:hover img{ transform:scale(1.05); }
@@ -395,10 +387,11 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 @media (max-width:880px){ .build{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:480px){ .build{ grid-template-columns:1fr; } }
 
+/* spec sheet, laid out wide under the build photos */
 .spec__sheet--wide{ display:grid; grid-template-columns:1fr 1fr; column-gap:clamp(28px,4vw,56px); max-width:1100px; }
 .spec__sheet--wide .spec__row{ border-top:1px solid var(--line); border-bottom:none; }
 
-/* sketch */
+/* ---------- 04 sketch ---------- */
 .sketch{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(20px,3vw,40px); align-items:center; max-width:1400px; }
 .sketch__draw{ border:1px dashed var(--ink); border-radius:var(--radius); padding:30px; position:relative; background:repeating-linear-gradient(var(--paper-2) 0 23px,var(--line) 23px 24px); }
 .sketch__svg{ width:100%; height:auto; color:var(--ink); }
@@ -417,11 +410,12 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 .sketch__grid figure:hover img{ transform:scale(1.04) rotate(-1deg); }
 @media (max-width:760px){ .sketch{ grid-template-columns:1fr; } }
 
-/* render blocks */
-.render-block{ max-width:1400px; margin:0 auto; }
-.render-block + .render-block{ margin-top:var(--beat-lg); }
-.render-block__label{ display:inline-block; font-family:"Space Mono",monospace; text-transform:uppercase; letter-spacing:.16em; font-size:12px; color:var(--accent); margin-bottom:var(--beat-sm); }
+/* ---------- 04 concept to render (CAD + render sets) ---------- */
+.render-block{ max-width:1400px; }
+.render-block + .render-block{ margin-top:clamp(44px,7vh,84px); }
+.render-block__label{ display:inline-block; font-family:"Space Mono",monospace; text-transform:uppercase; letter-spacing:.16em; font-size:12px; color:var(--accent); margin-bottom:clamp(16px,2.5vh,24px); }
 
+/* product render sets — each card hints at a stack of shots, opens a lightbox */
 .render-sets{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(16px,2vw,28px); }
 .render-set{
   position:relative; display:flex; flex-direction:column; gap:12px; cursor:none;
@@ -453,26 +447,20 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 @media (max-width:900px){ .render-sets{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:480px){ .render-sets{ grid-template-columns:1fr; } }
 
-/* lightbox — iframe-safe: absolute scrim over the whole document,
-   panel anchored to the click position (set by JS as --lb-y).
-   position:fixed and vh would target the iframe, not the screen. */
+/* ---------- shared lightbox ---------- */
 .lightbox{
-  position:absolute; inset:0; z-index:9500; display:none;
-  background:rgba(0,0,0,.93);
+  position:fixed; inset:0; z-index:9500; display:none;
+  align-items:center; justify-content:center; gap:clamp(8px,2vw,24px);
+  padding:clamp(16px,4vw,48px); background:rgba(0,0,0,.93);
 }
-.lightbox.is-open{ display:block; }
-.lightbox__panel{
-  position:absolute; left:50%; top:var(--lb-y, 50%); transform:translate(-50%,-50%);
-  display:flex; align-items:center; justify-content:center; gap:clamp(8px,2vw,24px);
-  width:min(1200px, 94%); padding:1rem;
-}
-.lightbox__stage{ display:flex; flex-direction:column; gap:14px; min-width:0; }
+.lightbox.is-open{ display:flex; }
+.lightbox__stage{ display:flex; flex-direction:column; gap:14px; max-width:min(1200px,92vw); max-height:88vh; }
 .lightbox__media{ display:flex; align-items:center; justify-content:center; min-height:0; }
-.lightbox__media img, .lightbox__media video{ max-width:100%; max-height:620px; border-radius:8px; object-fit:contain; display:block; }
+.lightbox__media img, .lightbox__media video{ max-width:100%; max-height:80vh; border-radius:8px; object-fit:contain; display:block; }
 .lightbox__bar{ display:flex; justify-content:space-between; align-items:center; gap:16px; font-family:"Space Mono",monospace; font-size:12px; color:var(--paper); }
 .lightbox__title{ text-transform:uppercase; letter-spacing:.12em; }
 .lightbox__count{ color:var(--ink-soft); }
-.lightbox__close{ position:absolute; top:-2.5rem; right:1rem; background:none; border:none; cursor:none; color:var(--paper); font-size:34px; line-height:1; opacity:.8; transition:opacity .3s, transform .3s; }
+.lightbox__close{ position:absolute; top:18px; right:22px; background:none; border:none; cursor:none; color:var(--paper); font-size:34px; line-height:1; opacity:.8; transition:opacity .3s, transform .3s; }
 .lightbox__close:hover{ opacity:1; transform:scale(1.1); }
 .lightbox__nav{
   flex:none; width:clamp(42px,5vw,56px); height:clamp(42px,5vw,56px); border-radius:50%; cursor:none;
@@ -482,13 +470,11 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 .lightbox__nav:hover{ background:rgba(173,12,12,.3); border-color:var(--accent); }
 .lightbox.is-single .lightbox__nav, .lightbox.is-single .lightbox__count{ display:none; }
 @media (max-width:600px){
-  .lightbox__panel{ flex-direction:column; gap:12px; }
-  .lightbox__nav--prev{ position:absolute; left:12px; top:50%; transform:translateY(-50%); }
-  .lightbox__nav--next{ position:absolute; right:12px; top:50%; transform:translateY(-50%); }
-  .lightbox__media img, .lightbox__media video{ max-height:120vw; }
+  .lightbox__nav{ position:absolute; bottom:24px; }
+  .lightbox__nav--prev{ left:24px; } .lightbox__nav--next{ right:24px; }
 }
 
-/* games */
+/* ---------- 05 dark games ---------- */
 .exhibit--dark{ background:#000; color:#efe9ff; }
 .games{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; max-width:1400px; }
 .game{
@@ -532,10 +518,13 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 </head>
 <body data-theme="paper">
 
+<!-- grain / paper texture overlay -->
 <div class="grain" aria-hidden="true"></div>
 
+<!-- custom cursor -->
 <div class="cursor" aria-hidden="true"><div class="cursor__dot"></div><div class="cursor__ring"></div></div>
 
+<!-- floating image peek used by the index -->
 <div class="peek" aria-hidden="true"><img alt="" /></div>
 
 <!-- ───────────────────────── HERO ───────────────────────── -->
@@ -566,6 +555,7 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
     </div>
   </div>
 
+  <!-- placeholder for a future GitHub repository link -->
   <a class="repo-card reveal" data-repo role="link" aria-label="GitHub repository — link coming soon">
     <span class="repo-card__glyph" aria-hidden="true">&lt;/&gt;</span>
     <span class="repo-card__body">
@@ -583,6 +573,7 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
     <pre class="terminal__body" id="terminal"></pre>
   </div>
 
+  <!-- ComfyUI showcase: process screenshots; click any frame to open the slideshow popup -->
   <div class="comfy reveal">
     <div class="comfy__head">
       <span class="comfy__eyebrow">Inside ComfyUI</span>
@@ -591,6 +582,7 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
     <div class="comfy__strip" id="comfy-strip" data-count="4"></div>
   </div>
 
+  <!-- the lab notebook: one evolving index of experiments, grows over time -->
   <div class="lab">
     <div class="lab__head reveal">
       <span class="lab__eyebrow">The lab notebook</span>
@@ -659,6 +651,7 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
     </div>
   </div>
 
+  <!-- CAD: standalone product renders -->
   <div class="render-block reveal">
     <span class="render-block__label">CAD</span>
     <div class="gallery gallery--grid" id="gallery-cad" data-initial="9"></div>
@@ -670,6 +663,7 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
     </div>
   </div>
 
+  <!-- 3D printing and CAD: each product is one card; click to flip through its shots -->
   <div class="render-block reveal">
     <span class="render-block__label">3D Printing and CAD</span>
     <div class="render-sets" id="render-sets"></div>
@@ -686,6 +680,7 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
     </div>
   </div>
 
+  <!-- car photos auto-scroll right-to-left in a seamless loop -->
   <div class="car-marquee" aria-label="Car spotting gallery">
     <div class="car-marquee__track" id="car-track"></div>
   </div>
@@ -693,31 +688,46 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
 
 <!-- lightbox for render sets -->
 <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog">
-  <div class="lightbox__panel">
-    <button class="lightbox__close" type="button" aria-label="Close">&times;</button>
-    <button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Previous">&#8249;</button>
-    <div class="lightbox__stage">
-      <div class="lightbox__media" id="lightbox-media"></div>
-      <div class="lightbox__bar">
-        <span class="lightbox__title" id="lightbox-title"></span>
-        <span class="lightbox__count" id="lightbox-count"></span>
-      </div>
+  <button class="lightbox__close" type="button" aria-label="Close">&times;</button>
+  <button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Previous">&#8249;</button>
+  <div class="lightbox__stage">
+    <div class="lightbox__media" id="lightbox-media"></div>
+    <div class="lightbox__bar">
+      <span class="lightbox__title" id="lightbox-title"></span>
+      <span class="lightbox__count" id="lightbox-count"></span>
     </div>
-    <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Next">&#8250;</button>
   </div>
+  <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Next">&#8250;</button>
 </div>
 
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 <script>
 /* ============================================================
-   OFF THE CLOCK v6 — interaction + motion (inlined)
-   Native scroll only: Lenis removed — inside the Wix embed it
-   swallowed wheel events and blocked the parent page's scroll.
+   OFF THE CLOCK — interaction + motion
    ============================================================ */
 (() => {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isTouch = window.matchMedia('(pointer: coarse)').matches;
 
-  /* ---------- Car gallery — synced to actual 34 files in Cars/ ---------- */
+  /* ---------- Smooth scroll (Lenis) ---------- */
+  let lenis = null;
+  if (!reduce && typeof Lenis !== 'undefined') {
+    lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 1 });
+    const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+  }
+  // anchor links route through Lenis
+  document.querySelectorAll('a[href^="#"]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (!t) return;
+      e.preventDefault();
+      if (lenis) lenis.scrollTo(t, { offset: 0, duration: 1.3 });
+      else t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+    });
+  });
+
+  /* ---------- Car gallery ---------- */
   const carTrack = document.getElementById('car-track');
   if (carTrack) {
     const cars = [
@@ -774,31 +784,29 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
       : `<img src="${encodeURI(it.src)}" alt="" />`;
     lbCount.textContent = lbItems.length > 1 ? `${lbIndex + 1} / ${lbItems.length}` : '';
   }
-  function openLightbox(items, index, title, anchorY) {
+  function openLightbox(items, index, title) {
     lbItems = items; lbIndex = index || 0;
     lbTitle.textContent = title || '';
     lb.classList.add('is-open');
     lb.classList.toggle('is-single', items.length <= 1);
     lb.setAttribute('aria-hidden', 'false');
-    /* anchor the panel to where the user clicked — inside the Wix
-       iframe that's the only place we know is on their screen */
-    const half = 380;
-    const docH = document.documentElement.scrollHeight;
-    const y = Math.min(Math.max(anchorY || docH / 2, half), docH - half);
-    lb.style.setProperty('--lb-y', y + 'px');
+    document.body.style.overflow = 'hidden';
+    if (lenis) lenis.stop();
     lbRender();
   }
   function closeLightbox() {
     lb.classList.remove('is-open');
     lb.setAttribute('aria-hidden', 'true');
     lbMedia.innerHTML = '';
+    document.body.style.overflow = '';
+    if (lenis) lenis.start();
   }
   function lbStep(d) { lbIndex = (lbIndex + d + lbItems.length) % lbItems.length; lbRender(); }
   if (lb) {
     lb.querySelector('.lightbox__close').addEventListener('click', closeLightbox);
     lb.querySelector('.lightbox__nav--prev').addEventListener('click', () => lbStep(-1));
     lb.querySelector('.lightbox__nav--next').addEventListener('click', () => lbStep(1));
-    lb.addEventListener('click', (e) => { if (e.target === lb || e.target.classList.contains('lightbox__panel')) closeLightbox(); });
+    lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
     window.addEventListener('keydown', (e) => {
       if (!lb.classList.contains('is-open')) return;
       if (e.key === 'Escape') closeLightbox();
@@ -838,7 +846,7 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
       const fig = e.target.closest('.gallery__item');
       if (!fig) return;
       const figs = [...cadGrid.querySelectorAll('.gallery__item')];
-      openLightbox(cadItems, figs.indexOf(fig), '', e.pageY);
+      openLightbox(cadItems, figs.indexOf(fig), '');
     });
   }
 
@@ -872,7 +880,7 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
       if (!card) return;
       const set = sets[+card.dataset.set];
       const items = set.video ? [{ type: 'video', src: set.video }] : set.imgs.map((s) => ({ type: 'image', src: s }));
-      openLightbox(items, 0, set.name, e.pageY);
+      openLightbox(items, 0, set.name);
     });
   }
 
@@ -896,7 +904,7 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
     comfyStrip.addEventListener('click', (e) => {
       const frame = e.target.closest('[data-shot]');
       if (!frame) return;
-      openLightbox(comfyItems, +frame.dataset.shot, 'Inside ComfyUI', e.pageY);
+      openLightbox(comfyItems, +frame.dataset.shot, 'Inside ComfyUI');
     });
   }
 
@@ -930,13 +938,11 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
   });
 
   /* ---------- Scroll reveal ---------- */
-  /* threshold 0, no rootMargin: rootMargin is ignored in cross-origin
-     iframes and a high threshold left sections invisible (blank bands) */
   const revealIO = new IntersectionObserver((entries) => {
     entries.forEach((en) => {
       if (en.isIntersecting) { en.target.classList.add('in'); revealIO.unobserve(en.target); }
     });
-  }, { threshold: 0 });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
   document.querySelectorAll('.reveal').forEach((el, i) => {
     el.style.transitionDelay = `${(i % 4) * 0.06}s`;
     revealIO.observe(el);
@@ -989,6 +995,11 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
     else new IntersectionObserver((e, o) => { e.forEach((en) => { if (en.isIntersecting) { start(); o.disconnect(); } }); }, { threshold: 0.4 }).observe(term);
   }
 
+  /* ---------- Game covers ---------- */
+  document.querySelectorAll('.game[data-cover]').forEach((g) => {
+    g.style.setProperty('--cover', `url("${g.dataset.cover}")`);
+  });
+
   /* ---------- Theme flip ---------- */
   const trigger = document.querySelector('[data-theme-trigger]');
   if (trigger) {
@@ -999,7 +1010,17 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
     }, { threshold: 0.35 }).observe(trigger);
   }
 
-  /* ---------- Obsession rotator ---------- */
+  /* ---------- Clocks / year / obsession ---------- */
+  const pad = (n) => String(n).padStart(2, '0');
+  const clocks = [document.getElementById('clock'), document.getElementById('clock2')].filter(Boolean);
+  const tickClock = () => {
+    const d = new Date();
+    const s = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    clocks.forEach((c) => (c.textContent = s));
+  };
+  tickClock(); setInterval(tickClock, 1000);
+  const yr = document.getElementById('year'); if (yr) yr.textContent = new Date().getFullYear();
+
   const obsessions = ['local LLMs', 'golden-hour light', 'cable management', 'Vizcom renders', 'frame rates'];
   const obEl = document.getElementById('obsession');
   if (obEl && !reduce) {
@@ -1079,7 +1100,8 @@ body[data-theme="night"] .grain{ mix-blend-mode:screen; opacity:.06; }
         img.style.transform = `translateY(${prog * amt}px) scale(1.06)`;
       });
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
+    if (lenis) lenis.on('scroll', onScroll);
+    else window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
   }
 })();
