@@ -7,19 +7,23 @@
 <meta name="description" content="Chef, a countertop cooking companion. Industrial design and UX case study by Shreyas Gharat.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Karla:wght@400..700&family=Young+Serif&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400..800;1,400..800&family=Young+Serif&display=swap" rel="stylesheet">
 <style>
-/* Chef. Recipe Card concept, build stage 1: title card and headnote only. */
+/* Chef. The Recipe Card. Full build. */
 :root{
   --paper:#EDE4D4; --ink:#1B1612;
   --rose:#C68C84; --rose-deep:#A66B63;
   --clay:#6E5A4C; --amber:#E2873A;
   --sage:#9DB29A; --mist:#D8CCB9;
   --line:rgba(27,22,18,.14);
+  --line-d:rgba(237,228,212,.22);
   --ink-soft:rgba(27,22,18,.72);
+  --ink-on-rose:rgba(27,22,18,.82);
+  --paper-on-clay:rgba(237,228,212,.9);
   --ease:cubic-bezier(.16,1,.3,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{
   background:var(--paper);color:var(--ink);
   font-family:'Karla',sans-serif;font-size:1.0625rem;line-height:1.6;
@@ -29,73 +33,497 @@ body{
 img{display:block;width:100%;height:auto}
 section{display:block;width:100%}
 .wrap{max-width:1240px;margin:0 auto;padding:0 clamp(1.25rem,4vw,3.5rem)}
+h2,h3{font-family:'Young Serif',serif;font-weight:400;line-height:1.12;text-wrap:balance}
+h2{font-size:clamp(1.9rem,3.6vw,2.9rem)}
+h3{font-size:clamp(1.3rem,2.2vw,1.7rem)}
+p{text-wrap:pretty}
+a{color:var(--rose-deep)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 
-/* Title card */
-.titlecard{padding-top:clamp(3rem,7vw,6rem)}
-.card{border:1px solid var(--line);padding:clamp(2.25rem,5vw,4.5rem) clamp(1.5rem,4vw,4rem);text-align:center}
-.dish{font-family:'Young Serif',serif;font-weight:400;font-size:clamp(3.25rem,8vw,6rem);line-height:1.02;letter-spacing:-.015em;text-wrap:balance}
-.rule-rose{width:72px;height:2px;background:var(--rose);margin:clamp(1.25rem,2.5vw,1.75rem) auto;border:0}
-.tagline{max-width:36em;margin:0 auto;font-size:clamp(1.05rem,1.6vw,1.25rem);line-height:1.55;text-wrap:pretty}
-.role{margin-top:1.5rem;font-size:.8125rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
-.hero-fig{margin-top:clamp(2rem,4vw,3rem)}
+/* Captions */
 .cap{margin-top:.8rem;font-size:.875rem;color:var(--ink-soft);line-height:1.5}
-.cap::before{content:"";display:inline-block;width:14px;height:2px;background:var(--rose);margin-right:.6rem;vertical-align:middle}
+.cap::before{content:"";display:inline-block;width:14px;height:2px;background:var(--rose);margin-right:.6rem;vertical-align:middle;transition:width .45s var(--ease)}
+figure:hover .cap::before{width:26px}
+figure .frame{overflow:hidden}
+figure .frame img{transition:transform .8s var(--ease)}
+figure:hover .frame img{transform:scale(1.02)}
 
-/* Headnote */
-.headnote{padding:clamp(4rem,8vw,7rem) 0 clamp(4.5rem,9vw,8rem)}
-.headnote h2{font-family:'Young Serif',serif;font-weight:400;font-size:clamp(1.85rem,3.5vw,2.75rem);line-height:1.15;text-wrap:balance;max-width:18em}
-.headnote .prose{max-width:62ch;margin-top:clamp(1.25rem,2.5vw,2rem);font-size:clamp(1.05rem,1.5vw,1.1875rem);line-height:1.65;text-wrap:pretty}
+/* Reveal choreography: content visible without JS, staged with it */
+html.js [data-rv]{opacity:0;transform:translateY(22px)}
+html.js [data-rv].on{opacity:1;transform:none;transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:var(--d,0s)}
+
+/* ---------- 1 · Title card ---------- */
+.titlecard{padding-top:clamp(3rem,7vw,6rem)}
+.tc-card{border:1px solid var(--line);padding:clamp(2.25rem,5vw,4.5rem) clamp(1.5rem,4vw,4rem);text-align:center}
+.dish{font-family:'Young Serif',serif;font-weight:400;font-size:clamp(3.25rem,8vw,6rem);line-height:1.02;letter-spacing:-.015em;text-wrap:balance}
+.rule-rose{width:72px;height:2px;background:var(--rose);margin:clamp(1.25rem,2.5vw,1.75rem) auto;border:0;transform-origin:center}
+.tagline{max-width:36em;margin:0 auto;font-size:clamp(1.05rem,1.6vw,1.25rem);line-height:1.55}
+.role{margin-top:1.5rem;font-size:.8125rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.hero-fig{margin-top:clamp(2rem,4vw,3rem)}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.tc-card>*{animation:rise .7s var(--ease) both}
+.tc-card>*:nth-child(2){animation:draw .8s var(--ease) .18s both}
+.tc-card>*:nth-child(3){animation-delay:.22s}
+.tc-card>*:nth-child(4){animation-delay:.32s}
+.hero-fig{animation:rise .9s var(--ease) .4s both}
+
+/* ---------- 2 · Headnote ---------- */
+.headnote{padding:clamp(4.5rem,9vw,8rem) 0}
+.headnote .prose{max-width:62ch;margin-top:clamp(1.25rem,2.5vw,2rem);font-size:clamp(1.05rem,1.5vw,1.1875rem);line-height:1.65}
 .pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(1.25rem,3vw,2rem);margin-top:clamp(2.5rem,5vw,4rem)}
 .pair figure{border:1px solid var(--line);background:rgba(216,204,185,.28);padding:.75rem .75rem 1rem}
-.pair .cap{margin-top:.9rem}
 
-/* Load motion: one settle on arrival, nothing scroll driven yet */
-@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.card>*{animation:rise .7s var(--ease) both}
-.card>*:nth-child(2){animation-delay:.08s}
-.card>*:nth-child(3){animation-delay:.16s}
-.card>*:nth-child(4){animation-delay:.24s}
-.hero-fig{animation:rise .8s var(--ease) .3s both}
+/* ---------- 3 · Equipment and serves ---------- */
+.equipment{padding:0 0 clamp(4.5rem,9vw,8rem)}
+.eq-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(2rem,5vw,4rem);margin-top:clamp(2rem,4vw,3rem);align-items:start}
+.eq-list{list-style:none}
+.eq-list li{display:flex;align-items:baseline;gap:.9rem;padding:1rem 0;border-bottom:1px solid var(--line);font-size:clamp(1.05rem,1.5vw,1.1875rem);transition:background .5s var(--ease),padding .5s var(--ease)}
+.eq-list li.lit{background:rgba(157,178,154,.16);padding-left:.75rem}
+.eq-list li.lit.eq-app{background:rgba(226,135,58,.14)}
+.tick{flex:none;width:13px;height:13px;border:2px solid var(--sage);transition:background .4s var(--ease)}
+li.lit .tick{background:var(--sage)}
+.eq-app .tick{border-color:var(--amber)}
+.eq-app.lit .tick{background:var(--amber)}
+.eq-note{display:block;font-size:.9rem;color:var(--ink-soft)}
+.serves{margin-top:clamp(2rem,4vw,3rem);border:1px solid var(--line);padding:1.25rem clamp(1.25rem,3vw,2rem);display:flex;flex-wrap:wrap;gap:.5rem 2.5rem;align-items:baseline}
+.serves b{font-family:'Young Serif',serif;font-weight:400;font-size:1.2rem}
+.usability{margin-top:1.25rem;max-width:62ch;color:var(--ink-soft)}
+
+/* ---------- 4 · Method (the rose card) ---------- */
+.method{background:var(--rose);color:var(--ink);padding:clamp(4.5rem,9vw,8rem) 0}
+.method .cap{color:var(--ink-on-rose)}
+.method .cap::before{background:var(--ink)}
+.method-intro{max-width:56ch;margin-top:1rem;color:var(--ink-on-rose)}
+.steps{list-style:none;margin-top:clamp(2.5rem,5vw,4rem);max-width:820px}
+.step{display:grid;grid-template-columns:56px 1fr;gap:clamp(1rem,2.5vw,1.75rem);padding:clamp(1.5rem,3vw,2.25rem) 0;border-top:1px solid rgba(27,22,18,.22)}
+.step-no{width:44px;height:44px;border:2px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:1.05rem;transition:background .5s var(--ease),color .5s var(--ease)}
+.step.done .step-no{background:var(--ink);color:var(--paper)}
+.step.done .step-no::after{content:"";position:static}
+.step h3{margin-top:.35rem}
+.step-note{margin-top:.5rem;max-width:52ch;color:var(--ink-on-rose)}
+.chip{display:inline-block;margin-top:.8rem;background:var(--amber);color:var(--ink);font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .7rem}
+.step figure{margin-top:1.5rem;max-width:640px}
+.step figure.app-shot{border:2px solid var(--amber);padding:.75rem .75rem 1rem;background:rgba(27,22,18,.06)}
+
+/* ---------- 5a · Development, research chapter (clay) ---------- */
+.research{background:var(--clay);color:var(--paper);padding:clamp(4.5rem,9vw,8rem) 0}
+.research .muted{color:var(--paper-on-clay)}
+.research h2,.research h3{color:var(--paper)}
+.counts{display:flex;flex-wrap:wrap;gap:clamp(2rem,6vw,5rem);margin-top:clamp(2.5rem,5vw,4rem)}
+.count b{display:block;font-family:'Young Serif',serif;font-weight:400;font-size:clamp(2.75rem,6vw,4.5rem);line-height:1}
+.count span{display:block;margin-top:.4rem;color:var(--paper-on-clay)}
+.stats{margin-top:clamp(3rem,6vw,5rem);display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(1.5rem,4vw,3rem)}
+.stat b{font-family:'Young Serif',serif;font-weight:400;font-size:clamp(2.25rem,4.5vw,3.25rem);color:var(--rose)}
+.stat p{margin-top:.4rem;color:var(--paper-on-clay);max-width:26ch}
+.shelf{margin-top:clamp(3.5rem,7vw,6rem)}
+.comps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:clamp(1rem,2.5vw,1.75rem);margin-top:clamp(1.75rem,3.5vw,2.5rem)}
+.comps figure{background:var(--mist);padding:.6rem .6rem .8rem}
+.comps .cap{color:var(--ink);font-size:.8125rem}
+.comps .cap::before{background:var(--clay)}
+.axes-wrap{margin-top:clamp(2.5rem,5vw,4rem);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(2rem,5vw,4rem);align-items:center}
+.axes{position:relative;aspect-ratio:1.15/1;border:1px solid var(--line-d)}
+.ax-h,.ax-v{position:absolute;background:var(--line-d)}
+.ax-h{left:0;right:0;top:50%;height:1px}
+.ax-v{top:0;bottom:0;left:50%;width:1px}
+.ax-label{position:absolute;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-on-clay);padding:.5rem .7rem}
+.ax-label.n{top:0;left:50%;transform:translateX(-50%)}
+.ax-label.s{bottom:0;left:50%;transform:translateX(-50%)}
+.ax-label.w{left:0;top:50%;transform:translateY(-50%)}
+.ax-label.e{right:0;top:50%;transform:translateY(-50%);text-align:right}
+.gap-zone{position:absolute;left:7%;top:8%;width:36%;height:34%;border:2px solid var(--rose);background:rgba(198,140,132,.16);display:grid;place-items:center;text-align:center;padding:.75rem}
+.gap-zone p{font-size:.9rem;line-height:1.4;color:var(--paper)}
+.gap-zone b{font-family:'Young Serif',serif;font-weight:400;font-size:1.15rem;display:block}
+.axes-note{max-width:44ch;color:var(--paper-on-clay)}
+.quotes{margin-top:clamp(3.5rem,7vw,6rem);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(1.5rem,4vw,3rem)}
+.quotes blockquote{border-top:1px solid var(--line-d);padding-top:1.25rem}
+.quotes blockquote p{font-family:'Young Serif',serif;font-size:clamp(1.1rem,1.8vw,1.35rem);line-height:1.45}
+.quotes blockquote p::before{content:"\201C";color:var(--rose)}
+.quotes blockquote p::after{content:"\201D";color:var(--rose)}
+.quotes cite{display:block;margin-top:.9rem;font-style:italic;font-size:.9rem;color:var(--paper-on-clay)}
+.statement{margin-top:clamp(4rem,8vw,7rem);text-align:center}
+.statement p{font-family:'Young Serif',serif;font-size:clamp(1.5rem,3.2vw,2.4rem);line-height:1.3;max-width:26em;margin:0 auto}
+.ecpi{margin-top:clamp(1.75rem,3.5vw,2.5rem);display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem 2.25rem}
+.ecpi span{font-size:.9rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--rose)}
+
+/* ---------- 5b · Development, making chapter (paper) ---------- */
+.making{padding:clamp(4.5rem,9vw,8rem) 0}
+.making .block{margin-top:clamp(3rem,6vw,5rem)}
+.trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(1.25rem,3vw,2rem);margin-top:clamp(1.75rem,3.5vw,2.5rem)}
+.trio figure{border:1px solid var(--line);padding:.6rem .6rem .9rem;background:rgba(216,204,185,.28)}
+.wide-fig{margin-top:clamp(1.75rem,3.5vw,2.5rem)}
+.params{margin-top:clamp(1.75rem,3.5vw,2.5rem)}
+.params dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0 clamp(2rem,5vw,4rem)}
+.params .param{padding:1.4rem 0;border-bottom:1px solid var(--line);transition:background .4s var(--ease)}
+.params .param:hover{background:rgba(216,204,185,.35)}
+.params dt{font-family:'Young Serif',serif;font-size:1.15rem}
+.params dd{margin-top:.4rem;color:var(--ink-soft);max-width:52ch}
+.flavor{margin-top:clamp(3.5rem,7vw,6rem);background:rgba(216,204,185,.4);border:1px solid var(--line);padding:clamp(2rem,4.5vw,3.5rem)}
+.flavor ul{list-style:none;display:flex;flex-wrap:wrap;gap:.6rem .5rem;margin-top:1.5rem}
+.flavor li{border:1px solid var(--line);padding:.35rem .85rem;font-size:.9rem;transition:background .35s var(--ease),border-color .35s var(--ease)}
+.flavor li:hover{background:var(--rose);border-color:var(--rose)}
+.details-pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(1.25rem,3vw,2rem);margin-top:clamp(1.75rem,3.5vw,2.5rem)}
+
+/* ---------- 6 · The dish, served ---------- */
+.served{padding:0 0 clamp(4.5rem,9vw,8rem)}
+.served .full{margin-top:clamp(2rem,4vw,3rem)}
+
+/* ---------- Footer ---------- */
+footer{border-top:1px solid var(--line);padding:clamp(1.75rem,3.5vw,2.5rem) 0 clamp(2.5rem,5vw,3.5rem)}
+.foot-row{display:flex;flex-wrap:wrap;gap:1rem 2.5rem;justify-content:space-between;align-items:baseline;font-size:.9rem;color:var(--ink-soft)}
+.foot-row a{text-decoration:none;border-bottom:1px solid var(--rose);padding-bottom:2px}
+.foot-row a:hover{border-bottom-width:2px}
+
 @media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
   *,*::before,*::after{animation:none !important;transition:none !important}
+  html.js [data-rv]{opacity:1;transform:none}
 }
 </style>
 </head>
 <body>
 <main>
 
+  <!-- 1 · Title card -->
   <section class="titlecard" aria-label="Title">
     <div class="wrap">
-      <header class="card">
+      <header class="tc-card">
         <h1 class="dish">Chef</h1>
         <hr class="rule-rose" aria-hidden="true">
         <p class="tagline">A kitchen device plus app that gives people recipe options tailored to the limited resources and time constraints of a home kitchen.</p>
         <p class="role">User Research, Product Design, UI/UX</p>
       </header>
       <figure class="hero-fig">
-        <img src="assets/hero-twin.jpg" alt="Two Chef units in the dusty rose CMF under studio light, upright screens seated on cylindrical bases, both showing the recipe app" width="1993" height="983">
+        <div class="frame"><img src="assets/hero-twin.jpg" alt="Two Chef units in the dusty rose CMF under studio light, upright screens seated on cylindrical bases, both showing the recipe app" width="1993" height="983"></div>
         <figcaption class="cap">The finished dish. Chef, twin units in the dusty rose CMF.</figcaption>
       </figure>
     </div>
   </section>
 
+  <!-- 2 · Headnote -->
   <section class="headnote" aria-label="Headnote">
     <div class="wrap">
-      <h2>Why this recipe exists</h2>
-      <p class="prose">Young city dwellers and busy professionals rarely have the time, energy, or ideas to cook at home. Fast food, frozen meals, and takeout fill the gap, and both health and the pleasure of cooking pay for it. Smart appliances and recipe apps already exist, but none of them bring convenience, personalization, and engagement together well enough to make cooking at home feel easy and worth doing.</p>
+      <h2 data-rv>Why this recipe exists</h2>
+      <p class="prose" data-rv style="--d:.08s">Young city dwellers and busy professionals rarely have the time, energy, or ideas to cook at home. Fast food, frozen meals, and takeout fill the gap, and both health and the pleasure of cooking pay for it. Smart appliances and recipe apps already exist, but none of them bring convenience, personalization, and engagement together well enough to make cooking at home feel easy and worth doing.</p>
       <div class="pair">
-        <figure>
-          <img src="assets/food-collage.jpg" alt="A delivery care package of soup cups, bread rolls, crackers, and cookies" loading="lazy">
+        <figure data-rv>
+          <div class="frame"><img src="assets/food-collage.jpg" alt="A delivery care package of soup cups, bread rolls, crackers, and cookies" loading="lazy"></div>
           <figcaption class="cap">The default week. Ordered in, eaten from the box.</figcaption>
         </figure>
-        <figure>
-          <img src="assets/app-context.jpg" alt="A woman in a knit sweater holding a bowl of soup she cooked in her own kitchen" loading="lazy">
+        <figure data-rv style="--d:.12s">
+          <div class="frame"><img src="assets/app-context.jpg" alt="A woman in a knit sweater holding a bowl of soup she cooked in her own kitchen" loading="lazy"></div>
           <figcaption class="cap">The goal. A meal cooked at home, and the satisfaction that comes with it.</figcaption>
         </figure>
       </div>
     </div>
   </section>
 
+  <!-- 3 · Equipment and serves -->
+  <section class="equipment" aria-label="Equipment and serves">
+    <div class="wrap">
+      <h2 data-rv>Equipment and serves</h2>
+      <div class="eq-grid">
+        <div>
+          <ul class="eq-list">
+            <li id="eq-button" data-rv><span class="tick" aria-hidden="true"></span><span>Button<span class="eq-note">One control to wake, click, and choose.</span></span></li>
+            <li id="eq-stand" data-rv style="--d:.06s"><span class="tick" aria-hidden="true"></span><span>Back stand<span class="eq-note">Holds the screen at any angle you set.</span></span></li>
+            <li id="eq-led" data-rv style="--d:.12s"><span class="tick" aria-hidden="true"></span><span>LED indicator<span class="eq-note">Quiet status light.</span></span></li>
+            <li id="eq-projector" data-rv style="--d:.18s"><span class="tick" aria-hidden="true"></span><span>Projector<span class="eq-note">Puts the recipe where you work.</span></span></li>
+            <li id="eq-wire" data-rv style="--d:.24s"><span class="tick" aria-hidden="true"></span><span>Wire outlet<span class="eq-note">The cord leaves cleanly at the base.</span></span></li>
+            <li id="eq-app" class="eq-app" data-rv style="--d:.3s"><span class="tick" aria-hidden="true"></span><span>Companion app<span class="eq-note">Scans receipts, holds the inventory, serves the recipes.</span></span></li>
+          </ul>
+          <p class="usability" data-rv style="--d:.36s">Usability is built around two moves: the screen adjusts to any angle, and the back stand keeps it planted while you cook.</p>
+        </div>
+        <figure data-rv style="--d:.15s">
+          <div class="frame"><img src="assets/anatomy-green.jpg" alt="Nine circular dial and button form studies rendered in gray, from flat discs with tick marks to ribbed cylinders and discs with bar handles" loading="lazy"></div>
+          <figcaption class="cap">Dial and button form studies for the single control.</figcaption>
+        </figure>
+      </div>
+      <p class="serves" data-rv><b>Serves</b> <span>Significant Singles</span> <span>Young City Solos</span> <span>Promising Families</span> <span>ages 25 to 40</span></p>
+    </div>
+  </section>
+
+  <!-- 4 · Method -->
+  <section class="method" aria-label="Method">
+    <div class="wrap">
+      <h2 data-rv>The method</h2>
+      <p class="method-intro" data-rv style="--d:.08s">Eight steps, from the grocery bag to the table. The device and the app split the work between them.</p>
+      <ol class="steps">
+        <li class="step" data-step data-rv>
+          <span class="step-no" aria-hidden="true">1</span>
+          <div><h3>Buy the ingredients</h3></div>
+        </li>
+        <li class="step" data-step data-equip="eq-app" data-rv>
+          <span class="step-no" aria-hidden="true">2</span>
+          <div>
+            <h3>Scan the receipt</h3>
+            <p class="step-note">The app reads the receipt straight from the grocery run.</p>
+            <span class="chip">In the app</span>
+          </div>
+        </li>
+        <li class="step" data-step data-equip="eq-app" data-rv>
+          <span class="step-no" aria-hidden="true">3</span>
+          <div>
+            <h3>Upload</h3>
+            <p class="step-note">The list lands in the app inventory.</p>
+            <span class="chip">In the app</span>
+            <figure class="app-shot">
+              <div class="frame"><img src="assets/app-ui.jpg" alt="Smartphone at an angle showing the recipe app home screen with meal cards, a timer tile, and stats" loading="lazy"></div>
+              <figcaption class="cap">The app on the phone. Steps two and three happen anywhere.</figcaption>
+            </figure>
+          </div>
+        </li>
+        <li class="step" data-step data-rv>
+          <span class="step-no" aria-hidden="true">4</span>
+          <div><h3>Arrive home</h3></div>
+        </li>
+        <li class="step" data-step data-equip="eq-button" data-rv>
+          <span class="step-no" aria-hidden="true">5</span>
+          <div>
+            <h3>Click on the device</h3>
+            <p class="step-note">One press of the button wakes Chef on the counter.</p>
+          </div>
+        </li>
+        <li class="step" data-step data-equip="eq-app" data-rv>
+          <span class="step-no" aria-hidden="true">6</span>
+          <div>
+            <h3>Select the recipe</h3>
+            <p class="step-note">Options come from what is already in the kitchen, with recipes suggested for events and set routines.</p>
+            <span class="chip">In the app</span>
+            <figure class="app-shot">
+              <div class="frame"><img src="assets/app-screen-a.jpg" alt="Recipe app home screen with meal cards for guacamole, poha, fries, nuggets, a burger, salad, and cake, plus notes and daily tips" loading="lazy"></div>
+              <figcaption class="cap">The home screen. Meals, inventory, routines, and events in one place.</figcaption>
+            </figure>
+          </div>
+        </li>
+        <li class="step" data-step data-equip="eq-app eq-projector" data-rv>
+          <span class="step-no" aria-hidden="true">7</span>
+          <div>
+            <h3>Follow the cooking steps</h3>
+            <p class="step-note">Select the dish, view the information, follow the cooking instructions.</p>
+            <span class="chip">In the app</span>
+            <figure class="app-shot">
+              <div class="frame"><img src="assets/app-screen-b.jpg" alt="Recipe detail screen for a Caesar salad with an ingredient list, serving suggestions, a tip, and start and shopping list buttons" loading="lazy"></div>
+              <figcaption class="cap">A recipe opened. Quantities, pairings, and a start button.</figcaption>
+            </figure>
+          </div>
+        </li>
+        <li class="step" data-step data-rv>
+          <span class="step-no" aria-hidden="true">8</span>
+          <div><h3>The meal is served</h3></div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 5a · Recipe development, research -->
+  <section class="research" aria-label="Recipe development, research">
+    <div class="wrap">
+      <h2 data-rv>Recipe development</h2>
+      <p class="muted" data-rv style="--d:.08s">Before the form, the appetite. The concept was built on primary research.</p>
+      <div class="counts">
+        <div class="count" data-rv><b><span data-count="100">100</span>+</b><span>surveys</span></div>
+        <div class="count" data-rv style="--d:.1s"><b data-count="7">7</b><span>interviews</span></div>
+        <div class="count" data-rv style="--d:.2s"><b data-count="3">3</b><span>observations</span></div>
+      </div>
+      <div class="stats">
+        <div class="stat" data-rv><b><span data-count="61">61</span>%</b><p>order out due to lack of energy and time</p></div>
+        <div class="stat" data-rv style="--d:.1s"><b><span data-count="58">58</span>%</b><p>prefer dining out</p></div>
+        <div class="stat" data-rv style="--d:.2s"><b><span data-count="31">31</span>%</b><p>are confused about what to cook</p></div>
+      </div>
+
+      <div class="shelf">
+        <h3 data-rv>The gap on the shelf</h3>
+        <div class="comps">
+          <figure data-rv><div class="frame"><img src="assets/comp-fridge.jpg" alt="Stainless steel smart refrigerator with a screen panel in the door" loading="lazy"></div><figcaption class="cap">Smart fridge</figcaption></figure>
+          <figure data-rv style="--d:.08s"><div class="frame"><img src="assets/comp-instantpot.jpg" alt="Black electric multicooker with a control screen and a companion phone app" loading="lazy"></div><figcaption class="cap">Smart multicooker</figcaption></figure>
+          <figure data-rv style="--d:.16s"><div class="frame"><img src="assets/comp-nesthub.jpg" alt="Countertop smart display on a rounded fabric base" loading="lazy"></div><figcaption class="cap">Smart display</figcaption></figure>
+          <figure data-rv style="--d:.24s"><div class="frame"><img src="assets/comp-thermomix.jpg" alt="Countertop cooking machine with a steel bowl and an attached touchscreen" loading="lazy"></div><figcaption class="cap">Cooking machine</figcaption></figure>
+        </div>
+        <div class="axes-wrap">
+          <div class="axes" data-rv role="img" aria-label="Positioning map with two axes. Horizontal, does one thing to does many things. Vertical, interactive to traditional. A marked zone sits in the interactive, does one thing quadrant, labeled less function, more interactive. Chef sits there.">
+            <span class="ax-h" aria-hidden="true"></span><span class="ax-v" aria-hidden="true"></span>
+            <span class="ax-label n" aria-hidden="true">Interactive</span>
+            <span class="ax-label s" aria-hidden="true">Traditional</span>
+            <span class="ax-label w" aria-hidden="true">Does one thing</span>
+            <span class="ax-label e" aria-hidden="true">Does many things</span>
+            <div class="gap-zone" aria-hidden="true"><p><b>Chef sits here</b>less function, more interactive</p></div>
+          </div>
+          <p class="axes-note" data-rv style="--d:.12s">Existing products cluster around more functions or less interaction. The open position is the opposite corner: a product that does one thing and talks back.</p>
+        </div>
+      </div>
+
+      <div class="quotes">
+        <blockquote data-rv><p>At times there is no motivation to cook or I don't know what to cook. We end up ordering food or frozen food.</p><cite>interview, ages 25 to 40</cite></blockquote>
+        <blockquote data-rv style="--d:.08s"><p>Health is more of a priority to me than taste.</p><cite>interview, ages 25 to 40</cite></blockquote>
+        <blockquote data-rv style="--d:.16s"><p>We enjoy hosting our friends with home cooked food.</p><cite>interview, ages 25 to 40</cite></blockquote>
+        <blockquote data-rv style="--d:.24s"><p>We prefer home cooked food. But due to our lifestyle, lack of time and energy we aren't able to do that frequently.</p><cite>interview, ages 25 to 40</cite></blockquote>
+      </div>
+
+      <div class="statement">
+        <p data-rv>To work on a product that empowers users to express themselves, promotes engagement and inspires motivation towards the cooking process.</p>
+        <div class="ecpi" data-rv style="--d:.15s">
+          <span>Enjoyable</span><span>Convenient</span><span>Personal</span><span>Informative</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5b · Recipe development, making -->
+  <section class="making" aria-label="Recipe development, making">
+    <div class="wrap">
+      <div class="block">
+        <h3 data-rv>Finding the form</h3>
+        <figure class="wide-fig" data-rv>
+          <div class="frame"><img src="assets/sketches.jpg" alt="Digital line sketches of five upright screen concepts with different bases, a wedge with a round knob, a roll, and a small block" loading="lazy"></div>
+          <figcaption class="cap">Form sketches. An upright screen, and the question of what it stands on.</figcaption>
+        </figure>
+        <div class="trio">
+          <figure data-rv><div class="frame"><img src="assets/proto-cardboard.jpg" alt="Cardboard mockup of the device, a flat upright panel on a cylindrical roll base" loading="lazy"></div><figcaption class="cap">Cardboard, for proportion.</figcaption></figure>
+          <figure data-rv style="--d:.08s"><div class="frame"><img src="assets/proto-foam.jpg" alt="Prototype mixing a cardboard panel with a pink foam base and roll" loading="lazy"></div><figcaption class="cap">Cardboard and foam, for the meeting of panel and base.</figcaption></figure>
+          <figure data-rv style="--d:.16s"><div class="frame"><img src="assets/pink-render.jpg" alt="Pink foam appearance model, an upright rounded slab seated on a cylindrical base" loading="lazy"></div><figcaption class="cap">Foam appearance model, the stance resolved.</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3 data-rv>In the hand</h3>
+        <div class="trio">
+          <figure data-rv><div class="frame"><img src="assets/cmf-samples.jpg" alt="Five white 3D printed dial prototypes on a gray surface, slotted, knurled, stepped, and bar handled" loading="lazy"></div><figcaption class="cap">3D printed dial samples.</figcaption></figure>
+          <figure data-rv style="--d:.08s"><div class="frame"><img src="assets/story-scan.jpg" alt="A hand holding a white knurled disc edge on between thumb and fingers" loading="lazy"></div><figcaption class="cap">Held and compared in hand.</figcaption></figure>
+          <figure data-rv style="--d:.16s"><div class="frame"><img src="assets/story-scan2.jpg" alt="A hand pinching a small white ribbed cylinder between thumb and index finger" loading="lazy"></div><figcaption class="cap">Grip at the smallest size.</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3 data-rv>Technique notes</h3>
+        <div class="params">
+          <dl>
+            <div class="param" data-rv><dt>Clean lines</dt><dd>Straight lines, 90 degree angles, minimal curved edges.</dd></div>
+            <div class="param" data-rv style="--d:.06s"><dt>Uniform radius</dt><dd>Corners are uniform, with a perfect radius.</dd></div>
+            <div class="param" data-rv style="--d:.12s"><dt>Small details</dt><dd>Highlights as thin strips of light or a change of material.</dd></div>
+            <div class="param" data-rv style="--d:.18s"><dt>Geometric shapes</dt><dd>Regular rectangles, squares, and circles. No ovals or parallelograms.</dd></div>
+            <div class="param" data-rv style="--d:.24s"><dt>Color and material break</dt><dd>A distinct line of separation where color or material changes.</dd></div>
+            <div class="param" data-rv style="--d:.3s"><dt>Distinctive shapes</dt><dd>Intersecting elements blend while keeping their own identity.</dd></div>
+          </dl>
+        </div>
+        <div class="details-pair">
+          <figure data-rv><div class="frame"><img src="assets/detail-projector.jpg" alt="Close render in sage green of the raised projector housing with its recessed lens" loading="lazy"></div><figcaption class="cap">The projector housing. A small detail as a change of form.</figcaption></figure>
+          <figure data-rv style="--d:.1s"><div class="frame"><img src="assets/detail-wire.jpg" alt="Close render in green of a braided cord leaving a rounded outlet block at the base" loading="lazy"></div><figcaption class="cap">The wire outlet. The cord leaves on the product's terms.</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="flavor" data-rv>
+        <h3>Flavor notes</h3>
+        <ul>
+          <li>mathematical</li><li>telescopic</li><li>analogue</li><li>smooth</li><li>sleek</li><li>solid</li><li>repetition</li><li>supported</li><li>dynamic</li><li>looks easy</li><li>curvy</li><li>everything in place</li><li>premium</li><li>simple</li><li>sophisticated</li><li>grounded</li><li>swift movement</li><li>relaxed</li><li>functionality</li><li>color block</li><li>material mix</li><li>compact</li><li>insets</li><li>blend</li><li>symmetry</li><li>geometric infusion</li><li>perfect cutting edges</li><li>rugged</li><li>satisfaction</li><li>modern</li><li>sharp</li><li>geometric</li><li>connectivity</li><li>minimalistic</li><li>tactile UI</li><li>regulatory</li><li>approachable</li><li>clean</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · The dish, served -->
+  <section class="served" aria-label="The dish, served">
+    <div class="wrap">
+      <h2 data-rv>The dish, served</h2>
+      <figure class="full" data-rv>
+        <div class="frame"><img src="assets/final-kitchen.jpg" alt="Chef standing on a dark counter beside a gas hob against white subway tile, screen showing the recipe app" loading="lazy"></div>
+        <figcaption class="cap">On the counter, beside the hob, where the cooking happens.</figcaption>
+      </figure>
+      <div class="pair">
+        <figure data-rv><div class="frame"><img src="assets/kitchen-wide.jpg" alt="Wide kitchen view with Chef in silver and white leaning against subway tile next to a chopping board with herbs" loading="lazy"></div><figcaption class="cap">The silver and white unit at working distance.</figcaption></figure>
+        <figure data-rv style="--d:.1s"><div class="frame"><img src="assets/real-context.jpg" alt="Scale mockup of Chef standing on a real counter between a coffee machine and a kettle" loading="lazy"></div><figcaption class="cap">Scale mockup on a working counter, between the coffee machine and the kettle.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap foot-row">
+      <span>© 2026 Shreyas Gharat. Set in Young Serif &amp; Karla.</span>
+      <a href="#top" id="totop">Back to top</a>
+      <span>Designed &amp; built by hand.</span>
+    </div>
+  </footer>
+
 </main>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  root.classList.add('js');
+  var rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var rvs=[].slice.call(document.querySelectorAll('[data-rv]'));
+
+  function showAll(){rvs.forEach(function(e){e.classList.add('on')});}
+
+  if(rm||!('IntersectionObserver' in window)){
+    showAll();
+    finishCounts();
+    checkAllSteps();
+  }else{
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){en.target.classList.add('on');io.unobserve(en.target);}
+      });
+    },{rootMargin:'0px 0px -7% 0px',threshold:0.1});
+    rvs.forEach(function(e){io.observe(e);});
+
+    /* Method checklist: steps check off, equipment lights up */
+    var steps=[].slice.call(document.querySelectorAll('[data-step]'));
+    var so=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting)return;
+        var idx=steps.indexOf(en.target);
+        for(var i=0;i<=idx;i++){
+          steps[i].classList.add('done');
+          lightEquip(steps[i]);
+        }
+        so.unobserve(en.target);
+      });
+    },{rootMargin:'0px 0px -18% 0px',threshold:0.4});
+    steps.forEach(function(s){so.observe(s);});
+
+    /* Count up on first view */
+    var counts=[].slice.call(document.querySelectorAll('[data-count]'));
+    var co=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting)return;
+        runCount(en.target);
+        co.unobserve(en.target);
+      });
+    },{threshold:0.6});
+    counts.forEach(function(c){co.observe(c);});
+  }
+
+  function lightEquip(step){
+    var eq=step.getAttribute('data-equip');
+    if(!eq)return;
+    eq.split(' ').forEach(function(id){
+      var li=document.getElementById(id);
+      if(li)li.classList.add('lit');
+    });
+  }
+  function checkAllSteps(){
+    [].slice.call(document.querySelectorAll('[data-step]')).forEach(function(s){
+      s.classList.add('done');lightEquip(s);
+    });
+  }
+  function runCount(el){
+    var end=parseInt(el.getAttribute('data-count'),10);
+    var t0=null,dur=900;
+    function tick(t){
+      if(!t0)t0=t;
+      var p=Math.min((t-t0)/dur,1);
+      el.textContent=Math.round(end*(1-Math.pow(1-p,3)));
+      if(p<1)requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  function finishCounts(){
+    [].slice.call(document.querySelectorAll('[data-count]')).forEach(function(el){
+      el.textContent=el.getAttribute('data-count');
+    });
+  }
+})();
+</script>
 </body>
 </html>
