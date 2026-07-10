@@ -33,6 +33,12 @@ whitespace, honest copy, annotation over decoration. The site reads as one
 practice, not unrelated pages. Cohesion comes from structure and type;
 distinction comes from each project's own accent colour and context.
 
+This register is the house default, not a requirement. Any page may break
+any part of it when the project demands it, deliberately rather than by
+neglect. Non negotiable on every page regardless: the footer pattern, the
+writing rules, and honest annotation on visuals in whatever typeface the
+page uses. The full split lives in DESIGN.md.
+
 ## Anti-references
 
 - Templated sameness: pages that feel like one theme applied repeatedly.
@@ -51,7 +57,8 @@ distinction comes from each project's own accent colour and context.
 2. Process and research rigor are the primary credibility signals for this
    audience, not visual embellishment.
 3. Every visual needs framing or a callout.
-4. Business problems are named early and explicitly.
+4. Business problems are named early and explicitly (the house default
+   narrative order; a page may depart from it deliberately).
 5. Text is locked before shifting to renders and image production.
 
 ## Constraints

@@ -18,44 +18,79 @@ heading and inherits the substrate without restating it.
 | Secondary body, captions, labels | DM Sans |
 
 Documented per page deviations exist (landing grid: Barlow family; chef:
-Bricolage Grotesque and Hanken Grotesk). New pages follow the system.
+Bricolage Grotesque and Hanken Grotesk; fun: Fraunces plus Hanken Grotesk
+and Space Mono, documented in its own page note as chosen deliberately
+for the personal, non case study register). New pages follow the system.
 Reference implementation: truckola/index.html.
 
 ### Structure and discipline
 
 - One self contained index.html per page folder. Inline CSS and JS, no
   build step, Google Fonts as the only external request.
-- Editorial long scroll: type led sections, generous whitespace, hairline
-  rules (ink at 10 to 16 percent alpha), content max width 1180 to 1320px,
-  clamp() based fluid padding.
-- Annotation discipline: every visual carries a caption or callout, set in
-  DM Sans, small, often uppercase with letter spacing. Figures are framed,
-  never dumped.
-- Footer pattern: three part row. Copyright and type credit ("© 2026
-  Shreyas Gharat. Set in Fraunces, Work Sans & DM Sans."), back to top
-  link, "Designed & built by hand."
-- ::selection tinted to the page accent. Scroll progress indicators and
-  fixed atmosphere layers (grain) are established precedents.
 - Reduced motion media checks appear in existing pages and new pages keep
   the pattern, as a page level practice (site accessibility standard
   remains an open item per PRODUCT.md).
 
-### Embed constraints (inherited from PRODUCT.md, plus code precedent)
+### House default register (a default, not a requirement)
+
+Any page may break any part of this register when the project demands
+it. A page that breaks it should do so deliberately, not by neglect, and
+its page note should record the departure.
+
+- Editorial long scroll: type led sections, generous whitespace, hairline
+  rules (ink at 10 to 16 percent alpha), content max width 1180 to 1320px,
+  clamp() based fluid padding.
+- Caption default: DM Sans, small, often uppercase with letter spacing.
+- ::selection tinted to the page accent. Scroll progress indicators and
+  fixed atmosphere layers (grain) are established precedents, available
+  rather than prescribed.
+- One accent colour owned per project; cohesion from structure and type.
+- Business problems named early is the default narrative order.
+
+### Non-negotiable on every page
+
+- Footer pattern: three part row. Copyright and type credit ("© 2026
+  Shreyas Gharat. Set in Fraunces, Work Sans & DM Sans."), back to top
+  link, "Designed & built by hand."
+- Copy rules: no hyphens anywhere in page copy including compound
+  adjectives and ranges (rewrite instead), no em dashes, no fabricated or
+  unvalidated metrics, no AI sounding language. Verified programmatically
+  after build.
+- Every visual carries an honest caption or callout, in whatever typeface
+  the page uses.
+
+### Embed compliance pass
+
+The four physics rules below are NOT design-time constraints. Design and
+explore with full freedom, including viewport tricks, pinning, and any
+scroll behavior that serves the idea. Then, once, before any page is
+deployed to the Wix embed, apply this section as a checklist and rework
+whatever fails it. Every rule here is backed by a documented breakage in
+this site's own pages; none of them is aesthetic.
 
 - Deployed via GitHub Pages, embedded in Wix via the Embed HTML element
   in Website address mode pointing at the page's GitHub Pages URL; Code
   mode (pasted HTML) where page to Wix messaging is needed.
 - No viewport height dependent layouts (100vh sections, vh based pinning).
   Chef shipped broken inside the embed until its viewport height CSS was
-  removed. Measure elements, not the viewport.
+  removed, and Fun's v6 hardening pass hit the same failure independently.
+  Measure elements, not the viewport: `vh` and `position:fixed` target the
+  iframe's own box, not the visible screen, inside a Wix embed.
+- No `position:fixed` for anything meant to track the visible viewport
+  (overlays, lightboxes, scrim panels). Fun's v6 rebuilt its lightbox as
+  `position:absolute` anchored to the click position instead, because
+  `fixed` pinned to the iframe box, not the screen. `position:sticky`
+  used for viewport pinning fails the same way and is equally banned.
+- No smooth scroll libraries (Lenis and similar) that call
+  `preventDefault` on wheel events. Fun's v6 removed Lenis because it
+  blocked the parent Wix page from scrolling past the iframe. Native
+  scroll only.
 - Explicit block display and full width on sections (landing precedent:
   the host flex context can lay sections side by side otherwise).
 
 ### Copy rules (inherited from PRODUCT.md)
 
-No hyphens anywhere in page copy including compound adjectives and ranges
-(rewrite instead). No em dashes. No fabricated or unvalidated metrics. No
-AI sounding language. Verified programmatically after build.
+(Folded into "Non-negotiable on every page" above.)
 
 ---
 
@@ -216,3 +251,80 @@ scroll handler, transform and opacity only, exponential ease out curves
   and figure rows instead.
 - No cart nesting imagery.
 - No invented metrics beyond the PDF's own figures.
+
+---
+
+## Fun page system
+
+Status 2026-07-08: a full redesign was attempted and rejected. The
+original hand built page is the kept primary (`fun/index.html`, the v6
+build plus an in place navigation graft on its render set cards; see the
+page note in the vault). The rejected motion build is shelved at
+`/home/shreyas/Downloads/fun-fable-build/` for reference only; the
+pristine backup remains at `/home/shreyas/Downloads/fun-v1-backup/`.
+The concept and tokens below describe the original build, which is the
+primary page again. This section stands as a record, including of the
+shelved exploration, not as a spec for an active redesign.
+
+### Concept: after-hours exhibition, lights off
+
+Never stated as a labeled concept in the prior build or its page note.
+Reconstructed from the code and copy: the page reads as a dark gallery of
+numbered exhibits (`exhibit__no` 01/02/03) toured after the workday ends.
+The hero eyebrow frames it directly: "The Fun Department, open after 6
+p.m." and "Everything I make when nobody's paying me." Tone is
+self-deprecating and personal, the deliberate opposite of the case
+studies' editorial restraint. This is the one page on the site that is
+explicitly not a case study.
+
+### Color (prior build)
+
+| Token | Value | Role |
+|---|---|---|
+| --bg | #000 | Page background, black |
+| --fg | #ece7df | Base foreground |
+| --paper | #f1eadc | Light bone, chips and text on dark blocks |
+| --paper-2 | #141414 | Dark panel, cards, ruled paper, terminal dots |
+| --ink | #101010 | Near black block |
+| --ink-soft | #8c8479 | Muted warm gray secondary text on black |
+| --line | #2a2a2a | Hairline borders, visible on black |
+| --accent | #AD0C0C | Deep red, locked, replaced an earlier orange |
+| --accent-2 | #591be5 | Brand purple, used sparingly |
+| --radius | 14px | Corner rounding |
+
+Atmosphere: a Nothing-style dot matrix overlay (`body::before`, 24px
+radial-gradient grid) plus a grain texture layer, both `position:absolute`
+so they cover the full document rather than just the iframe viewport, per
+the v6 hardening pass.
+
+### Type (documented deviation)
+
+Fraunces (full variable axes including SOFT and WONK, display), Hanken
+Grotesk (body), Space Mono (mono labels). Recorded in the substrate's
+deviation list. Chosen deliberately for this page's personal register,
+distinct from the case study type system; Fraunces is the one overlap.
+
+### Motion (prior build)
+
+`--ease cubic-bezier(.2,.7,.2,1)` and `--ease-out cubic-bezier(.16,1,.3,1)`.
+Seven keyframe animations (blink, bob, car-scroll, draw, fadeUp, pulse,
+scroll); transitions in the .3 to .4s band, one .8s theme-flip transition
+left over from a removed dark/night toggle. The v6 pass removed Lenis and
+rebuilt the lightbox on `position:absolute`, per the house rules now in
+the substrate's embed constraints.
+
+### Locked decisions
+
+- No nav bar, no footer, no clock, no "Start the tour," no marquee strip
+  outside the car-spotting exhibit itself.
+- Page width capped at 1400px, centered, black side gutters.
+- These were explicit design locks in the prior build's page note, not
+  incidental omissions; treat them as a starting position for the
+  redesign discussion, not an unexamined default.
+
+### Known defect at time of backup, not carried forward as a constraint
+
+The car-spotting marquee JS was wired to 37 filenames; the `Cars/` folder
+held 34 at backup time, a likely source of broken images in the old
+build. Recorded here only so the redesign doesn't silently reintroduce
+it with new assets.
