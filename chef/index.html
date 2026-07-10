@@ -1,643 +1,101 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Chef — A countertop cooking companion · Case study</title>
-<meta name="description" content="Chef — a countertop cooking companion. Industrial Design × UX case study by Shreyas Gharat." />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chef, a case study by Shreyas Gharat</title>
+<meta name="description" content="Chef, a countertop cooking companion. Industrial design and UX case study by Shreyas Gharat.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Karla:wght@400..700&family=Young+Serif&display=swap" rel="stylesheet">
 <style>
+/* Chef. Recipe Card concept, build stage 1: title card and headnote only. */
 :root{
-  --paper:#EDE4D4;
-  --paper-2:#E6DBC8;
-  --ink:#1B1612;
-  --ink-soft:#3a322c;
-  --rose:#C68C84;
-  --rose-deep:#A66B63;
-  --clay:#6E5A4C;
-  --amber:#E2873A;
-  --sage:#9DB29A;
-  --mist:#D8CCB9;
-  --line:rgba(27,22,18,.16);
-  --line-light:rgba(237,228,212,.18);
-  --display:"Bricolage Grotesque",system-ui,sans-serif;
-  --body:"Hanken Grotesk",system-ui,sans-serif;
-  --mono:"Space Mono",ui-monospace,monospace;
-  --pad:clamp(20px,5vw,90px);
-  --maxw:1280px;
+  --paper:#EDE4D4; --ink:#1B1612;
+  --rose:#C68C84; --rose-deep:#A66B63;
+  --clay:#6E5A4C; --amber:#E2873A;
+  --sage:#9DB29A; --mist:#D8CCB9;
+  --line:rgba(27,22,18,.14);
+  --ink-soft:rgba(27,22,18,.72);
+  --ease:cubic-bezier(.16,1,.3,1);
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-  margin:0;background:var(--paper);color:var(--ink);
-  font-family:var(--body);font-size:clamp(16px,1.05vw,18px);line-height:1.6;
-  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
-  overflow-x:hidden;
+  background:var(--paper);color:var(--ink);
+  font-family:'Karla',sans-serif;font-size:1.0625rem;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
 }
-img{display:block;max-width:100%;height:auto}
-a{color:inherit;text-decoration:none}
-::selection{background:var(--rose);color:var(--paper)}
+::selection{background:var(--rose);color:var(--ink)}
+img{display:block;width:100%;height:auto}
+section{display:block;width:100%}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(1.25rem,4vw,3.5rem)}
 
-/* ---------- type helpers ---------- */
-.mono{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase}
-.eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--rose-deep);display:inline-flex;gap:.7em;align-items:center}
-.eyebrow::before{content:"";width:26px;height:1px;background:var(--rose-deep);display:inline-block}
-h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-.02em;line-height:.96;margin:0}
-h2{font-size:clamp(2rem,5.2vw,4.4rem);font-weight:600}
-h3{font-size:clamp(1.25rem,2.2vw,1.9rem);letter-spacing:-.015em}
-p{margin:0 0 1em}
-.lead{font-size:clamp(1.15rem,1.7vw,1.5rem);line-height:1.45;color:var(--ink-soft)}
+/* Title card */
+.titlecard{padding-top:clamp(3rem,7vw,6rem)}
+.card{border:1px solid var(--line);padding:clamp(2.25rem,5vw,4.5rem) clamp(1.5rem,4vw,4rem);text-align:center}
+.dish{font-family:'Young Serif',serif;font-weight:400;font-size:clamp(3.25rem,8vw,6rem);line-height:1.02;letter-spacing:-.015em;text-wrap:balance}
+.rule-rose{width:72px;height:2px;background:var(--rose);margin:clamp(1.25rem,2.5vw,1.75rem) auto;border:0}
+.tagline{max-width:36em;margin:0 auto;font-size:clamp(1.05rem,1.6vw,1.25rem);line-height:1.55;text-wrap:pretty}
+.role{margin-top:1.5rem;font-size:.8125rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.hero-fig{margin-top:clamp(2rem,4vw,3rem)}
+.cap{margin-top:.8rem;font-size:.875rem;color:var(--ink-soft);line-height:1.5}
+.cap::before{content:"";display:inline-block;width:14px;height:2px;background:var(--rose);margin-right:.6rem;vertical-align:middle}
 
-/* ---------- layout ---------- */
-.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--pad)}
-.section{padding-block:clamp(72px,11vw,160px);position:relative}
-.section--dark{background:var(--ink);color:var(--paper)}
-.section--clay{background:var(--clay);color:#F3ECE0}
-.section--rose{background:linear-gradient(165deg,#D8A39B,#C68C84 55%,#B97E76)}
-.section--dark .eyebrow{color:var(--rose)}
-.section--dark .eyebrow::before{background:var(--rose)}
-.section--clay .eyebrow{color:#E9D9C5}
-.section--clay .eyebrow::before{background:#E9D9C5}
-.rule{height:1px;background:var(--line);border:0;margin:0}
-.section--dark .rule,.section--clay .rule{background:var(--line-light)}
+/* Headnote */
+.headnote{padding:clamp(4rem,8vw,7rem) 0 clamp(4.5rem,9vw,8rem)}
+.headnote h2{font-family:'Young Serif',serif;font-weight:400;font-size:clamp(1.85rem,3.5vw,2.75rem);line-height:1.15;text-wrap:balance;max-width:18em}
+.headnote .prose{max-width:62ch;margin-top:clamp(1.25rem,2.5vw,2rem);font-size:clamp(1.05rem,1.5vw,1.1875rem);line-height:1.65;text-wrap:pretty}
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(1.25rem,3vw,2rem);margin-top:clamp(2.5rem,5vw,4rem)}
+.pair figure{border:1px solid var(--line);background:rgba(216,204,185,.28);padding:.75rem .75rem 1rem}
+.pair .cap{margin-top:.9rem}
 
-/* ---------- nav ---------- */
-.nav{position:fixed;inset:0 0 auto 0;z-index:60;display:flex;align-items:center;justify-content:space-between;
-  padding:14px var(--pad);mix-blend-mode:difference;color:#fff;pointer-events:none}
-.nav a,.nav .brand{pointer-events:auto}
-.nav .brand{font-family:var(--display);font-weight:700;letter-spacing:-.02em;font-size:1.05rem;display:flex;align-items:center;gap:.5em}
-.nav .brand i{width:22px;height:22px;border:1.5px solid #fff;border-radius:6px;display:grid;place-items:center;font-style:normal;font-size:.62rem;font-family:var(--mono);letter-spacing:-.05em}
-.nav .links{display:flex;gap:clamp(14px,2vw,30px);font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase}
-.nav .links a{position:relative;opacity:.85}
-.nav .links a:hover{opacity:1}
-.nav .links a::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1px;background:currentColor;transition:width .35s cubic-bezier(.2,.7,.2,1)}
-.nav .links a:hover::after{width:100%}
-@media (max-width:680px){.nav .links a.hide-sm{display:none}}
-
-/* progress roll */
-.progress{position:fixed;left:0;right:0;bottom:0;height:3px;background:transparent;z-index:60}
-.progress i{position:absolute;left:0;top:0;height:100%;width:0;background:linear-gradient(90deg,var(--rose),var(--amber));box-shadow:0 0 12px var(--rose)}
-
-/* ---------- spec rail label ---------- */
-.rail{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--rose-deep);
-  display:flex;align-items:center;gap:.8em;margin-bottom:clamp(26px,4vw,52px)}
-.rail b{color:var(--ink);font-weight:700}
-.section--dark .rail{color:var(--rose)}.section--dark .rail b{color:var(--paper)}
-.section--clay .rail{color:#E9D9C5}.section--clay .rail b{color:#fff}
-.rail::before{content:"";flex:0 0 auto;width:34px;height:1px;background:currentColor}
-
-/* ---------- hero ---------- */
-.hero{display:flex;flex-direction:column;justify-content:flex-end;
-  background:var(--paper);position:relative;overflow:hidden;
-  padding-top:clamp(120px,14vw,220px);padding-bottom:clamp(28px,5vw,60px)}
-.hero__bg{position:absolute;inset:0;z-index:0}
-.hero__bg::after{content:"";position:absolute;inset:0;background:
-  radial-gradient(120% 90% at 78% 18%, rgba(198,140,132,.0) 0%, rgba(198,140,132,.22) 60%, rgba(176,118,110,.42) 100%),
-  linear-gradient(180deg,rgba(237,228,212,.0) 40%,rgba(237,228,212,.85) 100%)}
-.hero__img{position:absolute;right:-4%;top:50%;transform:translateY(-50%);width:min(74vw,1180px);z-index:0;
-  will-change:transform;opacity:0;filter:saturate(1.02)}
-.hero__inner{position:relative;z-index:2;width:100%}
-.hero .eyebrow{margin-bottom:clamp(16px,3vw,30px)}
-.hero h1{font-size:clamp(5.5rem,26vw,24rem);font-weight:800;line-height:.8;letter-spacing:-.04em;margin:0;
-  mix-blend-mode:multiply;color:var(--ink)}
-.hero h1 span{display:inline-block;transform:translateY(115%);}
-.hero__tag{max-width:30ch;font-size:clamp(1.2rem,2.1vw,1.9rem);line-height:1.25;font-family:var(--display);font-weight:500;
-  letter-spacing:-.015em;margin-top:clamp(18px,3vw,34px);color:var(--ink)}
-.hero__meta{display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px);margin-top:clamp(26px,4vw,46px);border-top:1px solid var(--line);padding-top:20px}
-.hero__meta div{display:flex;flex-direction:column;gap:5px}
-.hero__meta dt{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--rose-deep)}
-.hero__meta dd{margin:0;font-weight:500;font-size:.98rem}
-.scrollcue{position:absolute;left:var(--pad);bottom:clamp(28px,5vw,60px);z-index:3;font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:.7em;color:var(--ink-soft)}
-.scrollcue i{width:1px;height:34px;background:var(--ink-soft);display:block;transform-origin:top;animation:cue 1.9s ease-in-out infinite}
-@keyframes cue{0%,100%{transform:scaleY(.35);opacity:.4}50%{transform:scaleY(1);opacity:1}}
-
-/* reveal */
-.reveal{opacity:0;transform:translateY(34px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
-.reveal.in{opacity:1;transform:none}
-.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
-@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.hero h1 span{transform:none}}
-
-/* ---------- generic grids ---------- */
-.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,72px);align-items:center}
-.split--wide{grid-template-columns:1.15fr .85fr}
-@media (max-width:860px){.split,.split--wide{grid-template-columns:1fr;gap:32px}}
-.media{border-radius:14px;overflow:hidden;background:var(--mist);position:relative}
-.media img{width:100%;height:100%;object-fit:cover}
-.cap{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rose-deep);margin-top:10px}
-.section--dark .cap{color:var(--rose)}
-
-/* ---------- problem big quote ---------- */
-.bigquote{font-family:var(--display);font-weight:500;letter-spacing:-.02em;line-height:1.12;
-  font-size:clamp(1.5rem,3.4vw,2.9rem)}
-.bigquote em{font-style:normal;color:var(--rose-deep)}
-
-/* ---------- stats ---------- */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px);margin-top:18px}
-@media (max-width:680px){.stats{grid-template-columns:1fr}}
-.stat{border-top:1px solid var(--line);padding-top:18px}
-.stat .num{font-family:var(--display);font-weight:700;letter-spacing:-.03em;font-size:clamp(3rem,8vw,6.2rem);line-height:.9}
-.stat .num small{font-size:.4em;vertical-align:super;color:var(--rose-deep)}
-.stat .lbl{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:8px;max-width:24ch}
-.section--dark .stat{border-color:var(--line-light)}.section--dark .stat .lbl{color:#cdbfa8}
-
-/* ---------- positioning matrix ---------- */
-.matrix{position:relative;aspect-ratio:1/1;border:1px solid var(--line);border-radius:16px;background:
-  repeating-linear-gradient(0deg,transparent 0 39px,rgba(27,22,18,.05) 39px 40px),
-  repeating-linear-gradient(90deg,transparent 0 39px,rgba(27,22,18,.05) 39px 40px);overflow:hidden}
-.matrix .axis{position:absolute;background:var(--line)}
-.matrix .axis.x{left:0;right:0;top:50%;height:1px}
-.matrix .axis.y{top:0;bottom:0;left:50%;width:1px}
-.matrix .tag{position:absolute;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
-.matrix .tag.t{top:12px;left:50%;transform:translateX(-50%)}
-.matrix .tag.b{bottom:12px;left:50%;transform:translateX(-50%)}
-.matrix .tag.l{left:12px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:left center}
-.matrix .tag.r{right:12px;top:50%;transform:translateY(-50%) rotate(90deg);transform-origin:right center}
-.matrix .dot{position:absolute;width:54px;height:54px;border-radius:50%;overflow:hidden;border:2px solid var(--paper);box-shadow:0 6px 18px rgba(27,22,18,.18);background:#fff}
-.matrix .dot img{width:100%;height:100%;object-fit:cover}
-.matrix .me{position:absolute;left:62%;top:30%;display:flex;align-items:center;gap:8px;transform:translate(-50%,-50%)}
-.matrix .me .pin{width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#D6A29A,#B97E76);box-shadow:0 0 0 6px rgba(198,140,132,.25),0 10px 26px rgba(166,107,99,.5);display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:700;font-size:.8rem}
-.matrix .me span{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:4px 8px;border-radius:20px;white-space:nowrap}
-
-/* ---------- personas + quotes ---------- */
-.personas{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
-.chip{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--line);border-radius:30px;padding:9px 15px}
-.section--dark .chip{border-color:var(--line-light)}
-.quotes{columns:2;column-gap:clamp(22px,3vw,40px);margin-top:34px}
-@media (max-width:760px){.quotes{columns:1}}
-.qcard{break-inside:avoid;margin:0 0 clamp(22px,3vw,40px);padding:24px 26px;border-radius:14px;background:rgba(255,255,255,.45);border:1px solid var(--line)}
-.section--dark .qcard{background:rgba(255,255,255,.05);border-color:var(--line-light)}
-.qcard p{font-family:var(--display);font-weight:500;letter-spacing:-.01em;font-size:clamp(1.05rem,1.7vw,1.4rem);line-height:1.25;margin:0}
-.qcard .q{color:var(--rose-deep);font-size:1.8em;line-height:0;font-family:var(--display)}
-
-/* ---------- pillars marquee ---------- */
-.marquee{overflow:hidden;border-top:1px solid var(--line-light);border-bottom:1px solid var(--line-light);padding:18px 0;margin-top:clamp(34px,5vw,60px)}
-.marquee__track{display:flex;gap:0;white-space:nowrap;width:max-content;animation:scrollx 26s linear infinite}
-.marquee__track span{font-family:var(--display);font-weight:600;font-size:clamp(1.6rem,4vw,3.2rem);letter-spacing:-.02em;padding:0 .5em;display:inline-flex;align-items:center;gap:.6em}
-.marquee__track span::after{content:"·";color:var(--rose);margin-left:.5em}
-@keyframes scrollx{to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){.marquee__track{animation:none}}
-
-/* ---------- gallery ---------- */
-.gal{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(12px,1.5vw,20px)}
-.gal .media{grid-column:span 4}
-.gal .g-wide{grid-column:span 8}
-.gal .g-tall{grid-column:span 4;aspect-ratio:3/4}
-.gal .g-half{grid-column:span 6}
-@media (max-width:760px){.gal .media,.gal .g-wide,.gal .g-tall,.gal .g-half{grid-column:span 12}}
-
-/* ---------- parameters ---------- */
-.params{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-light);border:1px solid var(--line-light);border-radius:16px;overflow:hidden}
-@media (max-width:860px){.params{grid-template-columns:1fr}}
-.param{background:var(--ink);padding:clamp(22px,3vw,34px);min-height:230px;display:flex;flex-direction:column;gap:14px}
-.param .n{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;color:var(--rose)}
-.param h3{color:var(--paper)}
-.param p{color:#cdbfa8;font-size:.95rem;margin:0;flex:1}
-.dodont{display:flex;gap:8px}
-.dodont b{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;border-radius:20px}
-.dodont .do{color:#bfe0bb;border:1px solid rgba(157,178,154,.5)}
-.dodont .dont{color:#e6a39b;border:1px solid rgba(198,140,132,.45)}
-
-/* ---------- anatomy ---------- */
-.anatomy{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,1.5vw,18px);margin-top:clamp(28px,4vw,46px)}
-@media (max-width:860px){.anatomy{grid-template-columns:repeat(2,1fr)}}
-.acard{border:1px solid var(--line-light);border-radius:12px;overflow:hidden;background:#221c17}
-.acard .media{border-radius:0;aspect-ratio:1/1;background:#2a231d}
-.acard .lab{padding:12px 14px;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;display:flex;justify-content:space-between;gap:6px;color:var(--paper)}
-.acard .lab b{color:var(--rose)}
-
-/* ---------- storyboard horizontal ----------
-   Native horizontal scroll, not a scroll-position-driven pin+translate:
-   the old version read window.scrollY / getBoundingClientRect() from
-   inside .board__sticky (overflow:hidden), which only ever moves when
-   the iframe's own document scrolls. Under the Wix embed (fixed iframe
-   height matched to content, so the iframe itself never scrolls — the
-   outer Wix page scrolls the whole embed box instead) that JS never
-   fires, so .board__track never translates and steps 2-8 stay clipped
-   and unreachable. Native overflow-x here works regardless of which
-   document is doing the scrolling. */
-.board{position:relative;background:var(--ink);color:var(--paper)}
-.board__sticky{padding-block:clamp(28px,4vw,48px)}
-.board__head{padding:0 var(--pad) clamp(20px,3vw,32px);display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
-.board__track{display:flex;gap:clamp(16px,2vw,30px);padding:0 var(--pad) clamp(24px,3vw,40px);overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
-.board__track::-webkit-scrollbar{height:6px}
-.board__track::-webkit-scrollbar-thumb{background:var(--rose);border-radius:3px}
-.step{flex:0 0 clamp(240px,30vw,360px);scroll-snap-align:start}
-.step .media{aspect-ratio:4/5;border-radius:14px;background:#2a231d;position:relative}
-.step .media .actor{position:absolute;bottom:12px;left:14px;font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:rgba(27,22,18,.55);backdrop-filter:blur(6px);padding:4px 9px;border-radius:20px}
-.step .icard{aspect-ratio:4/5;border-radius:14px;border:1px solid var(--line-light);display:grid;place-items:center;
-  background:
-   radial-gradient(120% 90% at 50% 18%,rgba(198,140,132,.14),transparent 60%),
-   repeating-linear-gradient(0deg,transparent 0 23px,rgba(237,228,212,.05) 23px 24px),
-   repeating-linear-gradient(90deg,transparent 0 23px,rgba(237,228,212,.05) 23px 24px),
-   #221c17}
-.step .icard svg{width:46%;height:auto;stroke:var(--rose);stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.step .icard b{position:absolute;font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--rose);margin-top:0}
-.step .icard{position:relative}
-.step .icard b{bottom:14px;left:16px}
-.step .n{font-family:var(--display);font-weight:700;font-size:2.4rem;letter-spacing:-.03em;line-height:1;color:var(--rose);margin-top:14px}
-.step h3{margin-top:4px;color:var(--paper)}
-.board__hint{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--rose)}
-/* reduced-motion: normal wrapping grid, no scroll needed at all (per Chef.md) */
+/* Load motion: one settle on arrival, nothing scroll driven yet */
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.card>*{animation:rise .7s var(--ease) both}
+.card>*:nth-child(2){animation-delay:.08s}
+.card>*:nth-child(3){animation-delay:.16s}
+.card>*:nth-child(4){animation-delay:.24s}
+.hero-fig{animation:rise .8s var(--ease) .3s both}
 @media (prefers-reduced-motion:reduce){
-  .board__track{flex-wrap:wrap;overflow-x:visible}
-  .step{flex:1 1 240px}
+  *,*::before,*::after{animation:none !important;transition:none !important}
 }
-
-/* ---------- interface ---------- */
-.app-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(22px,3vw,46px);align-items:center}
-@media (max-width:860px){.app-grid{grid-template-columns:1fr}}
-.app-shots{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.app-shots .media{aspect-ratio:9/19;border-radius:18px;border:1px solid var(--line-light);background:#000}
-.feat{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line-light);border:1px solid var(--line-light);border-radius:14px;overflow:hidden;margin-top:26px}
-.feat div{background:var(--ink);padding:18px 20px}
-.feat dt{font-family:var(--display);font-weight:600;font-size:1.1rem}
-.feat dd{margin:4px 0 0;font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:#cdbfa8}
-
-/* ---------- finale ---------- */
-.finale{position:relative;height:clamp(560px,62vw,860px);overflow:hidden;display:flex;align-items:flex-end;background:#000}
-.finale img{position:absolute;inset:0;width:100%;height:115%;object-fit:cover;will-change:transform;opacity:.92}
-.finale__grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,transparent 30%,transparent 55%,rgba(0,0,0,.78) 100%)}
-.finale__inner{position:relative;z-index:2;color:#fff;padding:var(--pad);width:100%}
-.finale h2{font-size:clamp(2.4rem,7vw,6rem);font-weight:700;max-width:16ch}
-
-/* ---------- footer ---------- */
-.foot{background:var(--ink);color:var(--paper);padding:clamp(48px,8vw,110px) var(--pad)}
-.foot__top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:30px;align-items:flex-end}
-.backlink{font-family:var(--display);font-weight:700;letter-spacing:-.02em;font-size:clamp(2rem,6vw,4.6rem);display:inline-flex;align-items:center;gap:.2em;color:var(--paper)}
-.backlink .arr{display:inline-block;transition:transform .4s cubic-bezier(.2,.7,.2,1);color:var(--rose)}
-.backlink:hover .arr{transform:translateX(-12px)}
-.foot__nav{display:flex;gap:22px;font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase}
-.foot__nav a{position:relative;opacity:.8}.foot__nav a:hover{opacity:1;color:var(--rose)}
-.foot__base{margin-top:clamp(40px,7vw,90px);border-top:1px solid var(--line-light);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:#cdbfa8}
-
-/* focus */
-a:focus-visible,button:focus-visible{outline:2px solid var(--rose);outline-offset:3px;border-radius:3px}
 </style>
 </head>
 <body>
+<main>
 
-<!-- NAV -->
-<nav class="nav" aria-label="Primary">
-  <a href="#top" class="brand"><i>SG</i> Chef</a>
-  <div class="links">
-    <a href="#problem" class="hide-sm">Work</a>
-    <a href="#story" class="hide-sm">Fun</a>
-    <a href="#interface" class="hide-sm">Info</a>
-    <a href="#projects">↩ Projects</a>
-  </div>
-</nav>
-<div class="progress" aria-hidden="true"><i id="bar"></i></div>
-
-<!-- HERO -->
-<header class="hero" id="top">
-  <div class="hero__bg"><img class="hero__img" id="heroImg" src="https://greyt451.github.io/website-design-portfolio/chef/assets/hero-twin.jpg" alt="Two Chef devices in dusty-rose finish, screens showing the recipe app, on a soft pink studio backdrop." /></div>
-  <div class="hero__inner wrap">
-    <span class="eyebrow reveal">Industrial Design × UX · SCAD</span>
-    <h1 aria-label="Chef"><span>C</span><span>h</span><span>e</span><span>f</span></h1>
-    <p class="hero__tag reveal d2">A countertop companion that makes home cooking effortless, personal, and joyful.</p>
-    <dl class="hero__meta reveal d3">
-      <div><dt>Role</dt><dd>Industrial Design · CMF · UX</dd></div>
-      <div><dt>Type</dt><dd>Self-initiated concept</dd></div>
-      <div><dt>Research</dt><dd>100+ surveys · 7 interviews</dd></div>
-      <div><dt>Outcome</dt><dd>Device + companion app</dd></div>
-    </dl>
-  </div>
-  <div class="scrollcue" aria-hidden="true"><i></i> Scroll</div>
-</header>
-
-<!-- PROBLEM -->
-<section class="section" id="problem">
-  <div class="wrap">
-    <p class="rail reveal"><b>01</b> — Problem</p>
-    <div class="split split--wide">
-      <div class="reveal">
-        <p class="bigquote">In today's fast-paced lifestyle, young city dwellers and busy professionals struggle to find the <em>time, energy, and inspiration</em> to cook at home — leaning on fast food, frozen meals, and takeout that compromise both health and culinary creativity.</p>
-        <p class="lead" style="margin-top:1.4em;max-width:46ch">Despite smart appliances and cooking apps, there's a lack of solutions that seamlessly blend convenience, personalization, and engagement to make home cooking effortless and enjoyable.</p>
-      </div>
-      <figure class="reveal d2" style="margin:0">
-        <div class="media" style="aspect-ratio:4/5"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/food-collage.jpg" alt="Takeout soups and a meal-delivery box, illustrating reliance on fast food and frozen meals." loading="lazy" /></div>
-        <figcaption class="cap">The gap — between takeout and the table</figcaption>
+  <section class="titlecard" aria-label="Title">
+    <div class="wrap">
+      <header class="card">
+        <h1 class="dish">Chef</h1>
+        <hr class="rule-rose" aria-hidden="true">
+        <p class="tagline">A kitchen device plus app that gives people recipe options tailored to the limited resources and time constraints of a home kitchen.</p>
+        <p class="role">User Research, Product Design, UI/UX</p>
+      </header>
+      <figure class="hero-fig">
+        <img src="assets/hero-twin.jpg" alt="Two Chef units in the dusty rose CMF under studio light, upright screens seated on cylindrical bases, both showing the recipe app" width="1993" height="983">
+        <figcaption class="cap">The finished dish. Chef, twin units in the dusty rose CMF.</figcaption>
       </figure>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- RESEARCH -->
-<section class="section section--dark" id="research">
-  <div class="wrap">
-    <p class="rail reveal"><b>02</b> — Research</p>
-    <h2 class="reveal" style="max-width:18ch">We listened before we drew a single line.</h2>
-    <div class="stats">
-      <div class="stat reveal"><div class="num" data-count="100" data-suffix="+">0</div><div class="lbl">Surveys collected across city households</div></div>
-      <div class="stat reveal d1"><div class="num" data-count="7">0</div><div class="lbl">In-depth interviews, ages 25–40</div></div>
-      <div class="stat reveal d2"><div class="num" data-count="3">0</div><div class="lbl">Contextual kitchen observations</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- POSITIONING -->
-<section class="section" id="positioning">
-  <div class="wrap">
-    <p class="rail reveal"><b>02.1</b> — Product Positioning</p>
-    <div class="split">
-      <div class="reveal">
-        <h2 style="font-size:clamp(1.6rem,3.4vw,2.8rem)">Finding the gap in the market.</h2>
-        <p class="lead" style="margin-top:1em;max-width:40ch">Mapping existing products by function and interactivity revealed an opening: something more interactive than a single-function appliance, yet warmer and more personal than a screen on the counter.</p>
-        <div class="stats" style="grid-template-columns:1fr;gap:0">
-          <div class="stat reveal d1" style="border:0;padding:14px 0;display:flex;align-items:baseline;gap:18px">
-            <div class="num" style="font-size:clamp(2.4rem,5vw,3.6rem)">61<small>%</small></div>
-            <div class="lbl" style="max-width:30ch">order out due to lack of energy and time</div></div>
-          <hr class="rule"/>
-          <div class="stat reveal d2" style="border:0;padding:14px 0;display:flex;align-items:baseline;gap:18px">
-            <div class="num" style="font-size:clamp(2.4rem,5vw,3.6rem)">58<small>%</small></div>
-            <div class="lbl" style="max-width:30ch">prefer dining out</div></div>
-          <hr class="rule"/>
-          <div class="stat reveal d3" style="border:0;padding:14px 0;display:flex;align-items:baseline;gap:18px">
-            <div class="num" style="font-size:clamp(2.4rem,5vw,3.6rem)">31<small>%</small></div>
-            <div class="lbl" style="max-width:30ch">are confused about what to cook</div></div>
-        </div>
-      </div>
-      <div class="reveal d2">
-        <div class="matrix" role="img" aria-label="Positioning matrix mapping products across Single-Function to Multi-Function and Traditional to Interactive. Chef sits in the interactive, multi-function quadrant.">
-          <div class="axis x"></div><div class="axis y"></div>
-          <span class="tag t">Multi-Function</span>
-          <span class="tag b">Single-Function</span>
-          <span class="tag l">Traditional</span>
-          <span class="tag r">Interactive</span>
-          <div class="dot" style="left:24%;top:68%"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/comp-instantpot.jpg" alt="Single-function pressure cooker"></div>
-          <div class="dot" style="left:30%;top:34%"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/comp-thermomix.jpg" alt="Multi-function cooking robot"></div>
-          <div class="dot" style="left:72%;top:64%"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/comp-nesthub.jpg" alt="Interactive kitchen display"></div>
-          <div class="dot" style="left:20%;top:20%"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/comp-fridge.jpg" alt="Smart refrigerator"></div>
-          <div class="me"><span class="pin">Chef</span></div>
-        </div>
-        <p class="cap">Single / Multi-Function × Traditional / Interactive</p>
+  <section class="headnote" aria-label="Headnote">
+    <div class="wrap">
+      <h2>Why this recipe exists</h2>
+      <p class="prose">Young city dwellers and busy professionals rarely have the time, energy, or ideas to cook at home. Fast food, frozen meals, and takeout fill the gap, and both health and the pleasure of cooking pay for it. Smart appliances and recipe apps already exist, but none of them bring convenience, personalization, and engagement together well enough to make cooking at home feel easy and worth doing.</p>
+      <div class="pair">
+        <figure>
+          <img src="assets/food-collage.jpg" alt="A delivery care package of soup cups, bread rolls, crackers, and cookies" loading="lazy">
+          <figcaption class="cap">The default week. Ordered in, eaten from the box.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/app-context.jpg" alt="A woman in a knit sweater holding a bowl of soup she cooked in her own kitchen" loading="lazy">
+          <figcaption class="cap">The goal. A meal cooked at home, and the satisfaction that comes with it.</figcaption>
+        </figure>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- INTERVIEWS -->
-<section class="section section--dark" id="voices">
-  <div class="wrap">
-    <p class="rail reveal"><b>02.2</b> — Voices</p>
-    <div class="split" style="align-items:flex-end">
-      <h2 class="reveal" style="max-width:16ch">The same need, in three different kitchens.</h2>
-      <div class="reveal d2">
-        <p class="mono" style="color:var(--rose);margin-bottom:12px">Age group · 25–40</p>
-        <div class="personas">
-          <span class="chip">Significant Singles</span>
-          <span class="chip">Young City Solos</span>
-          <span class="chip">Promising Families</span>
-        </div>
-      </div>
-    </div>
-    <div class="quotes">
-      <div class="qcard reveal"><p><span class="q">“</span>At times there is no motivation to cook or I don't know what to cook. We end up ordering food or frozen food.”</p></div>
-      <div class="qcard reveal d1"><p><span class="q">“</span>Health is more of a priority to me than taste.”</p></div>
-      <div class="qcard reveal d2"><p><span class="q">“</span>We enjoy hosting our friends with home cooked food.”</p></div>
-      <div class="qcard reveal d3"><p><span class="q">“</span>We prefer home cooked food. But due to our lifestyle, lack of time and energy we aren't able to do that frequently.”</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- DESIGN STATEMENT -->
-<section class="section section--clay" id="statement">
-  <div class="wrap">
-    <p class="rail reveal"><b>03</b> — Direction</p>
-    <h2 class="reveal" style="max-width:20ch;color:#fff">“To work on a product that empowers users to express themselves, promotes engagement and inspires motivation towards the cooking process.”</h2>
-    <div class="marquee reveal d1" aria-hidden="true">
-      <div class="marquee__track">
-        <span>Enjoyable</span><span>Convenient</span><span>Personal</span><span>Informative</span>
-        <span>Enjoyable</span><span>Convenient</span><span>Personal</span><span>Informative</span>
-      </div>
-    </div>
-    <p class="mono reveal d2" style="margin-top:20px;color:#E9D9C5">Four pillars guiding every decision that follows</p>
-  </div>
-</section>
-
-<!-- FORM / ITERATIONS -->
-<section class="section" id="form">
-  <div class="wrap">
-    <p class="rail reveal"><b>04</b> — Form &amp; iterations</p>
-    <div class="split split--wide" style="margin-bottom:clamp(20px,3vw,40px)">
-      <h2 class="reveal" style="max-width:14ch">From sketch, to cardboard, to clay.</h2>
-      <p class="lead reveal d2" style="max-width:42ch">Dozens of silhouettes explored a single idea — a tablet that rests on a soft cylindrical roll, free to tilt to any angle. The form was pressure-tested in paper and foam before it was ever rendered.</p>
-    </div>
-    <div class="gal">
-      <figure class="media g-wide reveal" style="aspect-ratio:16/10;margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/sketches.jpg" alt="Isometric ideation sketches of the Chef device on its rolled base." loading="lazy"></figure>
-      <figure class="media g-tall reveal d1" style="margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/proto-cardboard.jpg" alt="Cardboard study model of the device and roll." loading="lazy"></figure>
-      <figure class="media g-half reveal" style="aspect-ratio:4/3;margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/sketches-2.jpg" alt="Refinement sketches exploring the base and screen." loading="lazy"></figure>
-      <figure class="media g-tall reveal d1" style="aspect-ratio:1/1;margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/proto-foam.jpg" alt="Pink foam model of the device on its roll." loading="lazy"></figure>
-      <figure class="media reveal d2" style="aspect-ratio:1/1;margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/cmf-samples.jpg" alt="CMF material and finish samples." loading="lazy"></figure>
-    </div>
-  </div>
-</section>
-
-<!-- DESIGN PARAMETERS -->
-<section class="section section--dark" id="parameters">
-  <div class="wrap">
-    <p class="rail reveal"><b>04.1</b> — Design parameters</p>
-    <div class="split split--wide" style="margin-bottom:clamp(28px,4vw,48px)">
-      <h2 class="reveal" style="max-width:16ch">A design language, written as rules.</h2>
-      <p class="lead reveal d2" style="max-width:42ch;color:#cdbfa8">Six small-detail principles keep every surface, edge and seam unmistakably Chef — each one a clear <em style="color:var(--rose);font-style:normal">do</em> and <em style="color:var(--rose);font-style:normal">don't</em>.</p>
-    </div>
-    <div class="params">
-      <div class="param reveal"><div class="n">D-01</div><h3>Small details</h3><p>Using highlights in the form of thin strips of light or a change of material.</p><div class="dodont"><b class="do">Do · strips</b><b class="dont">Don't · clutter</b></div></div>
-      <div class="param reveal d1"><div class="n">D-02</div><h3>Clean lines</h3><p>Straight lines, 90-degree angles, minimal curved edges.</p><div class="dodont"><b class="do">Do · straight</b><b class="dont">Don't · curvy</b></div></div>
-      <div class="param reveal d2"><div class="n">D-03</div><h3>Uniform radius</h3><p>Corners are uniform, with a perfect, consistent radius throughout.</p><div class="dodont"><b class="do">Do · uniform</b><b class="dont">Don't · mixed</b></div></div>
-      <div class="param reveal"><div class="n">D-04</div><h3>Geometric shapes</h3><p>Following perfect geometry — regular rectangles, squares or circles. No ovals or parallelograms.</p><div class="dodont"><b class="do">Do · regular</b><b class="dont">Don't · oval</b></div></div>
-      <div class="param reveal d1"><div class="n">D-05</div><h3>Colour &amp; material break</h3><p>A distinct line of separation marks any change in colour or material of the form.</p><div class="dodont"><b class="do">Do · clear break</b><b class="dont">Don't · blend</b></div></div>
-      <div class="param reveal d2"><div class="n">D-06</div><h3>Distinctive shapes</h3><p>When two elements intersect, they blend while keeping their own identity.</p><div class="dodont"><b class="do">Do · keep identity</b><b class="dont">Don't · merge</b></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ANATOMY + USABILITY -->
-<section class="section section--dark" id="anatomy" style="padding-top:0">
-  <div class="wrap">
-    <p class="rail reveal"><b>04.2</b> — Anatomy</p>
-    <div class="split" style="margin-bottom:6px">
-      <h2 class="reveal" style="max-width:14ch">Five parts, one calm object.</h2>
-      <p class="lead reveal d2" style="max-width:40ch;color:#cdbfa8">A back stand lets the screen adjust to any angle; a recessed projector, soft LED and tidy wire outlet keep the silhouette quiet on a busy counter.</p>
-    </div>
-    <div class="anatomy">
-      <div class="acard reveal"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/story-scan.jpg" alt="Round push-button prototype held in hand." loading="lazy"></div><div class="lab"><span>Button</span><b>01</b></div></div>
-      <div class="acard reveal d1"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/pink-render.jpg" alt="Device resting back on its cylindrical roll stand." loading="lazy"></div><div class="lab"><span>Back Stand</span><b>02</b></div></div>
-      <div class="acard reveal d2"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/story-scan2.jpg" alt="Small indicator component prototype held in hand." loading="lazy"></div><div class="lab"><span>LED indicator</span><b>03</b></div></div>
-      <div class="acard reveal d3"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/detail-projector.jpg" alt="Recessed projector lens detail on the sage finish." loading="lazy"></div><div class="lab"><span>Projector</span><b>04</b></div></div>
-      <div class="acard reveal d4"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/detail-wire.jpg" alt="Wire outlet and braided cable detail." loading="lazy"></div><div class="lab"><span>Wire outlet</span><b>05</b></div></div>
-    </div>
-    <div class="gal" style="margin-top:clamp(16px,2vw,24px)">
-      <figure class="media g-wide reveal" style="aspect-ratio:16/9;margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/anatomy-green.jpg" alt="Exploded view of the device with labelled internal components." loading="lazy"></figure>
-      <figure class="media reveal d1" style="aspect-ratio:4/5;margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/real-context.jpg" alt="Working prototype on a real kitchen counter beside everyday appliances." loading="lazy"></figure>
-    </div>
-    <p class="cap reveal">Usability — adjustable to any angle · back stand</p>
-  </div>
-</section>
-
-<!-- STORYBOARD -->
-<section class="board" id="story" aria-label="Storyboard">
-  <div class="board__sticky" id="boardSticky">
-    <div class="board__head">
-      <div>
-        <p class="rail" style="margin-bottom:8px"><b>05</b> — A day with Chef</p>
-        <h2 style="color:var(--paper);font-size:clamp(1.8rem,4vw,3.2rem)">Storyboard</h2>
-      </div>
-      <span class="board__hint">Scroll →</span>
-    </div>
-    <div class="board__track" id="boardTrack">
-      <article class="step"><div class="icard"><b>You</b><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M28 42 L72 42 L67 82 L33 82 Z"/><path d="M41 42 V34 a9 9 0 0 1 18 0 V42"/><path d="M40 56 L60 56"/></svg></div><div class="n">01</div><h3>Buy the ingredients</h3></article>
-      <article class="step"><div class="icard"><b>You</b><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M34 22 L66 22 L66 74 L60 70 L54 74 L48 70 L42 74 L36 70 L34 74 Z"/><path d="M42 36 L58 36 M42 46 L58 46 M42 56 L52 56"/><path d="M24 30 L24 30 M22 50 L30 50" stroke-dasharray="1 7"/></svg></div><div class="n">02</div><h3>Scans the receipt</h3></article>
-      <article class="step"><div class="icard"><b>You</b><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M30 70 C20 70 20 54 32 54 C32 38 56 36 58 52 C72 50 74 66 64 70"/><path d="M50 78 L50 48 M40 58 L50 48 L60 58"/></svg></div><div class="n">03</div><h3>Uploads</h3></article>
-      <article class="step"><div class="icard"><b>You</b><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M24 50 L50 26 L76 50"/><path d="M32 46 L32 76 L68 76 L68 46"/><path d="M44 76 L44 58 L56 58 L56 76"/></svg></div><div class="n">04</div><h3>Arrives home</h3></article>
-      <article class="step"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/real-context.jpg" alt="Tapping the Chef device on the counter to begin." loading="lazy"><span class="actor">Chef</span></div><div class="n">05</div><h3>Clicks on the device</h3></article>
-      <article class="step"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/app-context.jpg" alt="Selecting a recipe on the Chef screen." loading="lazy"><span class="actor">Chef</span></div><div class="n">06</div><h3>Selects the recipe</h3></article>
-      <article class="step"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/app-ui.jpg" alt="Following the cooking steps on the app." loading="lazy"><span class="actor">Chef</span></div><div class="n">07</div><h3>Follows the cooking steps</h3></article>
-      <article class="step"><div class="media"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/kitchen-wide.jpg" alt="The finished meal, Chef quiet on the counter." loading="lazy"><span class="actor">Chef</span></div><div class="n">08</div><h3>Meal is served</h3></article>
-    </div>
-  </div>
-</section>
-
-<!-- INTERFACE -->
-<section class="section section--dark" id="interface">
-  <div class="wrap">
-    <p class="rail reveal"><b>06</b> — Interface</p>
-    <div class="app-grid">
-      <div class="reveal">
-        <h2 style="max-width:16ch">The recipe lives where you cook.</h2>
-        <p class="lead" style="margin-top:1em;max-width:44ch;color:#cdbfa8">A warm, dark interface puts meals first — set a timer, pull a recipe, build a shopping list, and keep your pantry in view, all from the counter.</p>
-        <dl class="feat">
-          <div><dt>Meals</dt><dd>Browse &amp; cook</dd></div>
-          <div><dt>Inventory</dt><dd>What's in stock</dd></div>
-          <div><dt>Routine</dt><dd>Plan the week</dd></div>
-          <div><dt>Events</dt><dd>Hosting mode</dd></div>
-          <div><dt>23</dt><dd>Meals prepared</dd></div>
-          <div><dt>43h</dt><dd>Total hours spent</dd></div>
-        </dl>
-      </div>
-      <div class="reveal d2">
-        <figure class="media" style="aspect-ratio:1/1;margin:0 0 14px;background:#000"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/app-ui.jpg" alt="The Chef app on a phone, showing recipe cards, Set Time and Shopping list." loading="lazy"></figure>
-        <div class="app-shots">
-          <figure class="media" style="margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/app-screen-a.jpg" alt="App home with recipe tiles and warm amber accents." loading="lazy"></figure>
-          <figure class="media" style="margin:0"><img src="https://greyt451.github.io/website-design-portfolio/chef/assets/app-screen-b.jpg" alt="Recipe detail screen." loading="lazy"></figure>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FINALE -->
-<section class="finale" id="insitu" aria-label="Chef in a kitchen">
-  <img id="finaleImg" src="https://greyt451.github.io/website-design-portfolio/chef/assets/final-kitchen.jpg" alt="The Chef device standing on a kitchen counter against white subway tile, screen lit with the recipe app." />
-  <div class="finale__grad"></div>
-  <div class="finale__inner wrap">
-    <p class="rail" style="color:#fff;margin-bottom:14px"><b>07</b> — In situ</p>
-    <h2>Quiet on the counter. Ready when you are.</h2>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="foot" id="projects">
-  <div class="wrap" style="padding:0">
-    <div class="foot__top">
-      <a class="backlink" href="#projects"><span class="arr">←</span> Back to Projects</a>
-      <nav class="foot__nav" aria-label="Footer">
-        <a href="#top">Home</a><a href="#problem">Work</a><a href="#story">Fun</a><a href="#interface">Info</a>
-      </nav>
-    </div>
-    <div class="foot__base">
-      <span>Chef — Industrial Design × UX</span>
-      <span>Shreyas Gharat · SCAD</span>
-      <span>Reimagined case study</span>
-    </div>
-  </div>
-</footer>
-
-<script>
-(function(){
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* hero word stagger */
-  window.addEventListener('load', function(){
-    var spans = document.querySelectorAll('.hero h1 span');
-    spans.forEach(function(s,i){
-      s.style.transition='transform 1s cubic-bezier(.16,.84,.32,1)';
-      s.style.transitionDelay=(0.15+i*0.07)+'s';
-      requestAnimationFrame(function(){ s.style.transform='translateY(0)'; });
-    });
-    var hi=document.getElementById('heroImg');
-    if(hi){ hi.style.transition='opacity 1.4s ease, transform 1.6s cubic-bezier(.16,.84,.32,1)';
-      requestAnimationFrame(function(){ hi.style.opacity=reduce?'.9':'.95'; }); }
-  });
-
-  /* reveal observer — threshold 0, no rootMargin: rootMargin is ignored
-     in cross-origin iframes and the old 0.12 threshold left sections
-     invisible as blank bands under the Wix embed */
-  var io=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-  },{threshold:0});
-  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
-
-  /* count-up */
-  function animateCount(el){
-    var target=parseFloat(el.getAttribute('data-count'));
-    var suffix=el.getAttribute('data-suffix')||'';
-    if(reduce){ el.textContent=target+suffix; return; }
-    var start=performance.now(), dur=1400;
-    function tick(now){
-      var p=Math.min(1,(now-start)/dur);
-      var e=1-Math.pow(1-p,3);
-      el.textContent=Math.round(target*e)+suffix;
-      if(p<1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }
-  var co=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){ if(e.isIntersecting){ animateCount(e.target); co.unobserve(e.target);} });
-  },{threshold:0.6});
-  document.querySelectorAll('[data-count]').forEach(function(el){ co.observe(el); });
-
-  /* scroll: progress + parallax */
-  var bar=document.getElementById('bar');
-  var heroImg=document.getElementById('heroImg');
-  var finaleImg=document.getElementById('finaleImg');
-  var finale=document.getElementById('insitu');
-  function onScroll(){
-    var st=window.scrollY||document.documentElement.scrollTop;
-    var h=document.documentElement.scrollHeight-window.innerHeight;
-    if(bar) bar.style.width=((h>0?st/h:0)*100)+'%';
-    if(!reduce){
-      if(heroImg) heroImg.style.transform='translateY(calc(-50% + '+(st*0.06)+'px))';
-      if(finaleImg && finale){
-        var r=finale.getBoundingClientRect();
-        if(r.bottom>0 && r.top<window.innerHeight){
-          var prog=(window.innerHeight-r.top)/(window.innerHeight+r.height);
-          finaleImg.style.transform='translateY('+((prog-0.5)*-12)+'%)';
-        }
-      }
-    }
-  }
-
-  /* magnetic links */
-  if(!reduce){
-    document.querySelectorAll('.backlink,.nav .links a').forEach(function(el){
-      el.addEventListener('mousemove',function(ev){
-        var r=el.getBoundingClientRect();
-        var mx=ev.clientX-r.left-r.width/2, my=ev.clientY-r.top-r.height/2;
-        el.style.transform='translate('+mx*0.18+'px,'+my*0.22+'px)';
-      });
-      el.addEventListener('mouseleave',function(){ el.style.transform=''; el.style.transition='transform .4s cubic-bezier(.2,.7,.2,1)'; });
-      el.addEventListener('mouseenter',function(){ el.style.transition='transform .1s linear'; });
-    });
-  }
-
-  window.addEventListener('scroll', onScroll, {passive:true});
-  window.addEventListener('resize', onScroll);
-  onScroll();
-})();
-</script>
+</main>
 </body>
 </html>
