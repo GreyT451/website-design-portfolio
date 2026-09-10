@@ -13,6 +13,14 @@ Portfolio Website/
 ├── landing/                live home page — index.html + assets/
 ├── about/                 live info page — index.html + assets/
 ├── truckola/              live case study — index.html + assets/
+├── isport/                PDF-only project — assets/ holds the deck, no index.html yet
+├── zero-g/                PDF-only project — assets/ holds the deck, no index.html yet
+├── clutch/                PDF-only project — assets/ holds the deck, no index.html yet
+├── kinetic/               PDF-only project — assets/ holds the deck, no index.html yet
+├── savannah-scapes/       PDF-only project — assets/ holds the deck, no index.html yet
+├── talk-the-talk/         PDF-only project — assets/ holds the deck, no index.html yet
+├── coffee/                PDF-only project — assets/ holds the deck, no index.html yet
+├── blood-bank/            PDF-only project — assets/ holds the deck, no index.html yet
 ├── _archive/              old drafts, frozen, never edited — subfolders per project + footer/, ideas/
 └── _raw-assets/           large original photos/videos/exports, organized by project — spark/, landing/, fun/
 ```
