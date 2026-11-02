@@ -39,6 +39,15 @@ Each project folder's `index.html` is the deployed markup. Case study notes and 
 2. **`_archive/` is read-only history.** Never edit or delete anything inside it. It exists so past drafts and explorations aren't lost, not as a working directory.
 3. **Large originals belong in `_raw-assets/`, never in a live project folder.** A project's `assets/` folder should contain only files its `index.html` actually references. Unreferenced/original photos, videos, `.tif` files, and PDFs go in `_raw-assets/<project>/`.
 
+## Nov 2 corrections (portfolio)
+
+Source: `/home/shreyas/Obsidian/Shared/Portfolio Website/Corrections-2026-11-02.md` ("Portfolio corrections, November 2, 2026"), confirmed by Shreyas. These override any locked section.
+
+- Never use: "patent pending", "16 participants", "15/16 reuse", "tested", "foot spa", "Performance Boost", "suborbital", "led" for Zero-G (he co-led).
+- Name: "iSport 1" everywhere.
+- Spelling: "Avegen", never "Avagen".
+- Hyphen exceptions to the no hyphen rule: "Zero-G" and "co-led".
+
 ## Known gaps (as of 2026-07-02 migration)
 
 - ~~`fun/index.html` referenced `assets/CAD/Gun.jpg`~~ — resolved 2026-07-02: the file never existed anywhere in the old tree, so the dead array entry was removed from `fun/index.html`.
