@@ -43,7 +43,7 @@ Each project folder's `index.html` is the deployed markup. Case study notes and 
 
 Source: `/home/shreyas/Obsidian/Shared/Portfolio Website/Corrections-2026-11-02.md` ("Portfolio corrections, November 2, 2026"), confirmed by Shreyas. These override any locked section.
 
-- Never use: "patent pending", "16 participants", "15/16 reuse", "tested", "foot spa", "Performance Boost", "suborbital", "led" for Zero-G (he co-led).
+- Never use: "patent pending", "16 participants", "15/16 reuse", "tested" (iSport 1), "foot spa", "Performance Boost", "suborbital", "led" for Zero-G (he co-led).
 - Name: "iSport 1" everywhere.
 - Spelling: "Avegen", never "Avagen".
 - Hyphen exceptions to the no hyphen rule: "Zero-G" and "co-led".
