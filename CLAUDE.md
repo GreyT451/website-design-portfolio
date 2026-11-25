@@ -12,6 +12,7 @@ Portfolio Website/
 ├── fun/                   live "Off the Clock" page — index.html + assets/{CAD,Cars,comfy UI,Renders}/
 ├── landing/                live home page — index.html + assets/
 ├── about/                 live info page — index.html + assets/
+├── footer/                live site footer — footer.html, pasted into the Wix Studio HTML embed
 ├── truckola/              live case study — index.html + assets/
 ├── isport/                PDF-only project — deck sits directly in the folder, no index.html yet
 ├── zero-g/                PDF-only project — deck sits directly in the folder, no index.html yet
